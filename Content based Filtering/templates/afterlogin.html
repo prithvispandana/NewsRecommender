@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="/static/style.css" type="text/css">
+{% block body %}
+ 
+<form action="/afterlogin" method="POST">
+	<div class="login">
+		<div class="login-screen">
+			<div class="app-title">
+				<h1>Welcome</h1>
+			</div>
+ 
+			<div class="login-form">
+				<div class="control-group">
+				<input type="text" class="login-field" value="" placeholder="Twitter username" name="username">
+				<label class="login-field-icon fui-user" for="login-name"></label>
+			</div>
+ 
+
+ 
+                <input type="submit" value="Get tweets" class="btn btn-primary btn-large btn-block" >
+			    <br>
+			</div>
+		</div>
+	</div>
+</form>
+<a href='/logout'>Logout</a>
+
+{% endblock %}
