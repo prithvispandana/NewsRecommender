@@ -13,9 +13,10 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 
 #each profile is stored in one document either in local or database
+#document name must be profile_id
 all_profiles=[] #List is created to store all profiles
 profiles_id=[]
-for filename in glob.glob('data/*'): #include all the files from current directory
+for filename in glob.glob('profiles/*'): #include all the files from current directory
     fin = open(filename,"r")  #open the file for reading
     profiles_id.append(os.path.basename(filename)) #document name for future reference
     all_profiles.append(fin.read()) #read full content of file and added to the client
