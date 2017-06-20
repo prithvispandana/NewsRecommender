@@ -7,6 +7,7 @@ import configparser
 import logging  
 import logging.config
 import time
+import re
 
 from NewsAgency import cnn, the_new_york_times, independent, bbc_news, abc_news_au
 from NewsAgency import usa_today, reuters, football_italia, daily_mail, business_insider_uk
@@ -32,6 +33,10 @@ API_KEY = cfg['NEWS_ACCESS']['API_KEY']
 ACCESS_URL_AGENCY = 'https://newsapi.org/v1/sources?language=en&apiKey=' + API_KEY 
 ACCESS_URL_ARTICLE = 'https://newsapi.org/v1/articles?source={0}&sortBy={1}&apiKey=' + API_KEY
 
+# havae stopwords
+STOP_WORDS = cfg['NLTK']['STOP_WORDS']
+# stop words list
+STOP_WORDS = [x.strip() for x in STOP_WORDS.split(',')]
 
 agencyIdList = [ x.strip() for x in cfg['PARSE_LIST']['AGENCY_ID'].split(',')]
 
@@ -86,6 +91,7 @@ def insertToTab(agencyId, author, title, description, url, urlToImage, published
               'author': author,
               'title': title,
               'description': description,
+              'keywords': getKeywords(description),
               'country': country,
               'url': url,
               'urlToImage': urlToImage,
@@ -99,6 +105,23 @@ def insertToTab(agencyId, author, title, description, url, urlToImage, published
     except Exception as e:
         logger.error('Write into DB - FAILED')
         logger.error(e)
+
+# ---------------------------------------------------
+# Gernerate keywords list from description
+# ---------------------------------------------------
+def getKeywords(sentence):
+    if ('' == sentence.strip()):
+        return ''
+    
+    # standardization
+    sen = sentence.lower()
+    # remove sentence symbols
+    sen = re.sub(r"[,|;|.|?]", ' ', sen)
+    # for [He's I'm We're Tom's]
+    sen = re.sub(r"'s |'re |'m ", ' ', sen)
+    # split sentence into words (remove stopwrods and sentence symbols)
+    keywords = [ w for w in sen.split() if w not in STOP_WORDS]
+    return list(set(keywords)) # remove duplicated words, and MongoDB accepts LIST only
     
 if __name__=="__main__":
     while True:
