@@ -110,7 +110,7 @@ def insertToTab(agencyId, author, title, description, url, urlToImage, published
 # Gernerate keywords list from description
 # ---------------------------------------------------
 def getKeywords(sentence):
-    if ('' == sentence.strip()):
+    if (None == sentence or '' == sentence.strip()):
         return ''
     
     # standardization
@@ -119,7 +119,7 @@ def getKeywords(sentence):
     sen = re.sub(r"[,|;|.|?]", ' ', sen)
     # for [He's I'm We're Tom's]
     sen = re.sub(r"'s |'re |'m ", ' ', sen)
-    # split sentence into words (remove stopwrods and sentence symbols)
+    # split sentence into words (remove stop words and sentence symbols)
     keywords = [ w for w in sen.split() if w not in STOP_WORDS]
     return list(set(keywords)) # remove duplicated words, and MongoDB accepts LIST only
     
