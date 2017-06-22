@@ -277,7 +277,7 @@ def get_all_tweets():
 
 
     import os.path
-    save_path = R'C:\Users\harshdev\Desktop\flaskmongo\files'   
+    save_path = R'files'   
     completeName = os.path.join(save_path, POST_USERNAME+".txt")         
     file1 = open(completeName, "w",encoding='utf8')
     for i in document_writing_list_combined:
@@ -417,7 +417,7 @@ def get_all_tweets():
         if db.news.find({'cagtegory' : i}) != None:
             resultset = db.news.find({'cagtegory' : i})
             for k in resultset:
-                list4.append(k)
+                list4.append(k['title'])
                 #print(k['title'])
         else:
             continue
