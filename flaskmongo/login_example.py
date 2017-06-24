@@ -2,7 +2,7 @@ from flask import Flask, render_template, url_for, request, session, redirect
 #from flask.ext.pymongo 
 import pymongo
 import bcrypt
-
+import json
 #new imports
 from flask import Flask
 from flask import Flask, flash, redirect, render_template, request, session, abort
@@ -15,6 +15,7 @@ import pymongo
 
 from sklearn.feature_extraction.text import CountVectorizer
 import nltk
+import math
 
 #Twitter API credentials
 consumer_key = "dWUQupK3yWLLAXReEKPUMLlwd"
@@ -300,7 +301,7 @@ def get_all_tweets():
     all_profiles=[] #List is created to store all profiles
     profiles_id=[]
     for filename in glob.glob('files/*'): #include all the files from current directory
-        fin = open(filename,"r")  #open the file for reading
+        fin = open(filename,"r",encoding='utf8')  #open the file for reading
         profiles_id.append(os.path.basename(filename)) #document name for future reference
         all_profiles.append(fin.read()) #read full content of file and added to the client
         fin.close() #close the file
@@ -347,62 +348,140 @@ def get_all_tweets():
     print()
 
 
+#     def call(user, no):
+#         # print(type(user))
+#          
+#         userlist = []
+#         keys = dic[str(user)].keys()
+#         print(keys)
+#         lst = []
+#         for each in keys:
+#             if (dic[str(user)].get(each) < 1.0):
+#                 lst.append(dic[str(user)].get(each))
+#  
+#         print()
+#         print("-------sorted-------")
+#         print()
+#         lst2 = []
+#         lst2 = sorted(lst , reverse=True)
+#         print(lst2)
+#         print()
+#  
+#         for each in keys:
+#             for index, item in enumerate(lst2):
+#                 if (index <= no):
+#  
+#                     if (dic[str(user)].get(each) == lst2[index]):
+#                         userlist.append(each)
+#         return userlist
+
+    globvar = 0.60
     def call(user, no):
-        # print(type(user))
-        
+    # print(type(user))
+    
         userlist = []
         keys = dic[str(user)].keys()
+    
+        print()
+        print('---Users and thier TF Id value---------')
+        print(len(keys))
+        print()
+        print("------Users ID------")
         print(keys)
+        print()
+
+    
         lst = []
         for each in keys:
-            if (dic[str(user)].get(each) < 1.0):
+            # you can pass the global value or user defined instead of 0.40
+            if (math.floor(dic[str(user)].get(each)) != 1.0 and dic[str(user)].get(each) >= globvar):
                 lst.append(dic[str(user)].get(each))
 
-        print()
-        print("-------sorted-------")
-        print()
         lst2 = []
         lst2 = sorted(lst , reverse=True)
+        print("------filtered no. of user-----")
+        print(len(lst2))
+        print()
+        print("--------filtered similar user TF ID sorted value-------")
         print(lst2)
         print()
+        print('---Interests form filtered similar users---')
+        
+        usr=[]
+        interest = []
+        for r in userlist:
+            for filename in glob.glob('profiles/'+str(r)):
+                fin = open(filename, 'r')
+        
+                lines = fin.readlines()
+                for l in lines:
+                    print( l.strip() )
+                    usr.append(l.strip())
+    
+            for filename in glob.glob('profiles/'+str(110273156)):
+                fin = open(filename, 'r')
+        
+                lines = fin.readlines()
+                for l in lines:
+                    interest.append(l.strip())
+    
+    # print("------suggestion topics from similar users-----")
+    # print()
+    # print(set(usr) - set(interest))
+    # print()
+    
+    
+    
+        return (set(usr) - set(interest))
+    
+    
+        
+        
+        
+        
+        
 
-        for each in keys:
-            for index, item in enumerate(lst2):
-                if (index <= no):
-
-                    if (dic[str(user)].get(each) == lst2[index]):
-                        userlist.append(each)
-        return userlist
+    
+#     for each in keys:
+#         for index, item in enumerate(lst2):
+#             if (index <= no):
+# 
+#                 if (dic[str(user)].get(each) == lst2[index]):
+#                     userlist.append(each)
         
 
     # gets top 2 users (0 and 1 from the list)
     result = call(POST_USERNAME+".txt", 1)
-    print("-------RESULT-------------")
+#     print("-------RESULT-------------")
+#     print()
+#     print(result)
+# 
+#     usrlist=[]
+#     interest = []
+#     for r in result:
+#         for filename in glob.glob('files/'+str(r)):
+#             fin = open(filename, 'r')
+#             
+#             lines = fin.readlines()
+#             for l in lines:
+#                 print( l.strip() )
+#                 usrlist.append(l.strip())
+#         
+#         for filename in glob.glob('files/'+str(POST_USERNAME+".txt")):
+#             fin = open(filename, 'r')
+#             
+#             lines = fin.readlines()
+#             for l in lines:
+#                 interest.append(l.strip())
+#         
+#     print("------suggestion topics from similar users-----")
+#     print(usrlist)
+#     print(interest)
+#     print(set(usrlist) - set(interest))
+    print()
+    print("-------Collobrative filtering result-------------")
     print()
     print(result)
-
-    usrlist=[]
-    interest = []
-    for r in result:
-        for filename in glob.glob('files/'+str(r)):
-            fin = open(filename, 'r')
-            
-            lines = fin.readlines()
-            for l in lines:
-                print( l.strip() )
-                usrlist.append(l.strip())
-        
-        for filename in glob.glob('files/'+str(POST_USERNAME+".txt")):
-            fin = open(filename, 'r')
-            
-            lines = fin.readlines()
-            for l in lines:
-                interest.append(l.strip())
-        
-    print("------suggestion topics from similar users-----")
-    print(usrlist)
-    print(interest)
-    print(set(usrlist) - set(interest))
 ######################################################################################################################################
 
 
@@ -417,12 +496,11 @@ def get_all_tweets():
         if db.news.find({'cagtegory' : i}) != None:
             resultset = db.news.find({'cagtegory' : i})
             for k in resultset:
-                list4.append(k['title'])
+                list4.append(k)
                 #print(k['title'])
         else:
             continue
-
-    return render_template('outputscreen.html',output = list4)
+    return render_template('test.html',output = list4)
     return "done"
 
 @app.route("/logout")
