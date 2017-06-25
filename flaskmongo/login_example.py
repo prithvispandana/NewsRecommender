@@ -9,6 +9,7 @@ from flask import Flask, flash, redirect, render_template, request, session, abo
 import os
 
 
+from model import clf, count_vect, tfidf_transformer, twenty_train
 import tweepy #https://github.com/tweepy/tweepy
 import csv
 import pymongo
@@ -193,28 +194,29 @@ def get_all_tweets():
 
     categories = ['alt.atheism', 'soc.religion.christian','comp.graphics', 'sci.med','talk.politics.misc','sci.space','sci.electronics','talk.politics.mideast','talk.politics.misc']
 
-    from sklearn.datasets import fetch_20newsgroups
-    twenty_train = fetch_20newsgroups(subset='train',categories=categories, shuffle=True, random_state=42)
-
-    count_vect = CountVectorizer()
-    X_train_counts = count_vect.fit_transform(twenty_train.data)
-    #print(X_train_counts.shape)
-
-    from sklearn.feature_extraction.text import TfidfTransformer
-    tf_transformer = TfidfTransformer(use_idf=False).fit(X_train_counts)
-    X_train_tf = tf_transformer.transform(X_train_counts)
-    #print(X_train_tf.shape)
-
-
-    tfidf_transformer = TfidfTransformer()
-    X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
+#     from sklearn.datasets import fetch_20newsgroups
+#     twenty_train = fetch_20newsgroups(subset='train',categories=categories, shuffle=True, random_state=42)
+# 
+#     count_vect = CountVectorizer()
+#     X_train_counts = count_vect.fit_transform(twenty_train.data)
+#     #print(X_train_counts.shape)
+# 
+#     from sklearn.feature_extraction.text import TfidfTransformer
+#     tf_transformer = TfidfTransformer(use_idf=False).fit(X_train_counts)
+#     X_train_tf = tf_transformer.transform(X_train_counts)
+#     #print(X_train_tf.shape)
+# 
+# 
+#     tfidf_transformer = TfidfTransformer()
+#     X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
     #print(X_train_tfidf.shape)
 
-
-    from sklearn.naive_bayes import MultinomialNB
-    clf = MultinomialNB().fit(X_train_tfidf, twenty_train.target)
+   
+#     from sklearn.naive_bayes import MultinomialNB
+#     clf = MultinomialNB().fit(X_train_tfidf, twenty_train.target)
 
     docs_new = final_doc_list2
+    
     X_new_counts = count_vect.transform(docs_new)
     X_new_tfidf = tfidf_transformer.transform(X_new_counts)
 
