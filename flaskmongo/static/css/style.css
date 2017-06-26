@@ -26,6 +26,10 @@ header{
 
 #search-bar{
 	margin: 48px 0 0 0 !important;
+	text-align: center
+	font-family: cursive;
+	font-style: italic;
+	
 }
 
 #search-bar input{
@@ -57,7 +61,7 @@ main{
 }
 
 .article-title{
-	border-left: 6px solid red;
+	border-left: 6px;
     background-color: rgba(211, 211, 211, 0.14);
 	height: 400px;
 	line-height: 400px;

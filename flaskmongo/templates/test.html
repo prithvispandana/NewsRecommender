@@ -16,27 +16,29 @@
   <header class="container-fluid">
     <div class="row">
       <div id="logo" class="col-lg-2 col-sm-2 col-xs-2 col-md-2">
-        <img src="assets/images/Capture.png" alt="logo" title="Prime logo" id="logo">
+        <!-- <img src="assets/images/Capture.png" alt="logo" title="Prime logo" id="logo"> -->
       </div>
-      <div id="search-bar" class="col-lg-8 col-sm-8 col-xs-8 col-md-8 form-group">
-        <input type="text" name="search-news" class="form-control" placeholder="Search for articles...">
-        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+       <div id="search-bar" class="col-lg-8 col-sm-8 col-xs-8 col-md-8 form-group">
+       <h1 align="centre">Prime News</h4>
+        <!-- <input type="text" name="search-news" class="form-control" placeholder="Search for articles...">
+        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> -->
       </div>
       <div id="user-name" class="col-lg-2 col-sm-2 col-xs-2 col-md-2 text-center">
-        <span>@PRIME_newsRECO</span>
+        <!-- <span>@PRIME_newsRECO</span> -->
       </div>
     </div>
   </header>
 
   <main class="container-fluid article-container">
     <div class="row">
-      <div class="article-title col-lg-2 col-sm-2 col-xs-2 col-md-2 text-center">
-        <h2>Entertainment</h2>
+       <div class="article-title col-lg-2 col-sm-2 col-xs-2 col-md-2 text-center">
+        <h2></h2>
       </div>
       <div  class="article-list col-lg-10 col-sm-10 col-xs-10 col-md-10">
       
         <div id='dvMain' class="bxslider">
         {% for out in output %}
+        <a href="{{out["url"]}}">
          <div class="margins col-lg-3 col-sm-3 col-xs-3 col-md-3">
             <div class="thumbnail-image">
               <img src="{{ out["urlToImage"] }}">
@@ -47,6 +49,7 @@
             </div>
             <p>{{out["description"]}}</p>
           </div>
+          </a>
         {% endfor %}
         </div>
       </div>
