@@ -20,8 +20,8 @@ all_profiles=set() #List is created to store all profiles
 profiles_id=set()
 access_df={}
 def load_profiles():
-    for filename in glob.glob('profiles/*'): #include all the files from current directory
-        fin = open(filename,"r")  #open the file for reading
+    for filename in glob.glob('files/*'): #include all the files from current directory
+        fin = open(filename,"r",encoding='utf8')  #open the file for reading
         profiles_id.add(os.path.basename(filename)) #document name for future reference
         all_profiles.add(fin.read()) #read full content of file and added to the client
         fin.close() #close the file
@@ -54,28 +54,26 @@ def calc_sim():
     df=pd.DataFrame()
 
 
-load_profiles()
-calc_sim()
-
-# @sched.scheduled_job('interval', seconds=30)
-# def job_scheduler():
-#     load_profiles()
-# 
-# 
-# @sched.scheduled_job('interval', seconds=50)
-# def job_scheduler():
-#     if all_profiles is not None:
-#         calc_sim()
-# #print(df.to_dict())
-# #print( df.groupby('110273156').head(2))
-# 
-# sched.start()/
-
 def getTopN(user, topN):
+     load_profiles()
+     calc_sim()
      topUsers=sorted(access_df[user], key=access_df[user].get, reverse=True)[:topN+1]
      topNusers=[]
      for i in range(1,topN+1):
          topNusers.append(topUsers[i])
      return topNusers
  
-print(getTopN("1234567",2))
+
+# @sched.scheduled_job('interval', seconds=30)
+# def job_scheduler():
+#     load_profiles()
+#  
+#  
+# @sched.scheduled_job('interval', seconds=50)
+# def job_scheduler():
+#     if all_profiles is not None:
+#         calc_sim()
+# #print(df.to_dict())
+# #print( df.groupby('110273156').head(2))
+#  
+# sched.start()

@@ -18,6 +18,13 @@ from sklearn.feature_extraction.text import CountVectorizer
 import nltk
 import math
 
+from sklearn.feature_extraction import text
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+import numpy as np
+import os.path
+
+
 #Twitter API credentials
 consumer_key = "dWUQupK3yWLLAXReEKPUMLlwd"
 consumer_secret = "985JhwgsTdzAgGBu6A6I2bTcgEVtLmKq23LMjrWRRrYNyOlf9s"
@@ -92,30 +99,12 @@ def get_all_tweets():
     #save most recent tweets
     alltweets.extend(new_tweets)
     
-    #save the id of the oldest tweet less one
-    #oldest = alltweets[-1].id - 1
-    
-    #keep grabbing tweets until there are no tweets left to grab
-    #while len(new_tweets) > 0:
-    #    print ("getting tweets before %s" % (oldest))
-    #    
-    #    #all subsiquent requests use the max_id param to prevent duplicates
-    #    new_tweets = api.user_timeline(screen_name = POST_USERNAME,count=200,max_id=oldest)
-    #    
-    #    #save most recent tweets
-    #    alltweets.extend(new_tweets)
-    #    
-    #    #update the id of the oldest tweet less one
-    #    oldest = alltweets[-1].id - 1
-    #    
-    #    print ("...%s tweets downloaded so far" % (len(alltweets)))
-    # 
-    #transform the tweepy tweets into a 2D array that will populate the csv 
-    #outtweets = [[tweet.id_str, tweet.created_at, tweet.text.encode("utf-8")] for tweet in alltweets]
+
     
 
     # Mongo initialization
     client = pymongo.MongoClient("localhost", 27017)
+
     db = client.tweets_db
     for s in alltweets:
         if db.twtt.find_one({'text':s.text}) == None: # prevent duplicate tweets being stored
@@ -124,15 +113,9 @@ def get_all_tweets():
             db.twtt.insert_one(twtt)
 
 
-    #write the csv  
-    # with open('%s_tweets.csv' % POST_USERNAME, 'w') as f:
-    #     writer = csv.writer(f)
-    #     writer.writerow(["id","created_at","text"])
-    #     writer.writerows(outtweets)
-    
     pass
 
-    from sklearn.feature_extraction import text
+   
     stopwords = text.ENGLISH_STOP_WORDS
     tokenize = CountVectorizer().build_tokenizer()
 
@@ -145,17 +128,9 @@ def get_all_tweets():
         #s = s +" "+ obj['text']
         list1.append(obj['text'])
         s = obj['text']
-    #print(s)
-    #tokenize = CountVectorizer().build_tokenizer()
-    #finallist = []
-    #for i in s.split():
-        
-    # convert to lowercase, then tokenize
         tokens1 = tokenize(s.lower())
         
-    #Stop word list
-    #from sklearn.feature_extraction import text
-    #stopwords = text.ENGLISH_STOP_WORDS
+    
 
     #Removing stop words
         filtered_tokens1 = [word for word in tokens1 if word not in stopwords]
@@ -173,8 +148,7 @@ def get_all_tweets():
     #print(list1)
     #print(tokens1)
 
-    from sklearn.feature_extraction.text import TfidfVectorizer
-    import numpy as np
+  
 
     vectorizer2 = TfidfVectorizer()
     Y = vectorizer2.fit_transform(final_doc_list2)
@@ -194,26 +168,6 @@ def get_all_tweets():
 
     categories = ['alt.atheism', 'soc.religion.christian','comp.graphics', 'sci.med','talk.politics.misc','sci.space','sci.electronics','talk.politics.mideast','talk.politics.misc']
 
-#     from sklearn.datasets import fetch_20newsgroups
-#     twenty_train = fetch_20newsgroups(subset='train',categories=categories, shuffle=True, random_state=42)
-# 
-#     count_vect = CountVectorizer()
-#     X_train_counts = count_vect.fit_transform(twenty_train.data)
-#     #print(X_train_counts.shape)
-# 
-#     from sklearn.feature_extraction.text import TfidfTransformer
-#     tf_transformer = TfidfTransformer(use_idf=False).fit(X_train_counts)
-#     X_train_tf = tf_transformer.transform(X_train_counts)
-#     #print(X_train_tf.shape)
-# 
-# 
-#     tfidf_transformer = TfidfTransformer()
-#     X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
-    #print(X_train_tfidf.shape)
-
-   
-#     from sklearn.naive_bayes import MultinomialNB
-#     clf = MultinomialNB().fit(X_train_tfidf, twenty_train.target)
 
     docs_new = final_doc_list2
     
@@ -236,8 +190,8 @@ def get_all_tweets():
             final_category_list.append("business")
         elif i == 'sci.electronics':
             final_category_list.append('electronics')
-        elif i == 'comp.graphics':
-            final_category_list.append('gaming')
+#         elif i == 'comp.graphics':
+#             final_category_list.append('gaming')
         elif i == 'misc.forsale':
             final_category_list.append('general')
         elif i == 'talk.politics.guns' or i == 'talk.politics.mideast':
@@ -260,249 +214,70 @@ def get_all_tweets():
 
     document_writing_list_combined = final_category_list + top_features
 
-    #User document
-    # file = open(POST_USERNAME,'w',encoding='utf8') 
-    # for i in document_writing_list_combined:
-    #     file.write(i+'\n')
-
-    # file.close()
-
-    # import os
-
-    # filepath = os.path.join(R'C:\Users\harshdev\Desktop\flaskmongo\files', POST_USERNAME) #https://docs.python.org/2/reference/lexical_analysis.html#string-literals
-    # if not os.path.exists(R'C:\Users\harshdev\Desktop\flaskmongo\files'):
-    #     os.makedirs(R'C:\Users\harshdev\Desktop\flaskmongo\files')
-    # f = open(POST_USERNAME, "w",encoding='utf8')
-    # for i in document_writing_list_combined:
-    #     f.write(i+'\n')
-
-    # f.close()
-
-
-    import os.path
+    
     save_path = R'files'   
     completeName = os.path.join(save_path, POST_USERNAME+".txt")         
     file1 = open(completeName, "w",encoding='utf8')
-    for i in document_writing_list_combined:
+    for i in top_features:
         file1.write(i+'\n')
     file1.close()
 
 ###############################################################################################################3333
 
-    import glob #find the all path names with matching a specified pattern
-    import os
-    import nltk
-    import re
-    import pandas as pd
-    from sklearn.feature_extraction.text import TfidfVectorizer
-    from sklearn.metrics.pairwise import cosine_similarity
 
-
-    #each profile is stored in one document either in local or database
-    #document name must be profile_id
-    all_profiles=[] #List is created to store all profiles
-    profiles_id=[]
-    for filename in glob.glob('files/*'): #include all the files from current directory
-        fin = open(filename,"r",encoding='utf8')  #open the file for reading
-        profiles_id.append(os.path.basename(filename)) #document name for future reference
-        all_profiles.append(fin.read()) #read full content of file and added to the client
-        fin.close() #close the file
-    print("Number of profiles %d" % len(all_profiles)) #Total number of profiles
-
-
-
-    # from sklearn.feature_extraction.text import CountVectorizer
-    # # define the function for lemmatization
-    # def lemma_tokenizer(text):
-    #     # use the standard scikit-learn tokenizer first
-    #     standard_tokenizer = CountVectorizer().build_tokenizer()
-    #     tokens = standard_tokenizer(text)
-    #     # then use NLTK to perform lemmatisation on each token
-    #     lemmatizer = nltk.stem.WordNetLemmatizer()
-    #     lemma_tokens=[]
-    #     for token in tokens:
-    #         if re.search('[a-zA-Z]', token):  # save those which are non-numeric
-    #             lemma_tokens.append(lemmatizer.lemmatize(token))
-    #     return lemma_tokens
-
-
-    # we can pass in the same preprocessing parameters
-    tf_idfVector = TfidfVectorizer(stop_words="english",min_df =1,ngram_range=(1,1))#chosen n-gram of three words. It will produce phrases containing upto three words
-    tf_idfMatrix= tf_idfVector.fit_transform(all_profiles)
-    #
-    #print(tf_idfMatrix)
-    cosSim=cosine_similarity(tf_idfMatrix)
-    #print(cosSim)
-    df = pd.DataFrame(cosSim,columns=profiles_id,index=profiles_id)
-    #df = pd.DataFrame(cosSim,columns
-                      #w=profiles_id)
-
-    print()
-    dic = df.to_dict()
-    #print(df.to_dict())
-    print('----------------------------')
-    print(dic)
-    print()
-    print('----------------------------')
-    # print(dic['110273156'])
-    # print( df.groupby('110273').head(2))
-    print()
-    print()
-
-
-#     def call(user, no):
-#         # print(type(user))
-#          
-#         userlist = []
-#         keys = dic[str(user)].keys()
-#         print(keys)
-#         lst = []
-#         for each in keys:
-#             if (dic[str(user)].get(each) < 1.0):
-#                 lst.append(dic[str(user)].get(each))
-#  
-#         print()
-#         print("-------sorted-------")
-#         print()
-#         lst2 = []
-#         lst2 = sorted(lst , reverse=True)
-#         print(lst2)
-#         print()
-#  
-#         for each in keys:
-#             for index, item in enumerate(lst2):
-#                 if (index <= no):
-#  
-#                     if (dic[str(user)].get(each) == lst2[index]):
-#                         userlist.append(each)
-#         return userlist
-
-    globvar = 0.60
-    def call(user, no):
-    # print(type(user))
-    
-        userlist = []
-        keys = dic[str(user)].keys()
-    
-        print()
-        print('---Users and thier TF Id value---------')
-        print(len(keys))
-        print()
-        print("------Users ID------")
-        print(keys)
-        print()
-
-    
-        lst = []
-        for each in keys:
-            # you can pass the global value or user defined instead of 0.40
-            if (math.floor(dic[str(user)].get(each)) != 1.0 and dic[str(user)].get(each) >= globvar):
-                lst.append(dic[str(user)].get(each))
-
-        lst2 = []
-        lst2 = sorted(lst , reverse=True)
-        print("------filtered no. of user-----")
-        print(len(lst2))
-        print()
-        print("--------filtered similar user TF ID sorted value-------")
-        print(lst2)
-        print()
-        print('---Interests form filtered similar users---')
+    #globvar = 0.02
+   #top N similar user from smilarity matrix
+    from user_sim_matrix_calc import getTopN
+    topNUsers=getTopN(POST_USERNAME+".txt",2)
+    uniset=set()
+    for top in topNUsers:
+        fileName = os.path.join(save_path, top)   
+        uniset.update(set(open(fileName).read().split())) 
         
-        usr=[]
-        interest = []
-        for r in userlist:
-            for filename in glob.glob('profiles/'+str(r)):
-                fin = open(filename, 'r')
-        
-                lines = fin.readlines()
-                for l in lines:
-                    print( l.strip() )
-                    usr.append(l.strip())
-    
-            for filename in glob.glob('profiles/'+str(110273156)):
-                fin = open(filename, 'r')
-        
-                lines = fin.readlines()
-                for l in lines:
-                    interest.append(l.strip())
-    
-    # print("------suggestion topics from similar users-----")
-    # print()
-    # print(set(usr) - set(interest))
-    # print()
-    
-    
-    
-        return (set(usr) - set(interest))
-    
-    
-        
-        
-        
-        
-        
+    #substract from original
+    fileName = os.path.join(save_path, POST_USERNAME+".txt")
+    origin=set(open(fileName).read().split())
+    result_set=origin-uniset
 
-    
-#     for each in keys:
-#         for index, item in enumerate(lst2):
-#             if (index <= no):
-# 
-#                 if (dic[str(user)].get(each) == lst2[index]):
-#                     userlist.append(each)
-        
-
-    # gets top 2 users (0 and 1 from the list)
-    result = call(POST_USERNAME+".txt", 1)
-#     print("-------RESULT-------------")
-#     print()
-#     print(result)
-# 
-#     usrlist=[]
-#     interest = []
-#     for r in result:
-#         for filename in glob.glob('files/'+str(r)):
-#             fin = open(filename, 'r')
-#             
-#             lines = fin.readlines()
-#             for l in lines:
-#                 print( l.strip() )
-#                 usrlist.append(l.strip())
-#         
-#         for filename in glob.glob('files/'+str(POST_USERNAME+".txt")):
-#             fin = open(filename, 'r')
-#             
-#             lines = fin.readlines()
-#             for l in lines:
-#                 interest.append(l.strip())
-#         
-#     print("------suggestion topics from similar users-----")
-#     print(usrlist)
-#     print(interest)
-#     print(set(usrlist) - set(interest))
-    print()
-    print("-------Collobrative filtering result-------------")
-    print()
-    print(result)
-######################################################################################################################################
-
-
-
-
-    interest_result = db.interest.find({'user' : POST_USERNAME})
+    interest_result = db.keyword.find({'user' : POST_USERNAME})
     for obj in interest_result:
-        res = obj['interest']
+        res = obj['top_keywords']
 
     list4 = []
     for i in res:
-        if db.news.find({'cagtegory' : i}) != None:
-            resultset = db.news.find({'cagtegory' : i})
-            for k in resultset:
-                list4.append(k)
-                #print(k['title'])
+        if db.news_new.find({'keywords' : i}) != None:
+            resultset = db.news_new.find({'keywords' : i})
+        for k in resultset:
+            list4.append(k)
         else:
             continue
-    return render_template('test.html',output = list4)
+        
+    #other similar user 
+    for i in result_set:
+        if db.news_new.find({'keywords' : i}) != None:
+            resultset = db.news_new.find({'keywords' : i})
+            for k in resultset:
+                list4.append(k)
+            else:
+                continue
+            
+    list5 = [i for n, i in enumerate(list4) if i not in list4[n + 1:]]
+    
+    #to save articles back to the db
+    collection = db['display_coll']
+    if "display_coll" in db.collection_names():
+        db.display_coll.drop()
+        db.display_coll.insert_many(list5)
+    else:
+        db.display_coll.insert_many(list5)
+    
+    cur = db.display_coll.find().sort("publishedAT", -1 )
+    
+    recom =[]
+    for i in cur:
+        recom.append(i)
+        
+    return render_template('test.html',output = recom)
     return "done"
 
 @app.route("/logout")
