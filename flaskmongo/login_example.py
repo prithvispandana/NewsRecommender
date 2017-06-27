@@ -186,22 +186,22 @@ def get_all_tweets():
     final_category_list = []
     #db.interest.save({ 'user':POST_USERNAME,'interest': category_list})
     for i in category_list:
-        if i == 'talk.politics.misc':
-            final_category_list.append("business")
-        elif i == 'sci.electronics':
+#         if i == 'talk.politics.misc':
+#             final_category_list.append("business")
+        if i == 'sci.electronics':
             final_category_list.append('electronics')
-#         elif i == 'comp.graphics':
-#             final_category_list.append('gaming')
+        elif i == 'comp.graphics':
+             final_category_list.append('computer')
         elif i == 'misc.forsale':
             final_category_list.append('general')
-        elif i == 'talk.politics.guns' or i == 'talk.politics.mideast':
-            final_category_list.append('politics')
+#         elif i == 'talk.politics.guns' or i == 'talk.politics.mideast':
+#             final_category_list.append('politics')
         elif i == 'sci.crypt' or i == 'sci.space' or i == 'sci.med':
             final_category_list.append('science-and-nature')
         elif i == 'rec.autos' or i == 'rec.sport.baseball' or i == 'rec.sport.hockey':
             final_category_list.append('sport')   
         elif i == 'comp.windows.x' or i == 'comp.sys.mac.hardware':
-            final_category_list.append('technology')
+            final_category_list.append('hardware')
 
         #pass
     final_category_list = list(set((final_category_list)))    
@@ -218,7 +218,7 @@ def get_all_tweets():
     save_path = R'files'   
     completeName = os.path.join(save_path, POST_USERNAME+".txt")         
     file1 = open(completeName, "w",encoding='utf8')
-    for i in top_features:
+    for i in document_writing_list_combined:
         file1.write(i+'\n')
     file1.close()
 
@@ -231,8 +231,11 @@ def get_all_tweets():
     topNUsers=getTopN(POST_USERNAME+".txt",2)
     uniset=set()
     for top in topNUsers:
-        fileName = os.path.join(save_path, top)   
-        uniset.update(set(open(fileName).read().split())) 
+        fileName = os.path.join(save_path, top) 
+        if not fileName:
+            continue
+        else:
+            uniset.update(set(open(fileName).read().split())) 
         
     #substract from original
     fileName = os.path.join(save_path, POST_USERNAME+".txt")

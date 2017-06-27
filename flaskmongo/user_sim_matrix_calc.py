@@ -49,6 +49,7 @@ def calc_sim():
     tf_idfMatrix= tf_idfVector.fit_transform(all_profiles)
     cosSim=cosine_similarity(tf_idfMatrix)
     df = pd.DataFrame(cosSim,columns=profiles_id,index=profiles_id)
+    print(df)
     global access_df
     access_df=df.to_dict()
     df=pd.DataFrame()
@@ -59,8 +60,9 @@ def getTopN(user, topN):
      calc_sim()
      topUsers=sorted(access_df[user], key=access_df[user].get, reverse=True)[:topN+1]
      topNusers=[]
-     for i in range(1,topN+1):
-         topNusers.append(topUsers[i])
+     if not topUsers:
+         for i in range(1,topN+1):
+             topNusers.append(topUsers[i])
      return topNusers
  
 
