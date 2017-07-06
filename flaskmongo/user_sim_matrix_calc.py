@@ -42,7 +42,6 @@ def lemma_tokenizer(text):
             lemma_tokens.append(lemmatizer.lemmatize(token))
     return lemma_tokens
 
-
 # we can pass in the same preprocessing parameters
 def calc_sim():
     tf_idfVector = TfidfVectorizer(stop_words="english",min_df =1,ngram_range=(1,1))#chosen n-gram of three words. It will produce phrases containing upto three words
