@@ -51,6 +51,7 @@ def index():
     else:
         return render_template('afterlogin.html')
 
+
 @app.route('/login', methods=['POST'])  
 def login():
     #users = mongo.db.users
@@ -290,4 +291,6 @@ def logout():
 
 if __name__ == '__main__':
     app.secret_key = 'mysecret'
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True, port=9000)
+
+    
