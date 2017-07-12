@@ -63,7 +63,7 @@ app.factory('ajaxCall', function($http) {
                 method: 'GET',
                 url: "/recom"
             }).then(function(response) {
-            	alert("1")
+            	alert(response.data)
             	console.log(response)
                 console.log("success")
                 return response.data;

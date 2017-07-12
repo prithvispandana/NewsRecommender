@@ -1,3 +1,5 @@
+{% extends "landing.html" %}
+{% block body %}
 <div class="row wrapper-container">
 <div class="sidemenu col-md-2 col-sm-2 col-xs-2">
 <div class="menu-option" ng-repeat="myNew in myNews | unique: 'cagtegory'">
@@ -29,7 +31,7 @@
 
 </div>
 </div>
-
+{% endblock %}
 
 
 

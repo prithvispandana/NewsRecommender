@@ -86,7 +86,7 @@ def register():
 def get_all():
     global POST_USERNAME
     POST_USERNAME = str(request.form['username'])
-    return render_template('landing.html')
+    return render_template('home.html')
 
 @app.route('/recom', methods=['GET', 'POST'])
 def get_all_tweets():
@@ -307,7 +307,7 @@ def get_all_tweets():
 
     #     return render_template('hom.html',output = dumps(res))
 #     return "done"
-
+# 
 @app.route("/home")
 def hello():
     return render_template("home.html")
