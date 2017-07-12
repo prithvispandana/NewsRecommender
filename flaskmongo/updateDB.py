@@ -10,12 +10,12 @@ for obj in keyword_result:
     title= obj['title']
     publishedAT= obj['publishedAt']
     author= obj['author']
-    category= obj['cagtegory']
+    cagtegory= obj['cagtegory']
     urlToImage= obj['urlToImage']
     description = obj['description']
     if description == None:
         continue
     else:
         keywordslist = description.split()
-        db.news_new.save({ '_id' : _id,'publishedAT' : publishedAT,'title' : title,'author' : author,'description' : description,'keywords' : keywordslist,'url' : url,'urlToImage':urlToImage,'category':category})
+        db.news_new.save({ '_id' : _id,'publishedAt' : publishedAT,'title' : title,'author' : author,'description' : description,'keywords' : keywordslist,'url' : url,'urlToImage':urlToImage,'cagtegory':cagtegory})
 

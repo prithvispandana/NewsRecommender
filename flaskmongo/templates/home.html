@@ -1,0 +1,36 @@
+<div class="row wrapper-container">
+<div class="sidemenu col-md-2 col-sm-2 col-xs-2">
+<div class="menu-option" ng-repeat="myNew in myNews | unique: 'cagtegory'">
+     <p>{{'{{myNew.cagtegory}}'}}</p> 
+</div>
+</div>
+
+<div class="slider col-md-10 col-sm-10 col-xs-10" >
+
+  <div class="row bxslider" ng-repeat="myNew in myNews | unique: 'cagtegory'" >
+          <div class="col-md-4 article-container"  ng-repeat="subset in myNews| filter: myNew.cagtegory ">
+          <div class="col-md-12 img-wrapper">
+          <img class="img-responsive display-img"  src="{{'{{subset.urlToImage}}'}}"/>
+          <p class="col-md-12 slide-title">{{'{{subset.title}}'}}</p></a>
+
+
+          <p class="icons">
+          <i class="fa fa-bookmark" aria-hidden="true" ng-click="saved = !saved; isSaved(subset, $event)" ng-class="{'saved': saved} "> </i>
+          <i class="fa fa-thumbs-o-up" aria-hidden="true" ng-click="like = !like" ng-class="{'like': like} "></i>
+          <i class="fa fa-thumbs-o-down" aria-hidden="true" ng-click="dislike = !dislike" ng-class="{'dislike': dislike} "> </i>
+          </p>
+
+
+
+          </div><a href="{{'{{subset.url}}'}}" target="_blank">
+          <p class="col-md-12 slide-description">{{'{{subset.description }}'}}</p></a>
+          </div>
+  </div>
+
+</div>
+</div>
+
+
+
+
+

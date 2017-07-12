@@ -1,5 +1,6 @@
-from flask import Flask, render_template, url_for, request, session, redirect
+from flask import Flask, render_template, url_for, request, session, redirect, jsonify, json
 #from flask.ext.pymongo 
+from flask_cors import CORS
 import pymongo
 import bcrypt
 import json
@@ -7,8 +8,6 @@ import json
 from flask import Flask
 from flask import Flask, flash, redirect, render_template, request, session, abort
 import os
-
-
 from model import clf, count_vect, tfidf_transformer, twenty_train
 import tweepy #https://github.com/tweepy/tweepy
 import csv
@@ -40,7 +39,7 @@ app.config['MONGO_DBNAME'] = 'mongologinexample'
 app.config['MONGO_URI'] = 'mongodb://pretty:printed@ds021731.mlab.com:21731/mongologinexample'
 
 #mongo = PyMongo(app)
-
+CORS(app)
 client = pymongo.MongoClient("localhost", 27017)
 db = client.tweets_db
 
@@ -81,9 +80,15 @@ def register():
 
     return render_template('register.html')
 
-@app.route('/afterlogin', methods=['POST'])
-def get_all_tweets():
+
+@app.route('/afterlogin', methods=['GET', 'POST'])
+def get_all():
+    global POST_USERNAME
     POST_USERNAME = str(request.form['username'])
+    return render_template('landing.html')
+
+@app.route('/recom', methods=['GET', 'POST'])
+def get_all_tweets():
     #Twitter only allows access to a users most recent 3240 tweets with this method
     
     #authorize twitter, initialize tweepy
@@ -274,15 +279,34 @@ def get_all_tweets():
         db.display_coll.insert_many(list5)
     else:
         db.display_coll.insert_many(list5)
+
+
+#ordering and displaying
+    hybrid = db.display_coll.find().sort("publishedAt", -1 )
     
-    cur = db.display_coll.find().sort("publishedAT", -1 )
-    
-    recom =[]
-    for i in cur:
-        recom.append(i)
-        
-    return render_template('test.html',output = recom)
-    return "done"
+    try:
+        recomList = []
+        for recomd in hybrid:
+            print(recomd)
+            recomItem = {
+                    'author':recomd['author'],
+                    'publishedAt':recomd['publishedAt'],
+                    'cagtegory':recomd['cagtegory'],
+                    'title':recomd['title'],
+                    'description':recomd['description'],
+                    'urlToImage':recomd['urlToImage'],
+                    'url':recomd['url']
+                    }
+            recomList.append(recomItem)
+    except Exception as e:
+        return str(e)
+    return json.dumps(recomList)
+    #     return render_template('hom.html',output = dumps(res))
+#     return "done"
+
+@app.route("/home")
+def hello():
+    return render_template("home.html")
 
 @app.route("/logout")
 def logout():

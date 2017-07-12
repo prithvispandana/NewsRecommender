@@ -48,7 +48,7 @@ def calc_sim():
     tf_idfMatrix= tf_idfVector.fit_transform(all_profiles)
     cosSim=cosine_similarity(tf_idfMatrix)
     df = pd.DataFrame(cosSim,columns=profiles_id,index=profiles_id)
-    print(df)
+    #print(df)
     global access_df
     access_df=df.to_dict()
     df=pd.DataFrame()
