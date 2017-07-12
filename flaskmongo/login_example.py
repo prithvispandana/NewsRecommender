@@ -22,7 +22,8 @@ from sklearn.feature_extraction import text
 from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 import os.path
-
+from bson import json_util, ObjectId
+from bson.json_util import dumps
 
 #Twitter API credentials
 consumer_key = "dWUQupK3yWLLAXReEKPUMLlwd"
@@ -283,24 +284,27 @@ def get_all_tweets():
 
 #ordering and displaying
     hybrid = db.display_coll.find().sort("publishedAt", -1 )
-    
-    try:
-        recomList = []
-        for recomd in hybrid:
-            print(recomd)
-            recomItem = {
-                    'author':recomd['author'],
-                    'publishedAt':recomd['publishedAt'],
-                    'cagtegory':recomd['cagtegory'],
-                    'title':recomd['title'],
-                    'description':recomd['description'],
-                    'urlToImage':recomd['urlToImage'],
-                    'url':recomd['url']
-                    }
-            recomList.append(recomItem)
-    except Exception as e:
-        return str(e)
-    return json.dumps(recomList)
+    return dumps(hybrid)
+#     print(dumps(hybrid))
+#     try:
+#         recomList = []
+#         for recomd in hybrid:
+#             recomItem = {
+#                     '_id':{"$oid":recomd['_id']},
+#                     'author':recomd['author'],
+#                     'cagtegory':recomd['cagtegory'],
+#                     'description':recomd['description'],
+#                     'publishedAt':recomd['publishedAt'],
+#                     'title':recomd['title'],
+#                     'url':recomd['url'],
+#                     'urlToImage':recomd['urlToImage']
+#                     }
+#             recomList.append(recomItem)
+#     except Exception as e:
+#         return str(e)
+#     return json.dumps(recomList)
+
+
     #     return render_template('hom.html',output = dumps(res))
 #     return "done"
 
