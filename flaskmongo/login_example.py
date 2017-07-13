@@ -44,6 +44,7 @@ CORS(app)
 client = pymongo.MongoClient("localhost", 27017)
 db = client.tweets_db
 
+
 @app.route('/')
 def index():
     if not session.get('logged_in'):
@@ -86,7 +87,7 @@ def register():
 def get_all():
     global POST_USERNAME
     POST_USERNAME = str(request.form['username'])
-    return render_template('home.html')
+    return render_template('landing.html')
 
 @app.route('/recom', methods=['GET', 'POST'])
 def get_all_tweets():

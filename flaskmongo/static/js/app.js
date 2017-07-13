@@ -4,13 +4,12 @@ app.config(function($routeProvider) {
 
     $routeProvider
         .when('/', {
-            templateUrl: "/home",
-            controller: 'mainCtrl'
+            templateUrl: "/home"
         })
 
         // saved
         .when('/saved', {
-            templateUrl: '/static/templates/saved.html',
+            templateUrl: '/saved.html',
             controller: 'mainCtrl'
         })
 
@@ -25,14 +24,13 @@ app.controller('mainCtrl', function($scope, $http, ajaxCall) {
             slideMargin: 1,
             moveSlides: 2 
         });
-    }, 1000);
+    }, 6000);
     $scope.ArticlestoShow = [];
     $scope.saved = false;
     $scope.like = false;
     $scope.dislike = false;
     var savedArticle = [];
     ajaxCall.getMethod().then(function(respdata) {
-	alert("2")
         $scope.myNews = respdata;
     });
 
@@ -63,12 +61,10 @@ app.factory('ajaxCall', function($http) {
                 method: 'GET',
                 url: "/recom"
             }).then(function(response) {
-            	alert(response.data)
-            	console.log(response)
                 console.log("success")
                 return response.data;
             }, function(response) {
-                console.log("failures");
+                console.log("failure");
             });
             return getresult;
         }

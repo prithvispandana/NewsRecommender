@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	alert("body")
 setTimeout(function(){
 $('.bxslider').bxSlider({
   minSlides: 3,
