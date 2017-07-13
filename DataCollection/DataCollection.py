@@ -33,16 +33,18 @@ API_KEY = cfg['NEWS_ACCESS']['API_KEY']
 ACCESS_URL_AGENCY = 'https://newsapi.org/v1/sources?language=en&apiKey=' + API_KEY 
 ACCESS_URL_ARTICLE = 'https://newsapi.org/v1/articles?source={0}&sortBy={1}&apiKey=' + API_KEY
 
-# havae stopwords
+# stopwords
 STOP_WORDS = cfg['NLTK']['STOP_WORDS']
 # stop words list
 STOP_WORDS = [x.strip() for x in STOP_WORDS.split(',')]
-
+# agency list
 agencyIdList = [ x.strip() for x in cfg['PARSE_LIST']['AGENCY_ID'].split(',')]
+# country id/name dictionary
+COUNTRY = dict(cfg['COUNTRY'].items())
 
 def getAgencies(): 
     resp = urlopen(ACCESS_URL_AGENCY)
-    jsn = json.loads(resp.read())
+    jsn = json.loads(resp.read().decode('utf8'))
     for agency in jsn['sources']:
         sortTypes = agency['sortBysAvailable']
         # latest articles as priority selection
@@ -51,26 +53,27 @@ def getAgencies():
         else:
             sort = sortTypes[0]
         logger.info('Deal with agency [{0}] - start'.format(agency['id']))
-        getArticles(agency['id'], sort, agency['category'], agency['country'])
+        getArticles(agency['id'], agency['name'], sort, agency['category'], agency['country'])
         logger.info('Deal with agency [{0}] - end'.format(agency['id']))
         logger.info('Sleep for 60s')
         logger.info('-' * 50)
         time.sleep(60)
     
-def getArticles(agencyId, sort, cagtegory, country):
+def getArticles(agencyId, agencyName, sort, cagtegory, country):
     newsList_url = ACCESS_URL_ARTICLE.format(agencyId, sort)
     logger.info('News List - {0}'.format(newsList_url))
     resp = urlopen(newsList_url)
-    jsn = json.loads(resp.read())
+    jsn = json.loads(resp.read().decode('utf8'))
     for news in jsn['articles']:
-        insertToTab(agencyId, news['author'], news['title'], news['description'], news['url'], news['urlToImage'], news['publishedAt'], cagtegory, country)
+        insertToTab(agencyId, agencyName, news['author'], news['title'], news['description'], news['url'], news['urlToImage'], news['publishedAt'], cagtegory, country)
         
-def insertToTab(agencyId, author, title, description, url, urlToImage, publishedAt, cagtegory, country):
+def insertToTab(agencyId, agencyName, author, title, description, url, urlToImage, publishedAt, cagtegory, country):
     # if the article exists already
     if None != db.news.find_one({'url': url}):
         logger.info('Article has already existed - ' + url)
         return
     
+    '''------------------------------------------------------------------
     logger.info('Article - ' + url)
     # due to not allow to use '-' in python filename
     agencyId = agencyId.replace('-','_')
@@ -86,19 +89,27 @@ def insertToTab(agencyId, author, title, description, url, urlToImage, published
         except Exception as e:
             logger.error('Get news summary & content - FAILED')
             logger.error(e)
+   ------------------------------------------------------------------'''
+   
+    keywords = getKeywords(description)
+    if not keywords:
+        logger.info('Keywords from description is empty - ' + url)
+        return 
 
     entity = {'agencyId': agencyId,
+              'agencyName': agencyName,
               'author': author,
               'title': title,
               'description': description,
-              'keywords': getKeywords(description),
-              'country': country,
+              'keywords': keywords,
+              'countryId': country,
+              'countryName': COUNTRY[country],
               'url': url,
               'urlToImage': urlToImage,
               'publishedAt': publishedAt,
-              'cagtegory': cagtegory,
-              'summary': summary,
-              'content': content}
+              'cagtegory': cagtegory}
+             # 'summary': summary,
+             # 'content': content}
     try:
         db.news.insert_one(entity)  
         logger.info('Write into DB - DONE')
@@ -116,7 +127,7 @@ def getKeywords(sentence):
     # standardization
     sen = sentence.lower()
     # remove sentence symbols
-    sen = re.sub(r"[,|;|.|?]", ' ', sen)
+    sen = re.sub(r'''[,|;|.|"|?]''', ' ', sen)
     # for [He's I'm We're Tom's]
     sen = re.sub(r"'s |'re |'m ", ' ', sen)
     # split sentence into words (remove stop words and sentence symbols)
