@@ -59,8 +59,9 @@ def getTopN(user, topN):
      calc_sim()
      topUsers=sorted(access_df[user], key=access_df[user].get, reverse=True)[:topN+1]
      topNusers=[]
-     if not topUsers:
+     if len(topUsers)>2:
          for i in range(1,topN+1):
+             print(i)
              topNusers.append(topUsers[i])
      return topNusers
  

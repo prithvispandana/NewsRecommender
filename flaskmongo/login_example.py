@@ -246,9 +246,11 @@ def get_all_tweets():
             uniset.update(set(open(fileName).read().split())) 
         
     #substract from original
-    fileName = os.path.join(save_path, POST_USERNAME+".txt")
-    origin=set(open(fileName).read().split())
-    result_set=origin-uniset
+    result_set=set()
+    if uniset:
+        fileName = os.path.join(save_path, POST_USERNAME+".txt")
+        origin=set(open(fileName).read().split())
+        result_set=origin-uniset
 
     interest_result = db.keyword.find({'user' : POST_USERNAME})
     for obj in interest_result:
