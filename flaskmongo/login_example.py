@@ -84,31 +84,34 @@ def register():
 
 
 
-def getTopN(user, topN):
-      #load the similarity matrix
-    cursor = db["sim_col"].find({},{"_id":0})
-    # Expand the cursor and construct the DataFrame
-    df =  pd.DataFrame(list(cursor))
-    #load the all list of user ordered
-    cursor1=db["list_user"].find({},{"_id":0})
-    #build the list
-    user_name=list(cursor1)
-    for a in user_name:
-        list_user=a['index']
+def getTopN(user, topN): 
+    try:
+          #load the similarity matrix
+          cursor = db["sim_col"].find({},{"_id":0})
+          # Expand the cursor and construct the DataFrame
+          df =  pd.DataFrame(list(cursor))
+          #load the all list of user ordered
+          cursor1=db["list_user"].find({},{"_id":0})
+          #build the list
+          user_name=list(cursor1)
+          for a in user_name:
+              list_user=a['index']
            
-    # Delete the _id
-    #del df['_id']
-    #To update the dataframe load in new to avoid NAN value
-    adf = pd.DataFrame(data=df)
-    #index updated
-    adf.index=list_user
-    #convert into dictionary
-    access_df=adf.to_dict()
-    
-    #sort dictionary and get the most similar user
-    topUsers=sorted(access_df[user], key=access_df[user].get, reverse=True)[1:topN+1]
-    
+          #To update the dataframe load in new to avoid NAN value
+          adf = pd.DataFrame(data=df)
+          #index updated
+          adf.index=list_user
+          #convert into dictionary
+          access_df=adf.to_dict()
+          topUsers=[]
+          topUsers=sorted(access_df[user], key=access_df[user].get, reverse=True)[1:topN+1]
+    except Exception as e:
+         return topUsers
     return topUsers
+    #sort dictionary and get the most similar user
+    
+    
+ 
 
 @app.route('/afterlogin', methods=['GET', 'POST'])
 def get_all():
@@ -261,12 +264,6 @@ def get_all_tweets():
 ###############################################################################################################3333
 
 
-    #globvar = 0.02
-   #top N similar user from smilarity matrix
-#     from user_sim_matrix_calc import getTopN
-#     topNUsers=getTopN(POST_USERNAME,2)
-    
-  
     topN=2
     uniset=set()
     for top in getTopN(POST_USERNAME, topN):
@@ -320,29 +317,6 @@ def get_all_tweets():
 #ordering and displaying
     hybrid = db.display_coll.find().sort("publishedAt", -1 )
     return dumps(hybrid)
-#     print(dumps(hybrid))
-#     try:
-#         recomList = []
-#         for recomd in hybrid:
-#             recomItem = {
-#                     '_id':{"$oid":recomd['_id']},
-#                     'author':recomd['author'],
-#                     'cagtegory':recomd['cagtegory'],
-#                     'description':recomd['description'],
-#                     'publishedAt':recomd['publishedAt'],
-#                     'title':recomd['title'],
-#                     'url':recomd['url'],
-#                     'urlToImage':recomd['urlToImage']
-#                     }
-#             recomList.append(recomItem)
-#     except Exception as e:
-#         return str(e)
-#     return json.dumps(recomList)
-
-
-    #     return render_template('hom.html',output = dumps(res))
-#     return "done"
-# 
 
     
 
