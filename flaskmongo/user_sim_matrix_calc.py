@@ -3,6 +3,8 @@ Created on 13 Jun 2017
 
 @author: nitendra
 '''
+
+
 import glob #find the all path names with matching a specified pattern
 import os
 import nltk
@@ -11,8 +13,14 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from apscheduler.schedulers.blocking import BlockingScheduler
-
+import json
+from pymongo import MongoClient
+client = MongoClient()
+client = MongoClient('mongodb://localhost:27017')
 sched = BlockingScheduler()
+
+
+db = client.tweets_db
 
 #each profile is stored in one document either in local or database
 #document name must be profile_id
@@ -48,34 +56,52 @@ def calc_sim():
     tf_idfMatrix= tf_idfVector.fit_transform(all_profiles)
     cosSim=cosine_similarity(tf_idfMatrix)
     df = pd.DataFrame(cosSim,columns=profiles_id,index=profiles_id)
-    #print(df)
-    global access_df
-    access_df=df.to_dict()
+    print(df)
+#     global access_df
+#     access_df=df.to_dict()
+#     df1 = pd.DataFrame.from_dict(access_df)
+    if "sim_col" in db.collection_names():
+        db.sim_col.drop()
+    if "list_user" in db.collection_names():
+        db.list_user.drop()  
+    db.list_user.save({"index" : list(profiles_id)})  
+    records = json.loads(df.T.to_json()).values()
+    db.sim_col.insert(records)
     df=pd.DataFrame()
 
 
 def getTopN(user, topN):
-     load_profiles()
-     calc_sim()
-     topUsers=sorted(access_df[user], key=access_df[user].get, reverse=True)[:topN+1]
-     topNusers=[]
-     if len(topUsers)>2:
-         for i in range(1,topN+1):
-             print(i)
-             topNusers.append(topUsers[i])
-     return topNusers
+    load_profiles()
+    calc_sim()
+    df2 = read_mongo(db, 'sim_col')
+    print(df2)
+    return list(df2.columns.values)
  
 
-# @sched.scheduled_job('interval', seconds=30)
-# def job_scheduler():
-#     load_profiles()
-#  
-#  
-# @sched.scheduled_job('interval', seconds=50)
-# def job_scheduler():
-#     if all_profiles is not None:
-#         calc_sim()
-# #print(df.to_dict())
-# #print( df.groupby('110273156').head(2))
-#  
-# sched.start()
+def read_mongo(db, collection, query={}, no_id=True):
+    """ Read from Mongo and Store into DataFrame """
+ 
+    # Make a query to the specific DB and Collection
+    cursor = db[collection].find(query)
+    # Expand the cursor and construct the DataFrame
+    df =  pd.DataFrame(list(cursor))
+    # Delete the _id
+    if no_id:
+        del df['_id']
+    return df
+
+
+
+@sched.scheduled_job('interval', seconds=300)
+def job_scheduler():
+    load_profiles()
+  
+  
+@sched.scheduled_job('interval', seconds=500)
+def job_scheduler():
+    if all_profiles is not None:
+        calc_sim()
+#print(df.to_dict())
+#print( df.groupby('110273156').head(2))
+  
+sched.start()

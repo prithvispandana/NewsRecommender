@@ -16,7 +16,7 @@ import pymongo
 from sklearn.feature_extraction.text import CountVectorizer
 import nltk
 import math
-
+import pandas as pd
 from sklearn.feature_extraction import text
 
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -83,11 +83,39 @@ def register():
     return render_template('register.html')
 
 
+
+def getTopN(user, topN):
+      #load the similarity matrix
+    cursor = db["sim_col"].find({},{"_id":0})
+    # Expand the cursor and construct the DataFrame
+    df =  pd.DataFrame(list(cursor))
+    #load the all list of user ordered
+    cursor1=db["list_user"].find({},{"_id":0})
+    #build the list
+    user_name=list(cursor1)
+    for a in user_name:
+        list_user=a['index']
+           
+    # Delete the _id
+    #del df['_id']
+    #To update the dataframe load in new to avoid NAN value
+    adf = pd.DataFrame(data=df)
+    #index updated
+    adf.index=list_user
+    #convert into dictionary
+    access_df=adf.to_dict()
+    
+    #sort dictionary and get the most similar user
+    topUsers=sorted(access_df[user], key=access_df[user].get, reverse=True)[1:topN+1]
+    
+    return topUsers
+
 @app.route('/afterlogin', methods=['GET', 'POST'])
 def get_all():
     global POST_USERNAME
     POST_USERNAME = str(request.form['username'])
     return render_template('landing.html')
+
 
 @app.route('/recom', methods=['GET', 'POST'])
 def get_all_tweets():
@@ -224,7 +252,7 @@ def get_all_tweets():
 
     
     save_path = R'files'   
-    completeName = os.path.join(save_path, POST_USERNAME+".txt")         
+    completeName = os.path.join(save_path, POST_USERNAME)         
     file1 = open(completeName, "w",encoding='utf8')
     for i in document_writing_list_combined:
         file1.write(i+'\n')
@@ -235,10 +263,13 @@ def get_all_tweets():
 
     #globvar = 0.02
    #top N similar user from smilarity matrix
-    from user_sim_matrix_calc import getTopN
-    topNUsers=getTopN(POST_USERNAME+".txt",2)
+#     from user_sim_matrix_calc import getTopN
+#     topNUsers=getTopN(POST_USERNAME,2)
+    
+  
+    topN=2
     uniset=set()
-    for top in topNUsers:
+    for top in getTopN(POST_USERNAME, topN):
         fileName = os.path.join(save_path, top) 
         if not fileName:
             continue
@@ -248,7 +279,7 @@ def get_all_tweets():
     #substract from original
     result_set=set()
     if uniset:
-        fileName = os.path.join(save_path, POST_USERNAME+".txt")
+        fileName = os.path.join(save_path, POST_USERNAME)
         origin=set(open(fileName).read().split())
         result_set=origin-uniset
 
@@ -273,6 +304,7 @@ def get_all_tweets():
                 list4.append(k)
             else:
                 continue
+            
             
     list5 = [i for n, i in enumerate(list4) if i not in list4[n + 1:]]
     
@@ -311,6 +343,9 @@ def get_all_tweets():
     #     return render_template('hom.html',output = dumps(res))
 #     return "done"
 # 
+
+    
+
 @app.route("/home")
 def hello():
     return render_template("home.html")
@@ -322,6 +357,6 @@ def logout():
 
 if __name__ == '__main__':
     app.secret_key = 'mysecret'
-    app.run(host='0.0.0.0', debug=True, port=80)
+    app.run(host='0.0.0.0', debug=True, port=9000)
 
     
