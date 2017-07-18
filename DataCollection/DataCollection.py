@@ -20,8 +20,8 @@ logger.info('Data Collection Program started to work')
 
 # connect to MongoDB
 client = MongoClient('localhost', 27017)
-# Database Name: news_db
-db = client['news_db']
+# Database Name: tweets_db
+db = client['tweets_db']
 logger.info('Connected to MongoDB successfully') 
 
 # read from config file
