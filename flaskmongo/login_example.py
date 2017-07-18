@@ -25,6 +25,25 @@ import os.path
 from bson import json_util, ObjectId
 from bson.json_util import dumps
 
+from nltk.tokenize import RegexpTokenizer
+from nltk.stem.porter import PorterStemmer
+
+import warnings
+warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
+from gensim import corpora, models
+import gensim
+
+#new imports
+from flask import Flask
+from flask import Flask, flash, redirect, render_template, request, session, abort,url_for
+import os
+
+import tweepy #https://github.com/tweepy/tweepy
+from sklearn.feature_extraction.text import CountVectorizer
+
+from nltk.tokenize import TweetTokenizer
+import itertools
+
 #Twitter API credentials
 consumer_key = "dWUQupK3yWLLAXReEKPUMLlwd"
 consumer_secret = "985JhwgsTdzAgGBu6A6I2bTcgEVtLmKq23LMjrWRRrYNyOlf9s"
@@ -139,22 +158,49 @@ def get_all_tweets():
     alltweets.extend(new_tweets)
     
 
-    
+    #Liked Tweets
+    likes_list = []
+    for like in tweepy.Cursor(api.favorites,screen_name = POST_USERNAME,count=200).items(): #https://stackoverflow.com/questions/42420900/how-to-get-all-liked-tweets-by-a-user-using-twitter-api
+        likes_list.append(like)
 
-    # Mongo initialization
+    total_tweets = alltweets + likes_list
+
+    #Hashtags from all the tweets
+    listy = []
+    hashy = []
+    for i in total_tweets:
+        listy = [j['text'] for j in i.entities.get('hashtags')]
+        if not listy:
+            continue
+        else:
+            for k in listy:
+                hashy.append(k.lower())
+
+    hashtags_list = list(set(hashy))
+
+    #Mongo initialization
     client = pymongo.MongoClient("localhost", 27017)
-
     db = client.tweets_db
-    for s in alltweets:
+    #save the hashtags
+    if db.hashtags.find_one({'user':POST_USERNAME}) == None: # prevent duplicate being stored
+        db.hashtags.save({ 'user' : POST_USERNAME,'hashtags' : hashtags_list})
+    else:
+        db.hashtags.update_one({'user': POST_USERNAME},{'$set':{'hashtags' : hashtags_list}})
+
+    import re
+    #Saving all tweets
+    
+    for s in total_tweets:
         if db.twtt.find_one({'text':s.text}) == None: # prevent duplicate tweets being stored
             twtt = {'text':s.text, 'id':s.id, 'created_at':s.created_at,'screen_name':s.author.screen_name,'author_id':s.author.id}
-            #print("THE TYPE IS :",type(i))
-            db.twtt.insert_one(twtt)
-
-
+            try:
+                db.twtt.insert_one(twtt)
+            except:
+                print("Cant be loaded")
     pass
 
-   
+    #### Tweet processing
+    from sklearn.feature_extraction import text
     stopwords = text.ENGLISH_STOP_WORDS
     tokenize = CountVectorizer().build_tokenizer()
 
@@ -164,95 +210,147 @@ def get_all_tweets():
     #s = ""
     for obj in result:
         s = ""
-        #s = s +" "+ obj['text']
         list1.append(obj['text'])
         s = obj['text']
-        tokens1 = tokenize(s.lower())
-        
-    
 
-    #Removing stop words
-        filtered_tokens1 = [word for word in tokens1 if word not in stopwords]
-    #finallist.append(filtered_tokens1)
-        list2.append(filtered_tokens1)
+        tknzr = TweetTokenizer(strip_handles=True, reduce_len=True)
+        l1 = tknzr.tokenize(s.lower())
 
+        #Removing stop words
+        l1 = [word for word in l1 if word not in stopwords]
 
+        r = re.compile("http.*")
+        new_list = filter(r.match, l1)
+        for i in list(new_list):
+            l1.remove(i)
+
+        hashtag_list = []
+        r = re.compile("#.*")
+        new_list = filter(r.match, l1)
+
+        hashtags_list = [x[1:] for x in new_list if x in l1]
+        without_hashtags_list = [s for s in l1 if "#" not in s]
+
+        cleaned_tweet  =  hashtags_list + without_hashtags_list
+        stringss = " ".join(cleaned_tweet)
+        new = re.sub(r'[^A-Za-z]', ' ', stringss)
+        new = new.split()
+
+        #selfmade dictionary for removing some words
+        from nltk.corpus import words
+        proper_list = [word for word in new if word not in ['time','way','good','thank','big','bad','new','today','join',
+        's','rt','t','th','u','w','g','a','ve',"a",'b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r',
+        's','t','u','v','w','x','y','z',"sources","just","did" ,"about", "above", "above", "across", "after", 
+        "afterwards", "again", "against", "all", "almost", "alone", "along", "already", "also","although","always","am",
+        "among", "amongst", "amoungst", "amount",  "an", "and", "another", "any","anyhow","anyone","anything","anyway",
+        "anywhere", "are", "around", "as",  "at", "back","be","became", "because","become","becomes", "becoming", "been", 
+        "before", "beforehand", "behind", "being", "below", "beside", "besides", "between", "beyond", "bill", "both", "bottom",
+        "but", "by", "call", "can", "cannot", "cant", "co", "con", "could", "couldnt", "cry", "de", "describe", "detail", "do", 
+        "done", "down", "due", "during", "each", "eg", "eight", "either", "eleven","else", "elsewhere", "empty", "enough", "etc", 
+        "even", "ever", "every", "everyone", "everything", "everywhere", "except", "few", "fifteen", "fify", "fill", "find", "fire", 
+        "first", "five", "for", "former", "formerly", "forty", "found", "four", "from", "front", "full", "further", "get", "give", "go", 
+        "had", "has", "hasnt", "have", "he", "hence", "her", "here", "hereafter", "hereby", "herein", "hereupon", "hers", "herself", "him", 
+        "himself", "his", "how", "however", "hundred", "ie", "if", "in", "inc", "indeed", "interest", "into", "is", "it", "its", "itself", 
+        "keep", "last", "latter", "latterly", "least", "less", "ltd", "made", "many", "may", "me", "meanwhile", "might", "mill", "mine", 
+        "more", "moreover", "most", "mostly", "move", "much", "must", "my", "myself", "name", "namely", "neither", "never", "nevertheless", 
+        "next", "nine", "no", "nobody", "none", "noone", "nor", "not", "nothing", "now", "nowhere", "of", "off", "often", "on", "once", "one", 
+        "only", "onto", "or", "other", "others", "otherwise", "our", "ours", "ourselves", "out", "over", "own","part", "per", "perhaps", 
+        "please", "put", "rather", "re", "same", "see", "seem", "seemed", "seeming", "seems", "serious", "several", "she", "should", 
+        "show", "side", "since", "sincere", "six", "sixty", "so", "some", "somehow", "someone", "something", "sometime", "sometimes", 
+        "somewhere", "still", "such", "system", "take", "ten", "than", "that", "the", "their", "them", "themselves", "then", "thence", 
+        "there", "thereafter", "thereby", "therefore", "therein", "thereupon", "these", "they", "thickv", "thin", "third", "this", "those", 
+        "though", "three", "through", "throughout", "thru", "thus", "to", "together", "too", "top", "toward", "towards", "twelve", "twenty", 
+        "two", "un", "under", "until", "up", "upon", "us", "very", "via", "was", "we", "well", "were", "what", "whatever", "when", "whence", 
+        "whenever", "where", "whereafter", "whereas", "whereby", "wherein", "whereupon", "wherever", "whether", "which", "while", "whither", 
+        "who", "whoever", "whole", "whom", "whose", "why", "will", "with", "within", "without", "would", "yet", "you", "your", "yours", 
+        "yourself", "yourselves", "the"]]
+        list2.append(proper_list)
 
 
     final_doc_list2 = []
-    #s = ""
     for i in list2:
         temp = " ".join(i)
         final_doc_list2.append(temp)    
-    #print(list1)
-    #print(tokens1)
 
-  
+    user = api.get_user(POST_USERNAME)
 
-    vectorizer2 = TfidfVectorizer()
-    Y = vectorizer2.fit_transform(final_doc_list2)
-    indices = np.argsort(vectorizer2.idf_)[::-1]
-    features = vectorizer2.get_feature_names()
-    top_n = 50
-    top_features = [features[i] for i in indices[:top_n]]
-    #print (top_features)
-    #print(finallist)   
-    #for j in list2:
-    #   print(j)
-    #db.keyword.create_index([ ('user', 1) ],unique = True)#https://jira.mongodb.org/browse/PYTHON-953,http://api.mongodb.com/python/current/api/pymongo/collection.html#pymongo.collection.Collection.create_index
-    if db.keyword.find_one({'user':POST_USERNAME}) == None: # prevent duplicate tweets being stored
-        db.keyword.save({ 'user' : POST_USERNAME,'top_keywords' : top_features})
+
+    #Followings of the user
+    friend_list = []
+    for friend in tweepy.Cursor(api.friends,screen_name = POST_USERNAME,count=200).items(): #https://stackoverflow.com/questions/25944037/full-list-of-twitter-friends-using-python-and-tweepy
+        # Process the friend here
+        friend_list.append(friend.screen_name)
+
+    #save the followings
+    if db.followings.find_one({'user':POST_USERNAME}) == None: # prevent duplicate tweets being stored
+        db.followings.save({ 'user' : POST_USERNAME,'friends' : friend_list})
     else:
-        db.keyword.update_one({'user': POST_USERNAME},{'$set':{'top_keywords' : top_features}})
+        db.followings.update_one({'user': POST_USERNAME},{'$set':{'friends' : friend_list}})
 
-    categories = ['alt.atheism', 'soc.religion.christian','comp.graphics', 'sci.med','talk.politics.misc','sci.space','sci.electronics','talk.politics.mideast','talk.politics.misc']
+    #LDA
+    texts = list2
+    # turn our tokenized documents into a id <-> term dictionary
+    dictionary = corpora.Dictionary(texts)
+    # convert tokenized documents into a document-term matrix
+    corpus = [dictionary.doc2bow(text) for text in texts]
+
+    # generate LDA model
+    ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics=50, id2word = dictionary, passes=10)
+    cool = ldamodel.print_topics(num_topics=50, num_words=1)
+
+    lda_list = []
+    lda = [tup[1] for tup in cool]
+    for i in lda:
+        lda_list.append(re.sub(r'[^A-Za-z]', '', i))
+    lda_list = list(set(lda_list))
+
+    #save LDA topics
+    if db.ldatopics.find_one({'user':POST_USERNAME}) == None: # prevent duplicate tweets being stored
+        db.ldatopics.save({ 'user' : POST_USERNAME,'topics' : lda_list})
+    else:
+        db.ldatopics.update_one({'user': POST_USERNAME},{'$set':{'topics' : lda_list}})
 
 
+    #Classification using BBC
+    category_list = []
     docs_new = final_doc_list2
-    
     X_new_counts = count_vect.transform(docs_new)
     X_new_tfidf = tfidf_transformer.transform(X_new_counts)
 
     predicted = clf.predict(X_new_tfidf)
 
-    category_list = []
     for doc, category in zip(docs_new, predicted):
         category_list.append(twenty_train.target_names[category])
         #print('%r => %s' % (doc, twenty_train.target_names[category]))
-    category_list = list(set(category_list))
     
-
     final_category_list = []
-    #db.interest.save({ 'user':POST_USERNAME,'interest': category_list})
+    counts = dict()
     for i in category_list:
-#         if i == 'talk.politics.misc':
-#             final_category_list.append("business")
-        if i == 'sci.electronics':
-            final_category_list.append('electronics')
-        elif i == 'comp.graphics':
-             final_category_list.append('computer')
-        elif i == 'misc.forsale':
-            final_category_list.append('general')
-#         elif i == 'talk.politics.guns' or i == 'talk.politics.mideast':
-#             final_category_list.append('politics')
-        elif i == 'sci.crypt' or i == 'sci.space' or i == 'sci.med':
-            final_category_list.append('science-and-nature')
-        elif i == 'rec.autos' or i == 'rec.sport.baseball' or i == 'rec.sport.hockey':
-            final_category_list.append('sport')   
-        elif i == 'comp.windows.x' or i == 'comp.sys.mac.hardware':
-            final_category_list.append('hardware')
+        counts[i] = counts.get(i, 0) + 1
+        if i == 'tech':
+            final_category_list.append("technology")
+        else:
+            final_category_list.append(i)
 
-        #pass
-    final_category_list = list(set((final_category_list)))    
+
+    print(counts)
+
+
+    length_list = len(category_list)
+    for i in counts:
+        counts[i] = counts.get(i)/length_list
+
+    print(counts)
+
+
+    final_category_list = list(set(final_category_list))
+
     if db.interest.find_one({'user':POST_USERNAME}) == None: # prevent duplicate tweets being stored
         db.interest.save({ 'user' : POST_USERNAME,'interest' : final_category_list})
     else:
         db.interest.update_one({'user': POST_USERNAME},{'$set':{'interest' : final_category_list}})
 
-
-
-    document_writing_list_combined = final_category_list + top_features
-
+    document_writing_list_combined = final_category_list + lda_list + hashtags_list#+ top_features
     
     save_path = R'files'   
     completeName = os.path.join(save_path, POST_USERNAME)         
@@ -280,14 +378,14 @@ def get_all_tweets():
         origin=set(open(fileName).read().split())
         result_set=origin-uniset
 
-    interest_result = db.keyword.find({'user' : POST_USERNAME})
+    interest_result = db.ldatopics.find({'user' : POST_USERNAME})
     for obj in interest_result:
-        res = obj['top_keywords']
+        res = obj['topics']
 
     list4 = []
     for i in res:
-        if db.news_new.find({'keywords' : i}) != None:
-            resultset = db.news_new.find({'keywords' : i})
+        if db.news.find({'keywords' : i}) != None:
+            resultset = db.news.find({'keywords' : i})
         for k in resultset:
             list4.append(k)
         else:
@@ -295,8 +393,8 @@ def get_all_tweets():
         
     #other similar user 
     for i in result_set:
-        if db.news_new.find({'keywords' : i}) != None:
-            resultset = db.news_new.find({'keywords' : i})
+        if db.news.find({'keywords' : i}) != None:
+            resultset = db.news.find({'keywords' : i})
             for k in resultset:
                 list4.append(k)
             else:
@@ -318,7 +416,6 @@ def get_all_tweets():
     hybrid = db.display_coll.find().sort("publishedAt", -1 )
     return dumps(hybrid)
 
-    
 
 @app.route("/home")
 def hello():

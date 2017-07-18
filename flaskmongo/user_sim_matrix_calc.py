@@ -26,8 +26,11 @@ db = client.tweets_db
 #document name must be profile_id
 all_profiles=set() #List is created to store all profiles
 profiles_id=set()
-access_df={}
 def load_profiles():
+    global all_profiles #List is created to store all profiles
+    global profiles_id
+    all_profiles.clear()
+    profiles_id.clear()
     for filename in glob.glob('files/*'): #include all the files from current directory
         fin = open(filename,"r",encoding='utf8')  #open the file for reading
         profiles_id.add(os.path.basename(filename)) #document name for future reference
@@ -70,36 +73,37 @@ def calc_sim():
     df=pd.DataFrame()
 
 
-def getTopN(user, topN):
-    load_profiles()
-    calc_sim()
-    df2 = read_mongo(db, 'sim_col')
-    print(df2)
-    return list(df2.columns.values)
- 
+# def getTopN(user, topN):
+#     load_profiles()
+#     calc_sim()
+#     df2 = read_mongo(db, 'sim_col')
+#     print(df2)
+#     return list(df2.columns.values)
+#  
+# 
+# def read_mongo(db, collection, query={}, no_id=True):
+#     """ Read from Mongo and Store into DataFrame """
+#  
+#     # Make a query to the specific DB and Collection
+#     cursor = db[collection].find(query)
+#     # Expand the cursor and construct the DataFrame
+#     df =  pd.DataFrame(list(cursor))
+#     # Delete the _id
+#     if no_id:
+#         del df['_id']
+#     return df
 
-def read_mongo(db, collection, query={}, no_id=True):
-    """ Read from Mongo and Store into DataFrame """
- 
-    # Make a query to the specific DB and Collection
-    cursor = db[collection].find(query)
-    # Expand the cursor and construct the DataFrame
-    df =  pd.DataFrame(list(cursor))
-    # Delete the _id
-    if no_id:
-        del df['_id']
-    return df
 
-
-
-@sched.scheduled_job('interval', seconds=300)
+@sched.scheduled_job('interval', seconds=40)
 def job_scheduler():
+    all_profiles=set() #List is created to store all profiles
+    profiles_id=set()
     load_profiles()
   
   
-@sched.scheduled_job('interval', seconds=500)
+@sched.scheduled_job('interval', seconds=50)
 def job_scheduler():
-    if all_profiles is not None:
+    if all_profiles:
         calc_sim()
 #print(df.to_dict())
 #print( df.groupby('110273156').head(2))
