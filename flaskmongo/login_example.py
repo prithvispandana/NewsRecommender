@@ -63,6 +63,55 @@ CORS(app)
 client = pymongo.MongoClient("localhost", 27017)
 db = client.tweets_db
 
+#----------added by Bo (start) 20170719 --------
+#---------------------------------------
+# Have all URLs from recommended list
+# ( which should not show up in embmed documents )
+#---------------------------------------
+def getExcludedURL(list):
+    urlList = []
+    for i in list:
+        urlList.append(i['url'])
+    return urlList
+        
+#---------------------------------------
+# Generate top 5 similar news for each recommended news
+#---------------------------------------
+def calSimilarNews(list):
+    # get excluded URLs that should not show up in embmed documents
+    excURLs = getExcludedURL(list)
+
+    for i in list:
+        strCategory = i['category']
+        strSearch = i['title'] + " " + i['description']
+        
+        try:
+            cursor = db.news.find({'url': { '$nin': excURLs}, \
+                                   'category': strCategory,    \
+                                   '$text': { '$search': strSearch, '$caseSensitive': False, '$diacriticSensitive': False, '$language': 'en'}},\
+                                  { 'score': { '$meta': 'textScore' }})
+            # sort by score and published date
+            cursor.sort([('score', {'$meta': 'textScore'}),('publishedAt', pymongo.DESCENDING)])
+            # have the top 5 docuemnts
+            cursor.limit(5)                       
+            
+            # store similar news as embeded documents
+            embededNews = []
+            for doc in cursor:
+                dct = {}
+                dct['title'] = doc['title']
+                dct['agencyName'] = doc['agencyName']
+                dct['author'] = doc['author']
+                dct['publishedAt'] = doc['publishedAt']
+                dct['url'] = doc['url']
+                embededNews.append(dct)
+            # add it to the document
+            i['others'] = embededNews
+        except Exception as e:
+            print(e)
+       
+    return list    
+#----------added by Bo (end) 20170719 --------
 
 @app.route('/')
 def index():
@@ -403,6 +452,11 @@ def get_all_tweets():
             
     list5 = [i for n, i in enumerate(list4) if i not in list4[n + 1:]]
     
+	#----------added by Bo (start) 20170719 --------
+    # make similar news embeded
+    list5 = calSimilarNews(list5)
+	#----------added by Bo (end) 20170719 ----------
+
     #to save articles back to the db
     collection = db['display_coll']
     if "display_coll" in db.collection_names():
