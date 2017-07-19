@@ -59,15 +59,15 @@ def getAgencies():
         logger.info('-' * 50)
         time.sleep(60)
     
-def getArticles(agencyId, agencyName, sort, cagtegory, country):
+def getArticles(agencyId, agencyName, sort, category, country):
     newsList_url = ACCESS_URL_ARTICLE.format(agencyId, sort)
     logger.info('News List - {0}'.format(newsList_url))
     resp = urlopen(newsList_url)
     jsn = json.loads(resp.read().decode('utf8'))
     for news in jsn['articles']:
-        insertToTab(agencyId, agencyName, news['author'], news['title'], news['description'], news['url'], news['urlToImage'], news['publishedAt'], cagtegory, country)
+        insertToTab(agencyId, agencyName, news['author'], news['title'], news['description'], news['url'], news['urlToImage'], news['publishedAt'], category, country)
         
-def insertToTab(agencyId, agencyName, author, title, description, url, urlToImage, publishedAt, cagtegory, country):
+def insertToTab(agencyId, agencyName, author, title, description, url, urlToImage, publishedAt, category, country):
     # if the article exists already
     if None != db.news.find_one({'url': url}):
         logger.info('Article has already existed - ' + url)
@@ -107,7 +107,7 @@ def insertToTab(agencyId, agencyName, author, title, description, url, urlToImag
               'url': url,
               'urlToImage': urlToImage,
               'publishedAt': publishedAt,
-              'cagtegory': cagtegory}
+              'category': category}
              # 'summary': summary,
              # 'content': content}
     try:
