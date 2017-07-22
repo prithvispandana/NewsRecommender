@@ -44,7 +44,7 @@ body {
     margin-top: 25px;
 }
 .img-wrapper {
-    background-color: #d6d6d6;
+    background-color: #ffffff;
     padding: 0px !important;
     height: 284px;
     display: flex;
@@ -76,6 +76,7 @@ body {
     width: 99%;
 }
 .menu-option {
+	border-left: 6px solid red;
     background-color: hsla(214, 81%, 37%, 0.36);
     margin-top: 25px;
     color: #def;
@@ -89,7 +90,7 @@ body {
     line-height: 390px;
     display: inline-block;
     vertical-align: middle;
-    font-size: 15px;
+    font-size: 1.4rem;
     font-family: Helvetica, Arial, sans-serif;
     font-weight: 600;
     text-transform: capitalize;
@@ -150,6 +151,7 @@ body {
     color: white;
 }
 .icons {
+	top: 1%;
     position: absolute;
     bottom: 0;
     margin: 5px;

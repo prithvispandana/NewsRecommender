@@ -1,48 +1,37 @@
-from flask import Flask, render_template, url_for, request, session, redirect, jsonify, json
+from flask import Flask, render_template, url_for, request, g, session, redirect, jsonify, json, flash, abort
 #from flask.ext.pymongo 
 from flask_cors import CORS
+from flask_oauthlib.client import OAuth
 import pymongo
 import bcrypt
 import json
 #new imports
-from flask import Flask
-from flask import Flask, flash, redirect, render_template, request, session, abort
 import os
 from model import clf, count_vect, tfidf_transformer, twenty_train
 import tweepy #https://github.com/tweepy/tweepy
 import csv
 import pymongo
-
-from sklearn.feature_extraction.text import CountVectorizer
-import nltk
-import math
-import pandas as pd
-from sklearn.feature_extraction import text
-
-from sklearn.feature_extraction.text import TfidfVectorizer
-import numpy as np
-import os.path
 from bson import json_util, ObjectId
 from bson.json_util import dumps
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction import text
 
+import nltk
 from nltk.tokenize import RegexpTokenizer
+from nltk.tokenize import TweetTokenizer
 from nltk.stem.porter import PorterStemmer
-
+import math
+import pandas as pd
+import numpy as np
+import os.path
+import itertools
 import warnings
 warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
-from gensim import corpora, models
 import gensim
+from gensim import corpora, models
 
-#new imports
-from flask import Flask
-from flask import Flask, flash, redirect, render_template, request, session, abort,url_for
-import os
 
-import tweepy #https://github.com/tweepy/tweepy
-from sklearn.feature_extraction.text import CountVectorizer
-
-from nltk.tokenize import TweetTokenizer
-import itertools
 
 #Twitter API credentials
 consumer_key = "dWUQupK3yWLLAXReEKPUMLlwd"
@@ -54,7 +43,7 @@ access_secret = "eiAiw2xTlDeWzj4uazKWbKaKTAEOXFLw2FBHBsfFchMEJ"
 
 
 app = Flask(__name__)
-
+oauth = OAuth(app)
 app.config['MONGO_DBNAME'] = 'mongologinexample'
 app.config['MONGO_URI'] = 'mongodb://pretty:printed@ds021731.mlab.com:21731/mongologinexample'
 
@@ -62,6 +51,31 @@ app.config['MONGO_URI'] = 'mongodb://pretty:printed@ds021731.mlab.com:21731/mong
 CORS(app)
 client = pymongo.MongoClient("localhost", 27017)
 db = client.tweets_db
+
+twitter = oauth.remote_app(
+    'twitter',
+    #consumer_key='xBeXxg9lyElUgwZT6AZ0A',
+    #consumer_secret='aawnSpNTOVuDCjx7HMh6uSXetjNN8zWLpZwCEU4LBrk',
+    consumer_key='SkaYjiRh8xSeiJdgodBxpbRGZ',
+    consumer_secret='ihP1T7lIFEyT3UkX6niqAKdoS1fot8kNamnKNx8s3XUdvHKyLv',
+    base_url='https://api.twitter.com/1.1/',
+    request_token_url='https://api.twitter.com/oauth/request_token',
+    access_token_url='https://api.twitter.com/oauth/access_token',
+    authorize_url='https://api.twitter.com/oauth/authorize'
+)
+
+@twitter.tokengetter
+def get_twitter_token():
+    if 'twitter_oauth' in session:
+        resp = session['twitter_oauth']
+        return resp['oauth_token'], resp['oauth_token_secret']
+
+
+@app.before_request
+def before_request():
+    g.user = None
+    if 'twitter_oauth' in session:
+        g.user = session['twitter_oauth']
 
 #----------added by Bo (start) 20170719 --------
 #---------------------------------------
@@ -121,11 +135,16 @@ def index():
         return render_template('afterlogin.html')
 
 
+@app.route('/login')
+def twitterlogin():
+    callback_url = url_for('oauthorized', next=request.args.get('next'))
+    print(callback_url)
+    return twitter.authorize(callback=callback_url or request.referrer or None)
+
 @app.route('/login', methods=['POST'])  
 def login():
     #users = mongo.db.users
     login_user = db.users.find_one({'name' : request.form['username']})
-
     if login_user:
         if bcrypt.hashpw(request.form['pass'].encode('utf-8'), login_user['password']) == login_user['password']:
             session['username'] = request.form['username']
@@ -133,6 +152,26 @@ def login():
             return redirect(url_for('index'))
 
     return 'Invalid username/password combination'
+
+
+@app.route('/oauth-authorized')
+def oauthorized():
+    resp = twitter.authorized_response()
+    if resp is None:
+        flash('You denied the request to sign in.')
+    else:
+        session['twitter_oauth'] = resp
+        print(resp)
+        access_token = resp['oauth_token']
+        session['access_token'] = access_token
+        print(access_token)
+        session['screen_name'] = resp['screen_name']
+        session['logged_in'] = True
+        session['twitter_token'] = (
+            resp['oauth_token'],
+            resp['oauth_token_secret'])
+        print(resp['oauth_token_secret'])
+        return redirect(url_for('index'))
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -149,6 +188,57 @@ def register():
         return 'That username already exists!'
 
     return render_template('register.html')
+
+
+#----------added by Bo (start) 20170719 --------
+#---------------------------------------
+# Have all URLs from recommended list
+# ( which should not show up in embmed documents )
+#---------------------------------------
+def getExcludedURL(list):
+    urlList = []
+    for i in list:
+        urlList.append(i['url'])
+    return urlList
+        
+#---------------------------------------
+# Generate top 5 similar news for each recommended news
+#---------------------------------------
+def calSimilarNews(list):
+    # get excluded URLs that should not show up in embmed documents
+    excURLs = getExcludedURL(list)
+
+    for i in list:
+        strCategory = i['cagtegory']
+        strSearch = i['title'] + " " + i['description']
+        
+        try:
+            cursor = db.news.find({'url': { '$nin': excURLs}, \
+                                   'category': strCategory,    \
+                                   '$text': { '$search': strSearch, '$caseSensitive': False, '$diacriticSensitive': False, '$language': 'en'}},\
+                                  { 'score': { '$meta': 'textScore' }})
+            # sort by score and published date
+            cursor.sort([('score', {'$meta': 'textScore'}),('publishedAt', pymongo.DESCENDING)])
+            # have the top 5 docuemnts
+            cursor.limit(5)                       
+            
+            # store similar news as embeded documents
+            embededNews = []
+            for doc in cursor:
+                dct = {}
+                dct['title'] = doc['title']
+                dct['agencyName'] = doc['agencyName']
+                dct['author'] = doc['author']
+                dct['publishedAt'] = doc['publishedAt']
+                dct['url'] = doc['url']
+                embededNews.append(dct)
+            # add it to the document
+            i['others'] = embededNews
+        except Exception as e:
+            print(e)
+       
+    return list    
+#----------added by Bo (end) 20170719 --------
 
 
 
@@ -185,7 +275,7 @@ def getTopN(user, topN):
 def get_all():
     global POST_USERNAME
     POST_USERNAME = str(request.form['username'])
-    return render_template('landing.html')
+    return render_template('landing.html', user=POST_USERNAME)
 
 
 @app.route('/recom', methods=['GET', 'POST'])
@@ -193,6 +283,8 @@ def get_all_tweets():
     #Twitter only allows access to a users most recent 3240 tweets with this method
     
     #authorize twitter, initialize tweepy
+    token, secret= session['twitter_token']
+    print(token)
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_key, access_secret)
     api = tweepy.API(auth)
@@ -482,6 +574,6 @@ def logout():
 
 if __name__ == '__main__':
     app.secret_key = 'mysecret'
-    app.run(host='0.0.0.0', debug=True, port=80)
+    app.run(host='0.0.0.0', debug=True, port=9000)
 
     

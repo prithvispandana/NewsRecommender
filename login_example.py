@@ -113,6 +113,7 @@ def get_all_tweets():
     #make initial request for most recent tweets (200 is the maximum allowed count)
     new_tweets = api.user_timeline(screen_name = POST_USERNAME,count=200)
 
+    print(new_tweets)
     #save most recent tweets
     alltweets.extend(new_tweets)
 

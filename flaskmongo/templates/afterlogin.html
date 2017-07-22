@@ -1,30 +1,52 @@
-<link rel="stylesheet" href="/static/style.css" type="text/css">
-{% block body %}
- 
+ <!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Day 001 Login Form</title>
+  
+  
+  <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
+
+      <link rel="stylesheet" href="static/css/twittercss.css">
+	<link rel="stylesheet" href="/static/style.css" type="text/css">
+  
+</head>
+
+<body>
 <form action="/afterlogin" method="POST">
-	<div class="login">
-		<div class="login-screen">
-			<div class="app-title">
-				<h1>Welcome</h1>
-			</div>
- 
-			<div class="login-form">
-				<div class="control-group">
-				<input type="text" class="login-field" value="" placeholder="Twitter username" name="username">
-				<label class="login-field-icon fui-user" for="login-name"></label>
-			</div>
- 
+  <div class="login-wrap">
+	<div class="login-html">
+		<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
+		<!-- <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label> -->
+		<div class="login-form">
+			<div class="sign-in-htm">
+				<div class="group">
+					<label for="user" class="label">Twitter name</label>
+					<input id="user" name="username" type="text" class="input" placeholder="eg. UCD_Cs" onfocus="this.placeholder = ''">
+				</div>
+				
+				<div class="group">
+					<input type="submit" class="button" value="Get Recommendation">
+				</div>
 
- 
-                <input type="submit" value="Get Recommendation" class="btn btn-primary btn-large btn-block" ><br>
-                <a class="btn btn-primary btn-large btn-block" href='/logout'>Logout</a>
+				<!-- <div class="group">
+					<input type="submit" class="button" value="Log Out">
+				</div> -->
+				<br>
+				<div class="group">
+                <a class="button" href='/logout'>Logout</a>
+				</div>
+				
+				<div class="hr"></div>
+				<div class="foot-lnk">
+				<p>Start with your Twitter</p>
 
-
-			    <br>
+				</div>
 			</div>
 		</div>
 	</div>
-</form>
-<!-- <a href='/logout'>Logout</a>
- -->
-{% endblock %}
+</div>
+  
+</form>  
+</body>
+</html>

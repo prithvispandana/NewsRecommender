@@ -44,9 +44,11 @@ def before_request():
 
 @app.route('/')
 def index():
+    print("hello")
     tweets = None
     if g.user is not None:
-        resp = twitter.request('statuses/home_timeline.json')
+        print(g.user)
+        resp = twitter.request('statuses/mentions_timeline.json')
         if resp.status == 200:
             tweets = resp.data
         else:
@@ -78,8 +80,7 @@ def oauthorized():
         session['twitter_oauth'] = resp
         access_token = resp['oauth_token']
         session['access_token'] = access_token
-        session['screen_name'] = resp['screen_name']
- 
+        session['screen_name'] = resp['screen_name'] 
         session['twitter_token'] = (
             resp['oauth_token'],
             resp['oauth_token_secret'])
