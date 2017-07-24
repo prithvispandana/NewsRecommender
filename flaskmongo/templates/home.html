@@ -1,14 +1,42 @@
+<style>
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+</style>
+
 <div class="row wrapper-container">
 <div class="sidemenu col-md-2 col-sm-2 col-xs-2">
 <div class="menu-option" ng-repeat="myNew in myNews | unique: 'cagtegory'">
-     <p>{{'{{myNew.cagtegory}}'}}</p> 
+     <p>{{'{{myNew.<p>category</p>}}'}}</p> 
 </div>
 </div>
 
 <div class="slider col-md-10 col-sm-10 col-xs-10" >
 
-  <div class="row bxslider" ng-repeat="myNew in myNews | unique: 'cagtegory'" >
-          <div class="col-md-4 article-container"  ng-repeat="subset in myNews| filter: myNew.cagtegory ">
+  <div class="row bxslider" ng-repeat="myNew in myNews | unique: 'category'" >
+          <div class="col-md-4 article-container"  ng-repeat="subset in myNews| filter: myNew.category ">
           <div class="col-md-12 img-wrapper">
           <img class="img-responsive display-img"  src="{{'{{subset.urlToImage}}'}}"/>
           <p class="col-md-12 slide-title">{{'{{subset.title}}'}}</p></a>
@@ -18,9 +46,15 @@
           <i class="fa fa-bookmark" aria-hidden="true" ng-click="saved = !saved; isSaved(subset, $event)" ng-class="{'saved': saved} "> </i>
           <i class="fa fa-thumbs-o-up" aria-hidden="true" ng-click="like = !like" ng-class="{'like': like} "></i>
           <i class="fa fa-thumbs-o-down" aria-hidden="true" ng-click="dislike = !dislike" ng-class="{'dislike': dislike} "> </i>
+		  <div class="dropdown">
+             <button class="dropbtn">Read More</button>
+             <div class="dropdown-content">
+			    <div ng-repeat="other in subset.others ">
+			       <a href="{{'{{other.url}}'}}" target="_blank">{{'{{other.title}}'}}</a>
+                </div> 
+			 </div>
+		  </div>
           </p>
-
-
 
           </div><a href="{{'{{subset.url}}'}}" target="_blank">
           <p class="col-md-12 slide-description">{{'{{subset.description }}'}}</p></a>
@@ -29,7 +63,3 @@
 
 </div>
 </div>
-
-
-
-
