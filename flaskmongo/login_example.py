@@ -567,6 +567,32 @@ def get_all_tweets():
 def hello():
     return render_template("home.html")
 
+#----------added by Bo (start) 20170724 --------
+@app.route('/category')
+def category():
+    global POST_USERNAME
+    result = db.user2category.find({'userName' : POST_USERNAME},{'categories':1, '_id':0})
+    x = []
+    for i in result:
+        x.append(i)
+    print(x)
+    if x == []:
+        user2categoryLst = []
+    else:
+        user2categoryLst = x[0]["categories"]
+    return render_template("category.html", user2category = user2categoryLst)
+
+@app.route('/category_modify', methods=['GET', 'POST'])
+def category_modify():
+    ids = request.form.get('ids')
+    print(ids)
+    lst = []
+    if ids is not None:
+        lst = ids.split(',')
+    db.user2category.update_one({'userName' : POST_USERNAME}, {'$set':{'categories': lst}}, upsert=True)
+    return render_template("user2category_saved.html")
+#----------added by Bo (end) 20170724 --------
+
 @app.route("/logout")
 def logout():
     session['logged_in'] = False
