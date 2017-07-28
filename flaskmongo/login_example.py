@@ -209,7 +209,7 @@ def calSimilarNews(list):
     excURLs = getExcludedURL(list)
 
     for i in list:
-        strCategory = i['cagtegory']
+        strCategory = i['category']
         strSearch = i['title'] + " " + i['description']
         
         try:
