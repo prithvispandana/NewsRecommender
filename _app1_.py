@@ -326,6 +326,11 @@ def get_all_tweets():
     list_politics=[]
     list_sport=[]
     list_entertainment=[]
+    list_gaming=[]
+    list_general=[]
+    list_music=[]
+    list_science_and_nature=[]
+
 
 
     for i in list5:
@@ -344,8 +349,16 @@ def get_all_tweets():
         if i['category'] == "entertainment":
             i['category_score'] = counts['entertainment']
             list_entertainment.append(i)
+        if i['category'] == "gaming":
+            list_gaming.append(i)
+        if i['category'] == "general":
+            list_general.append(i)
+        if i['category'] == "music":
+            list_music.append(i)
+        if i['category'] == "science-and-nature":
+            list_science_and_nature.append(i)
 
-    list5 = list_technology[:20] + list_business[:20] +list_politics[:20]+ list_sport[:20]+ list_entertainment[:20]
+    list5 = list_technology[:20] + list_business[:20] +list_politics[:20]+ list_sport[:20]+ list_entertainment[:20]+list_gaming[:20]+list_general[:20]+list_music[:20]+list_science_and_nature[:20]
     #For future use and ordering#
     #to save articles back to the db
     if POST_USERNAME in db.collection_names():
