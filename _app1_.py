@@ -314,23 +314,38 @@ def get_all_tweets():
             
             
     list5 = [i for n, i in enumerate(list4) if i not in list4[n + 1:]]
+    # d_inter = dict([k, v for k, v in dict1.iteritems() if k in dict2 and dict2[k] == v])
     
+
 ##########################################################################################################################
 
 
 #Adding the category_score parameter to each news article document and then inserting into the collection for ordering  purposes
+    list_technology=[]
+    list_business=[]
+    list_politics=[]
+    list_sport=[]
+    list_entertainment=[]
+
+
     for i in list5:
         if i['category'] == "technology":
             i['category_score'] = counts['technology']
+            list_technology.append(i)
         if i['category'] == "business":
             i['category_score'] = counts['business']
+            list_business.append(i)
         if i['category'] == "politics":
             i['category_score'] = counts['politics']
+            list_politics.append(i)
         if i['category'] == "sport":
             i['category_score'] = counts['sport']
+            list_sport.append(i)
         if i['category'] == "entertainment":
             i['category_score'] = counts['entertainment']
+            list_entertainment.append(i)
 
+    list5 = list_technology[:20] + list_business[:20] +list_politics[:20]+ list_sport[:20]+ list_entertainment[:20]
     #For future use and ordering#
     #to save articles back to the db
     if POST_USERNAME in db.collection_names():
@@ -342,6 +357,13 @@ def get_all_tweets():
 #ordering and displaying ( ordering on category and published time)
     hybrid =  db[POST_USERNAME].find().sort([["category_score",pymongo.DESCENDING],["publishedAt",pymongo.DESCENDING]] )
 
+
+    # title_text=[]
+    # for obj in hybrid:
+    #     if obj["title"] = 
+    #     title_text.append(obj['title'])
+
+    print(type(hybrid))
     #hybrid.limit(30)
     return dumps(hybrid)
 
@@ -523,3 +545,7 @@ def saved():
 if __name__ == '__main__':
     app.secret_key = 'mysecret'
     app.run(host='127.0.0.1', debug=True, port=5000, threaded=True)
+
+
+    # db.news.find(ObjectId("597db45f73714e21d84f2cf2"))
+    #  db.HardmanGunner.find("title":"United States", "title" : "'War for the Planet of the Apes' wins a quiet weekend at the box office")
