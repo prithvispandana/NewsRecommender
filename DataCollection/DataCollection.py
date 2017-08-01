@@ -69,7 +69,7 @@ def getArticles(agencyId, agencyName, sort, category, country):
         
 def insertToTab(agencyId, agencyName, author, title, description, url, urlToImage, publishedAt, category, country):
     # if the article exists already
-    if None != db.news.find_one({'url': url}):
+    if None != db.news.find_one({ '$or': [ {'url': url}, {'title': title} ] }):
         logger.info('Article has already existed - ' + url)
         return
     
