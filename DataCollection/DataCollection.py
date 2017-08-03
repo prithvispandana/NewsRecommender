@@ -9,9 +9,9 @@ import logging.config
 import time
 import re
 
-from NewsAgency import cnn, the_new_york_times, independent, bbc_news, abc_news_au
-from NewsAgency import usa_today, reuters, football_italia, daily_mail, business_insider_uk
-from NewsAgency import bloomberg, associated_press
+#from NewsAgency import cnn, the_new_york_times, independent, bbc_news, abc_news_au
+#from NewsAgency import usa_today, reuters, football_italia, daily_mail, business_insider_uk
+#from NewsAgency import bloomberg, associated_press
 
 # get ready for logging
 logging.config.fileConfig('log.cfg')  
@@ -68,7 +68,7 @@ def getArticles(agencyId, agencyName, sort, category, country):
         insertToTab(agencyId, agencyName, news['author'], news['title'], news['description'], news['url'], news['urlToImage'], news['publishedAt'], category, country)
         
 def insertToTab(agencyId, agencyName, author, title, description, url, urlToImage, publishedAt, category, country):
-    # if the article exists already
+    # if the article exists already (has same URL or same title)
     if None != db.news.find_one({ '$or': [ {'url': url}, {'title': title} ] }):
         logger.info('Article has already existed - ' + url)
         return
@@ -91,6 +91,16 @@ def insertToTab(agencyId, agencyName, author, title, description, url, urlToImag
             logger.error(e)
    ------------------------------------------------------------------'''
    
+    # do not take news article with empty title
+    if title is '' or title.strip() is '':
+        logger.info('Title is empty - ' + url)
+        return
+
+    # do not take news article with empty description
+    if description is '' or description.strip() is '':
+        logger.info('Description is empty - ' + url)
+        return        
+        
     keywords = getKeywords(description)
     if not keywords:
         logger.info('Keywords from description is empty - ' + url)
