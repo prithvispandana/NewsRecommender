@@ -92,15 +92,20 @@ def insertToTab(agencyId, agencyName, author, title, description, url, urlToImag
    ------------------------------------------------------------------'''
    
     # do not take news article with empty title
-    if title is '' or title.strip() is '':
+    if title is None or title is '' or title.strip() is '':
         logger.info('Title is empty - ' + url)
         return
 
     # do not take news article with empty description
-    if description is '' or description.strip() is '':
+    if description is None or description is '' or description.strip() is '':
         logger.info('Description is empty - ' + url)
         return        
-        
+
+    # do not take news article with empty published date
+    if publishedAt is None or publishedAt is '' or publishedAt.strip() is '':
+        logger.info('publishedAt is empty - ' + url)
+        return    
+    
     keywords = getKeywords(description)
     if not keywords:
         logger.info('Keywords from description is empty - ' + url)
