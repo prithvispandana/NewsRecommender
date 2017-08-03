@@ -44,6 +44,10 @@ db.news.createIndex(
    }
  )
 
+- table
+use tweets_db
+news   ---- store the last 10 days news articles only
+news_history --- store all news articles except the last 10 days
 
 ////////////////////////////////////////////////
 
