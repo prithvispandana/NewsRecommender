@@ -103,7 +103,8 @@ def insertToTab(agencyId, agencyName, author, title, description, url, urlToImag
 
     # do not take news article with empty published date
     if publishedAt is None or publishedAt is '' or publishedAt.strip() is '':
-        logger.info('publishedAt is empty - ' + url)
+        publishedAt = time.strftime("%Y-%m-%d", time.localtime())
+        logger.info('PublishedAt is empty - fill with current date' + url)
         return    
     
     keywords = getKeywords(description)
