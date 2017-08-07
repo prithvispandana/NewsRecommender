@@ -13,7 +13,10 @@ import pandas as pd
 import os.path
 import spacy
 import re
-
+# 
+# import ssl
+# context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+# context.load_cert_chain('137.43.49.34.crt', '137.43.49.34.key')
 app = Flask(__name__)
 CONSUMER_TOKEN='20WnaxITmExInaxGV7mcFOccJ'
 CONSUMER_SECRET='vLNFoj0kEmT0EOGkaWiUg4MJETxI38plzqLHdnb55M7PfUVvSM'
@@ -38,7 +41,7 @@ def index():
     elif dbp:
         return render_template('landing.html', user =dbp['screen_name'] , img_url=dbp['prof_url'])
     else:
-        return render_template('landing.html')
+        return render_template('landing.html', user=session['username'])
 
 
 @app.route('/login')
@@ -149,17 +152,38 @@ def get_all_tweets():
         return dumps(gen_user)
         
         
+     #Followings of the user
+    friend_list = []
+    for friend in tweepy.Cursor(api.friends,screen_name = POST_USERNAME,count=50).items(): #https://stackoverflow.com/questions/25944037/full-list-of-twitter-friends-using-python-and-tweepy
+        # Process the friend here
+        friend_list.append(friend.screen_name)
+        
+    
+    
     #initialize a list to hold all the tweepy Tweets
     new_tweets = api.user_timeline(screen_name = POST_USERNAME,count=200, tweet_mode="extended")
     tweets = [" ".join([tweet.full_text]) for tweet in new_tweets]
 
+    
+    #Hashtags from all the tweets
+    listy = []
+    hashy = []
+    for i in new_tweets:
+        listy = [j['text'] for j in i.entities.get('hashtags')]
+        if not listy:
+            continue
+        else:
+            for k in listy:
+                hashy.append(k.lower())
+
+    hashtags_list = list(set(hashy))
     
 
     likes_tweets=api.favorites(screen_name = POST_USERNAME,count=10,tweet_mode="extended")
     liked = [" ".join([like.full_text]) for like in likes_tweets]
     tweets.extend(liked)
 
-    
+    print(tweets)
     document=" ".join(tweets)
     document = nlp(document)
 
@@ -207,9 +231,9 @@ def get_all_tweets():
 
 
     category_list = []
-    X_new = vectorizer.transform(processedWords)
+    X_new = vectorizer.transform(tweets)
     X_new_preds = clf.predict(X_new)
-    for doc ,category in zip(processedWords, X_new_preds):
+    for doc ,category in zip(tweets, X_new_preds):
         category_list.append(bbc_train.target_names[category])
         #print('%r => %s' % (doc, twenty_train.target_names[category]))
     
@@ -229,11 +253,11 @@ def get_all_tweets():
     print(counts)
 
     #To change dict key name from tech to technology
-    if 'technology' in counts.keys():
-        counts['technology'] = counts.pop('tech')
+#     if 'technology' in counts.keys():
+#         counts['technology'] = counts.pop('tech')
 
     #Putting default value of 0 for categories not present in the classification result
-    c_list = ['business','entertainment','politics','sport','technology']
+    c_list = ['business','entertainment','politics','sport','technology','gaming','science-and-nature','music']
     for i in c_list:
         if i not in list(counts.keys()):
             counts[i] = 0
@@ -285,14 +309,15 @@ def get_all_tweets():
 
 #######################################################################################################################
 
-    res=[]
-    interest_result = db.spacytopics.find({'user' : POST_USERNAME})
-    for obj in interest_result:
-        res = obj['topics']
+    # res=[]
+    # interest_result = db.spacytopics.find({'user' : POST_USERNAME})
+    # for obj in interest_result:
+    #     res = obj['topics']
+
 
 
 #######################################################################################################################
-                                    #news based on profile interest
+    all_keyword_list = result_set + processedWords
     list4 = []
     for i in res:
         if db.news.find({'keywords' : i}) != None:
@@ -302,21 +327,31 @@ def get_all_tweets():
         else:
             continue
 
+
+#######################################################################################################################
+                                    #news based on profile interest
+    # list4 = []
+    # for i in res:
+    #     if db.news.find({'keywords' : i}) != None:
+    #         resultset = db.news.find({'keywords' : i})
+    #     for k in resultset:
+    #         list4.append(k)
+    #     else:
+    #         continue
+
 ########################################################################################################################  
                                             #similar user interest#
-    for i in result_set:
-        if db.news.find({'keywords' : i}) != None:
-            resultset = db.news.find({'keywords' : i})
-            for k in resultset:
-                list4.append(k)
-            else:
-                continue
+    # for i in result_set:
+    #     if db.news.find({'keywords' : i}) != None:
+    #         resultset = db.news.find({'keywords' : i})
+    #         for k in resultset:
+    #             list4.append(k)
+    #         else:
+    #             continue
             
             
     list5 = [i for n, i in enumerate(list4) if i not in list4[n + 1:]]
-    # d_inter = dict([k, v for k, v in dict1.iteritems() if k in dict2 and dict2[k] == v])
     
-
 ##########################################################################################################################
 
 
@@ -361,23 +396,15 @@ def get_all_tweets():
     list5 = list_technology[:20] + list_business[:20] +list_politics[:20]+ list_sport[:20]+ list_entertainment[:20]+list_gaming[:20]+list_general[:20]+list_music[:20]+list_science_and_nature[:20]
     #For future use and ordering#
     #to save articles back to the db
-    if POST_USERNAME in db.collection_names():
-        db[POST_USERNAME].drop()
-        db[POST_USERNAME].insert_many(list5)
-    else:
-        db[POST_USERNAME].insert_many(list5)
+    if list5 :
+        if POST_USERNAME in db.collection_names():
+            db[POST_USERNAME].drop()
+            db[POST_USERNAME].insert_many(list5)
+        else:
+            db[POST_USERNAME].insert_many(list5)
 
 #ordering and displaying ( ordering on category and published time)
     hybrid =  db[POST_USERNAME].find().sort([["category_score",pymongo.DESCENDING],["publishedAt",pymongo.DESCENDING]] )
-
-
-    # title_text=[]
-    # for obj in hybrid:
-    #     if obj["title"] = 
-    #     title_text.append(obj['title'])
-
-    print(type(hybrid))
-    #hybrid.limit(30)
     return dumps(hybrid)
 
 #############################################################################################################################
@@ -394,7 +421,8 @@ def simNews():
     strCategory =data['category']
     strSearch = data['title'] + " " + data['description']
      
-    #search the data in database    
+    #search the data in database  
+    '''
     cursor = db.news.find({'url': { '$nin': excURLs}, \
                                     'category': strCategory,    \
                                     '$text': { '$search': strSearch, '$caseSensitive': False, '$diacriticSensitive': False, '$language': 'en'}},\
@@ -403,7 +431,35 @@ def simNews():
     cursor.sort([('score', {'$meta': 'textScore'}),('publishedAt', pymongo.DESCENDING)])
     
     # have the top 9 docuemnts
-    cursor.limit(9)                      
+    cursor.limit(9)'''  # --- commented by Bo, 20170803
+    
+    # improvment to only have data with textscore greater than 4
+    pipeline = [{ "$match": { "url": { "$nin": excURLs},
+                              "category": strCategory,
+                              "$text": { "$search": strSearch , 
+                                         "$caseSensitive": False, 
+                                         "$diacriticSensitive": False, 
+                                         "$language": "en" } } },
+                { "$project": { "_id" : 1,
+                                "countryId" : 1, 
+                                "countryName" : 1,
+                                "keywords" : 1, 
+                                "author" : 1, 
+                                "description" : 1, 
+                                "title" : 1, 
+                                "agencyId" : 1, 
+                                "agencyName" : 1, 
+                                "url" : 1, 
+                                "urlToImage" : 1, 
+                                "publishedAt" : 1, 
+                                "category" : 1,
+                                "score": { "$meta": "textScore" } } },
+                { "$match": { "score": { "$gt": 5.0 }}},
+                { "$sort": { "score": { "$meta": "textScore" }}},
+                { "$limit" : 9 }]
+    
+    cursor = db.news.aggregate(pipeline)
+                    
     return dumps(cursor)
 
 
@@ -453,7 +509,7 @@ def getTopN(user, topN):
 def category():
     #global POST_USERNAME
     if 'screen_name' in dbp:
-        userName = ['screen_name']
+        userName = dbp['screen_name']
     else:
         userName = session['username']
     result = db.user2category.find({'userName' : userName},{'categories':1, '_id':0})
@@ -486,16 +542,15 @@ def category_modify():
 #-----------------------Prithvi- 29/07/2017----------------------------------------------
 @app.route('/usernews', methods=['POST'])
 def post_usernews():
-    print("Hello")
     data = request.get_json(True)
     print(data)
-    print(data['newsId'])
-    print(data['userId'])
-    ans=db.usernews.find_one({'newsId':data['newsId'],'userId':data['userId']})
-    print(ans)
-    if ans==None:
+    if 'screen_name' in dbp:
+        userName = dbp['screen_name']
+    else:
+        userName = session['username']
+    if db.usernews.find_one({'newsId':data['newsId'],'userId':userName}) is None:
         print('Document not found.Ready to insert')
-        ans = db.usernews.insert_one(data)
+        db.usernews.insert_one(data)
         print('Document Inserted')
     else:
         print("Document Already exists")
@@ -507,16 +562,11 @@ def post_usernews():
 @app.route('/usernews/<userid>', methods=['GET'])
 def get_usernews(userid):
     # get from db db.usernews
-    print(userid)
     news = db.usernews.find({ "userId": userid})
-    #print(news)
     articles = []
     for obj in news:
-        print(obj['newsId'])
-        #x=obj['newsId']
         art = db.news.find_one( ObjectId(obj['newsId'] ))
         articles.append(art)
-    print(articles)
     return dumps(articles)
 
 
@@ -525,10 +575,15 @@ def post_userlikes():
 
     data = request.get_json(True)
     print(data)
-    ans = db.userslikes.find_one({'newsId': data['newsId'], 'userId': data['userId']})
-    if ans == None:
+    if 'screen_name' in dbp:
+        userName = dbp['screen_name']
+    else:
+        userName = session['username']
+    if db.userslikes.find_one({'newsId': data['newsId'], 'userId': userName}) is None:
         print('Document not found.Ready to insert')
-        ans = db.userslikes.insert_one(data)
+        db.userslikes.insert_one(data)
+        if db.usersdislikes.find_one({'newsId': data['newsId'], 'userId': userName}) is not None:
+            db.usersdislikes.delete_one( {'newsId': data['newsId'], 'userId': userName});
         print('Document inserted')
     else:
         print("Document Already exists")
@@ -537,15 +592,52 @@ def post_userlikes():
 @app.route('/dislikes', methods=['POST'])
 def post_usersdislikes():
     data = request.get_json(True)
-    print(data)
-    ans = db.usersdislikes.find_one({'newsId': data['newsId'], 'userId': data['userId']})
-    if ans == None:
+    if 'screen_name' in dbp:
+        userName = dbp['screen_name']
+    else:
+        userName = session['username']  
+    if db.usersdislikes.find_one({'newsId': data['newsId'], 'userId': userName}) is None:
         print('Document not found.Ready to insert')
-        ans = db.usersdislikes.insert_one(data)
+        db.usersdislikes.insert_one(data)
+        if db.userslikes.find_one({'newsId': data['newsId'], 'userId': userName}) is not None:
+            db.userslikes.delete_one( {'newsId': data['newsId'], 'userId': userName});
         print('Document inserted')
     else:
         print("Document Already exists")
     return jsonify({ "status": "ok"})
+
+
+@app.route("/search",methods=['POST'])
+def search():
+    data = request.get_json(True)
+    print(data)
+    db.news.ensure_index([
+        ('title', 'text'),
+        ('description', 'text'),
+    ],
+        name="TextIndex",
+        weights={
+            'title': 3,
+            'description': 1
+        }
+    )
+    results=db.news.find({"$text": {"$search":data['search'] }})
+    print(results)
+    array=[]
+    arr=[]
+    for obj in results:
+        coll = {'title': obj['title'],
+                'url': obj['url'],
+                'description':obj['description'],
+                'image':obj['urlToImage']}
+        array.append(coll)
+
+    return dumps(array)
+
+
+@app.route('/searchpage')
+def searchpage():
+    return render_template("Search.html")
 
 @app.route('/saved')
 def saved():
@@ -558,7 +650,3 @@ def saved():
 if __name__ == '__main__':
     app.secret_key = 'mysecret'
     app.run(host='127.0.0.1', debug=True, port=5000, threaded=True)
-
-
-    # db.news.find(ObjectId("597db45f73714e21d84f2cf2"))
-    #  db.HardmanGunner.find("title":"United States", "title" : "'War for the Planet of the Apes' wins a quiet weekend at the box office")
