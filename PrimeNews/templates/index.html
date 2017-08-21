@@ -14,6 +14,8 @@ background-image: url("static/img/news2.jpg");
 	<section id="content">
 		<form method=POST action="{{ url_for('login') }}">
 			<h1>Prime Login</h1>
+			
+			<!-- dedicated input boxes are created for non-Twitter user to log in -->
 			<div>
 				<input type="text" name="username" placeholder="Username" required="" id="username" />
 			</div>
@@ -22,12 +24,12 @@ background-image: url("static/img/news2.jpg");
 			</div>
 			<div>
 				<input type="submit" value="Log in" />
-            
-                 <!-- <font size="2 em">Don't have an account?</font> -->
-                 
+                
                  <a href="{{ url_for('register') }}">Click here to register with prime!</a>
 			</div>
 		</form>
+		
+		<!-- Twitter account holder click the "Twitter sign in image" to enter into the prime  -->
 		<a href="{{ url_for('login') }}"><img src="{{url_for('static', filename='img/sign-in.png') }}" alt="sign in"></a>
 		<div class="button">
 			<h4>Start your personalized news feed</h4>
