@@ -245,7 +245,6 @@ This method returns the user personalised category list and that is
 shown to front end
 '''
 def get_perCategory(userName):
-    # get categories from the collection USER2CATEGORY 
     result = db.user2category.find({'userName' : userName},{'categories':1, '_id':0})
     x = []
     for i in result:
@@ -254,7 +253,6 @@ def get_perCategory(userName):
     if x == []:
         user2categoryLst = []
     else:
-        # user interests list
         user2categoryLst = x[0]["categories"]
     return user2categoryLst
 
@@ -263,10 +261,8 @@ This method saves and updates the user personalisation to database with userName
 '''
 def update_perCategory(pcid,userName):
     idLst = []
-    # split the string and get the user's interest items
     if pcid is not None:
         idLst = pcid.split(',')
-    # update collection USER2CATEGORY by user's name
     db.user2category.update_one({'userName' : userName}, {'$set':{'categories': idLst}}, upsert=True)
 
 '''
@@ -347,4 +343,4 @@ def recom_hybridarticles(rcomlist, userName):
             db[userName].insert_many(rcomlist)
     
     hybrid =  db[userName].find().sort([["category_score",pymongo.DESCENDING],["publishedAt",pymongo.DESCENDING]] )
-    return hybrid
+return hybrid
