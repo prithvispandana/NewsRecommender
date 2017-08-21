@@ -1,0 +1,1 @@
+JavaScript allows to declare functions in 6 ways. The article describes how to choose the right declaration type, depending on the situation and function purpose.

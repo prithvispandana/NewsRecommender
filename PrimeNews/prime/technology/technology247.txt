@@ -1,0 +1,1 @@
+gitextensions - GitExtensions is a shell extension, a Visual Studio 2010-2015 plugin and a standalone Git repository tool.

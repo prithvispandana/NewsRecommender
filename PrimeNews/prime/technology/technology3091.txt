@@ -1,0 +1,1 @@
+Take a look at reinforcement learning algorithms, specifically the deep q-networks that are all the hype lately, and implement them in the OpenAI gym.

@@ -1,0 +1,1 @@
+Linux includes a fairly massive array of tools available to meet almost every need. From development to security to productivity to administration…if you have to get it done, Linux is there to serve. One of the many tools that admins frequently turned to was netstat. However, the netstat command has been deprecated in favor of the faster, more human-readable ss command.

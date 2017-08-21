@@ -1,0 +1,1 @@
+Targets of NSLs can't challenge them because ISPs can't tell the target about them.

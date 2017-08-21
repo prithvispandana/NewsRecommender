@@ -1,0 +1,1 @@
+Performance measure allowing ‘on time’ services to be 10 minutes late will be replaced by exact timings at each station

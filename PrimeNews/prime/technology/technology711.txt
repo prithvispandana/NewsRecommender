@@ -1,0 +1,1 @@
+On Thursday we released a new version of Apache Kafka that dramatically strengthens the semantic guarantees it provides.

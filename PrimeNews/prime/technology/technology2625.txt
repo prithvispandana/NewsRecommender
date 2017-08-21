@@ -1,0 +1,7 @@
+Summary: Closes https://github.com/facebook/rocksdb/pull/2589
+
+Differential Revision: D5431502
+
+Pulled By: siying
+
+fbshipit-source-id: 8ebf8c87883daa9daa54b2303d11ce01ab1f6f75

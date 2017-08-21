@@ -1,0 +1,3 @@
+We started off by creating a logging infrastructure, then arranging for a single table to use it.
+
+Rather than repeat that work for each table, let&…

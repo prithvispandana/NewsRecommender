@@ -1,0 +1,1 @@
+The app which is available only on the Android platform currently, allows users to not only have their Aadhaar profile on their mobile as a quick and convenient identification proof, it also lets users lock/ unlock their biometric data that’s linked to Aadhaar via the app to secure their personal data.

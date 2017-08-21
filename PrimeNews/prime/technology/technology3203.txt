@@ -1,0 +1,1 @@
+An open source React component library for building Highcharts charts

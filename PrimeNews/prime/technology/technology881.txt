@@ -1,0 +1,1 @@
+TOKYO, July 3 -- NEC Corporation today announced that it has developed data processing technology that accelerates the execution of machine learning on vec

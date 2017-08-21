@@ -1,0 +1,1 @@
+These 'holograms' are projected in 2D but change perspective as you move around them.

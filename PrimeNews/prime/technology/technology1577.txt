@@ -1,0 +1,3 @@
+It was only a matter of time: After adding support for 4K content back in December, Google Play Movies now supports HDR footage as well.
+
+If you're not familiar, HDR (High Dynamic ...

@@ -1,0 +1,1 @@
+If a customer fails to pay, it can break the circuit and prevent the car starting.

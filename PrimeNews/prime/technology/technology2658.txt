@@ -1,0 +1,13 @@
+This is a mobile phone that is:
+
+1) As open-source as possible *while also being cheap*
+2) Easy to get parts for if you want to assemble one
+3) Easy to assemble and repair
+4) Free from apps with privacy concerns
+5) Easy to write apps for 
+
+It costs about 50$ in parts, and all the parts are available on eBay. Most of the phone can be assembled with just a soldering iron. User interface is written using Python, it has an UI framework for easier app development - and it gets better every day.
+
+<a href="https://www.reddit.com/r/ZeroPhone/" target="_blank">https://www.reddit.com/r/ZeroPhone/</a>
+
+A crowdfunded manufacturing run is expected in a month - subscribe to newsletter below!

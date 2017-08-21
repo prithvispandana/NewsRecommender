@@ -1,0 +1,1 @@
+The emergence of new hardware and platforms has led to reconsideration of how data management systems are designed. However, certain basic functions such as key indexed access to records remain essential. While we exploit the common architectural layering of prior systems, we make radically new design decisions about each layer. Our new form of B …

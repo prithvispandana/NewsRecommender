@@ -1,0 +1,1 @@
+Not Hotdog and Transfer Learning One of the funniest episodes in the latest season of Silicon Valley featured the creation of Jian Yang’s Not Hotdog app. As the app's name implies, Not Hotdog is an app to determine if an image contains a hotdog or not. The best part

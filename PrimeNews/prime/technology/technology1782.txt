@@ -1,0 +1,1 @@
+One of the great advantages of the cloud is that your vendor is supposed to takes care of all the hard management bits for you -- including backup. While..

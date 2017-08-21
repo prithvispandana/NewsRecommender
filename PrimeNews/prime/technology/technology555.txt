@@ -1,0 +1,1 @@
+unarcrypto is an educational tool to depict cryptography usage in zip, rar and 7zip archives

@@ -1,0 +1,1 @@
+Steve Sanderson’s Blazor is an experiment to bring .NET back to the browser using WebAssembly and DotNetAnywhere. It isn’t meant to be a full production framework like Flash or Silverlight, but rather a test to see what’s possible.

@@ -1,0 +1,1 @@
+William Morgan explains what linkerd is and how it connects to the cloud-native ecosystem, as well as open source and scaling Twitter.

@@ -1,0 +1,1 @@
+As you guys might be aware of segwit2X implementation scheduled on August 1st, which is affecting bitcoin prices. There are 16M bitcoins…

@@ -1,0 +1,2 @@
+Data scientists have hundreds of probability distributions from which to choose. Where to start?
+Data science, whatever it may be, remains a big deal.  “A data scientist is better at statistics than any software engineer,” you may overhear a pundit say, at your local tech get-togethers and hackathons. The applied mathematicians have their revenge, because statistics hasn’t been this talked-about since the roaring 20s. They have their own legitimizing Venn diagram of which people don’t make fun. Read more

@@ -1,0 +1,1 @@
+Back in 2016, when Microsoft announced that SQL Server would soon run on Linux, the news came as a major surprise to users and pundits alike. Over the course..

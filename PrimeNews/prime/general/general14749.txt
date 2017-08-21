@@ -1,0 +1,1 @@
+Visual Studio Code 1.14 ya está con nosotros reimplementando el terminal integrado e incluyendo sangrado automático del código.

@@ -1,0 +1,1 @@
+There is one category of web applications where the MVVM pattern can be especially useful: line of business applications. Yes, these crazy large web sites with hundreds of grids, large and complicated forms with hundreds of fields, tabs, wizards and modal dialogs.

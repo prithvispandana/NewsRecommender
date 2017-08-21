@@ -1,0 +1,1 @@
+A robotic harness controlled by a neural network can adjust a person’s balance and muscle activity to help them walk normally after a spinal injury or stroke

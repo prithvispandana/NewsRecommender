@@ -1,0 +1,1 @@
+The most famous shell command is definitely cd. It allows you to navigate through your file tree. Sometimes, reaching the targetted folder can be a painful journey leading to a laborious and infinite sequence of cd and ls. Thankfully, some workarounds exist to make navigation less laborious, let us mention three of them: Enable autosuggestion... Continue reading →

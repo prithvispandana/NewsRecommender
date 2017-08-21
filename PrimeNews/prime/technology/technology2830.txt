@@ -1,0 +1,1 @@
+C metaprogramming with loops and commas, pretending that it's a good idea

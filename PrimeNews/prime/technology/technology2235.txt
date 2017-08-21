@@ -1,0 +1,1 @@
+Nano Server is now solely a container option, making it smaller and lighter.

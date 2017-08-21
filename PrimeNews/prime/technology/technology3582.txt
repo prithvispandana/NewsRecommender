@@ -1,0 +1,1 @@
+It took a while, but the Open Container Initiative (OCI) today announced the launch of the 1.0 versions of both its container runtime and image specs for..

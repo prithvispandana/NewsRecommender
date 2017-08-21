@@ -1,0 +1,1 @@
+Confluent, the commercial company behind the open source messaging tool, Apache Kafka, announced a new feature this week that should please Kafka users -- the..

@@ -1,0 +1,1 @@
+Want to create a single-page app with reactive UI but you don't feel like writing the frontend in JS? With Binding.scala we can easily do all the work using Scala!

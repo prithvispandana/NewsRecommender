@@ -1,0 +1,1 @@
+hackpad-migrator - Migrate hackpad.com exported pads into your own instance or stekpad.com

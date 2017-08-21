@@ -1,0 +1,1 @@
+An opensource DIY self driving platform for small scale cars.  RC CAR  +  Raspberry Pi + Python (tornado, keras, tensorflow, opencv, ....)

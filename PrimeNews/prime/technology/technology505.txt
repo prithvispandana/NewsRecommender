@@ -1,0 +1,1 @@
+Safe and Simple Ethereum Wallet. Built to run client side and work great on mobile devices.

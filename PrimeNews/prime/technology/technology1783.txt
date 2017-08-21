@@ -1,0 +1,1 @@
+Spotinst, a service that helps businesses optimize their cloud utilization and reduce their cloud computing cost through the use of Amazon's EC2 spot..

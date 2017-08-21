@@ -1,0 +1,1 @@
+Entire ReactJS code base explanation by visual block schemes (Stack+Fiber versions)

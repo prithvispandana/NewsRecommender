@@ -1,0 +1,1 @@
+At Smarkets we use GitLab to manage our codebase. As our team doubled in size several times, our merge-request workflow started to suffer…

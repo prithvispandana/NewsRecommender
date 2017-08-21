@@ -1,0 +1,18 @@
+<p>You can do that very easily using:</p>
+
+<ul>
+<li><p><strong>Connect: <a href="http://senchalabs.github.com/connect/" rel="noreferrer">http://senchalabs.github.com/connect/</a></strong></p>
+
+<p>Connects is like Rack in Ruby. It gives you an extra layer where you can "play" with authentication, sessions, cookies, among others.</p></li>
+</ul>
+
+<p>Other option is to use frameworks:</p>
+
+<ul>
+<li><p><strong>Express.js: <a href="http://expressjs.com/" rel="noreferrer">http://expressjs.com/</a></strong></p>
+
+<p>It seems to be the most used node.js framework. Is like Sinatra for Ruby and runs on top of connect.</p></li>
+<li><p><strong>Geddy: <a href="http://geddyjs.org/" rel="noreferrer">http://geddyjs.org/</a></strong></p>
+
+<p>If you want to do more complex WebApps, Geddy is the one you choose. Is like Rails for Ruby.</p></li>
+</ul>

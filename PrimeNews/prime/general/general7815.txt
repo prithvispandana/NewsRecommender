@@ -1,0 +1,1 @@
+The data was exposed by a Nice Systems engineer based in Israel who forgot to secure Verizon's customer data stored in the cloud.

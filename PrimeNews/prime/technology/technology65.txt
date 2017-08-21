@@ -1,0 +1,1 @@
+A fix is available for Linux systems; Windows users will have to use firmware updates.

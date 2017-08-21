@@ -1,0 +1,1 @@
+Environmant definitions are stored in your project when using Nanobox, allowing you to easily share your project and its environment with other developers.

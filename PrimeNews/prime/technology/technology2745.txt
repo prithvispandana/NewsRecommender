@@ -1,0 +1,1 @@
+Next.js makes using React for building electron apps easy it has never been before.

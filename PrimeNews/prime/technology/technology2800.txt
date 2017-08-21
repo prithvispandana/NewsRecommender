@@ -1,0 +1,1 @@
+First I want to clarify that this post is not about Static (build time) Server Side Rendering (SSR) where server is an exclusive resource…

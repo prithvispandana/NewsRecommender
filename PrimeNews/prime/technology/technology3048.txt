@@ -1,0 +1,1 @@
+An in-depth look at timecode, how it works (both on set and in post), and the crucial role that frame rates play in using it correctly.

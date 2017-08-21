@@ -1,0 +1,1 @@
+We've redesigned Semaphore's public API and established general rules for URI paths. Read this post to learn about the semantics behind them.

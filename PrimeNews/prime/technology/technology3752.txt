@@ -1,0 +1,1 @@
+As a follow up to Python Mocking 101: Fake It Before You Make It, this post covers some higher-level software engineering principles demonstrated in our Python testing over the past year and half. In particular, the idea of patching mock objects in unit tests is revisited and explored in greater depth.

@@ -1,0 +1,1 @@
+Daniel Steinberg talks about functional programming.

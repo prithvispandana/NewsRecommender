@@ -1,0 +1,1 @@
+sammy - Python library for generating AWS SAM (Serverless Application Model) templates with validation.

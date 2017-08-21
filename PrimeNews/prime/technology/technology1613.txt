@@ -1,0 +1,1 @@
+Though Kotlin has become a first-class language in the Android ecosystem, see why I'm still happy that we chose Scala for our Android app at Lucid Software.

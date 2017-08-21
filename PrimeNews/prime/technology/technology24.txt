@@ -1,0 +1,1 @@
+In the latest Top500 supercomputer race, only two -- count 'em, two -- of the world's fastest computers aren't running Linux.

@@ -1,0 +1,1 @@
+“An Azure storage failure resulted in key GitLab systems being offline. We are following Azure updates and will update you when we know more.”

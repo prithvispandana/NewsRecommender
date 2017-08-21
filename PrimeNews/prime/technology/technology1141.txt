@@ -1,0 +1,6 @@
+Calculator
+
+ Thanks for using the Cocktail Calculator!, Built by Cocktail Chemistry
+ This is a master copy. To start using this calculator, go to File-> Make a copy
+ Units, US fluid oz
+ Step 1: Select or search for your ingredients from the dropdown list in column B, then add measurements in colu...

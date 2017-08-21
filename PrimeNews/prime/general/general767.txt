@@ -1,0 +1,1 @@
+Find r(t) when accerleration a(t)= t J+ t K with v(1)= 5 J and r(1)= 0 (vector)

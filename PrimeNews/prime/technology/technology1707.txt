@@ -1,0 +1,1 @@
+Want to learn the most powerful function in Google Sheets? In this tutorial, we'll use the Google Sheets query function to use the power of SQL on our data.

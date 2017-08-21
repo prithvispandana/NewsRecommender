@@ -1,0 +1,1 @@
+pell - 📝 the simplest and smallest (1kB) WYSIWYG text editor for web, with no dependencies

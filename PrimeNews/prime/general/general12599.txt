@@ -1,0 +1,1 @@
+This game works great with WINE. I'm really shocked and surprised it actually worked.

@@ -1,0 +1,1 @@
+For the last three years, I have been working as a consultant and trainer on Golang and cloud-native distributed systems architetcures…

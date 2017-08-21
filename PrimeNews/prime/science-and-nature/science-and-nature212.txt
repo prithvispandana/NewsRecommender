@@ -1,0 +1,1 @@
+An animal’s maximum speed is based on how fast it can accelerate, which explains why the largest animals are not the fastest

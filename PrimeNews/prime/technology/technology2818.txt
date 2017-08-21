@@ -1,0 +1,1 @@
+In the following post I want to explore the exploitation process of these bugs and demonstrate how I was able to achieve remote code execution.

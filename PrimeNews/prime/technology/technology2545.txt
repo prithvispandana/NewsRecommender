@@ -1,0 +1,2 @@
+“nvim.appimage now available. Runs on most Linux systems. No install, just chmod u+x nvim.appimage &amp;&amp; ./nvim.appimage
+https://t.co/LTO18Bvwxm”

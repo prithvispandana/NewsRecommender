@@ -1,0 +1,1 @@
+cloud-cms-how-to-manage-menus: This is a tutorial, providing a solution on how to manage a menu with Cloud CMS

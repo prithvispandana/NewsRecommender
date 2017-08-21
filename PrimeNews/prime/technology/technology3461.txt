@@ -1,0 +1,1 @@
+Ever used a command line tool  that does not allow you to edit the line you are typing? Try rlwrap, a tool that can wrap any command line-oriented tool using readline to allow you to edit each line before sending it.

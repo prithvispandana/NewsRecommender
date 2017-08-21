@@ -1,0 +1,1 @@
+In a previous post, I explained why rewriting existing software in Rust could be a good idea. The main point being that you should not rewrite the whole application, but replace the weaker parts wi…

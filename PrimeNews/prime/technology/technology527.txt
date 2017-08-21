@@ -1,0 +1,1 @@
+HotHardware digs into Ethereum mining with GPU Performance and optimization tweaks

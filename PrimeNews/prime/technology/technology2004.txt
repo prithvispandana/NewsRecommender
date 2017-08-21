@@ -1,0 +1,1 @@
+osx-touchbar-crypto-ticker - Use Electron to display cryptocurrency tickers on MacBooks Pro Touch Bar

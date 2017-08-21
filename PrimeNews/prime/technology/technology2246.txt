@@ -1,0 +1,1 @@
+In an era of omnipresent frameworks, libraries and tooling, it may be hard to decide what tool to use and when. Here's a step-by-step to help you set up a minimal JavaScript dev environment that will let you go from having nothing, to being productive in five minutes or less (depending on NPM’s mood).

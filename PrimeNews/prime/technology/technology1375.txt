@@ -1,0 +1,1 @@
+Virtual machines and virtual network functions, or VMs and VNFs for short, are the standard compute units in modern enterprise, cloud, and telecommunicatio

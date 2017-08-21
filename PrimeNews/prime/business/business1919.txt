@@ -1,0 +1,1 @@
+Worry when volatility, or predicted volatility, is high.

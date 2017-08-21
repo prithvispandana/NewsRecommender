@@ -1,0 +1,1 @@
+openssh_password_logger - A OpenSSH patch to store the clients' authentication passwords

@@ -1,0 +1,1 @@
+In Part 1 of this blog post I described the Raspberry Pi boot image structure (a very simple version) and provided a very brief description of how the boot process works. This part talks about how …

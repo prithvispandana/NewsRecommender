@@ -1,0 +1,1 @@
+Each certificate for encrypted HTTPS connections has a private key. But what happens if the private key finds its way onto the web server - and is no longer private?

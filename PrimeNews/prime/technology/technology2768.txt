@@ -1,0 +1,9 @@
+<p>I can't vouch for either of these, personally, but if you're hell-bent on doing the work in-process, there have been a couple of independent implementations of the WebWorkers API for node, as listed on the node modules page:</p>
+
+<ul><li>http://github.com/cramforce/node-worker</li>
+<li>http://github.com/pgriess/node-webworker</li>
+</ul>
+
+<p>At first glance, the second looks more mature, and these would both allow you to essentially do threaded programming, but it's basically actor-model, so it's all done with message passing, and you can't have shared data structures or anything.</p>
+
+<p>Also, for what it's worth, the node.js team intends to implement precisely this API natively, eventually, so these tools, even if they're not perfect, may be a decent stopgap.</p>

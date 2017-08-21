@@ -1,0 +1,1 @@
+We uncovered 4 bugs causing random cluster-wide lockups. Two bugs laid in ZooKeeper, and the other two were lurking in the Linux kernel. This is our story.

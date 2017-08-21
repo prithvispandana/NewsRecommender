@@ -1,0 +1,1 @@
+Instead of calling static procedures we may want to use objects, the way they are supposed to be used; that's why Cactoos.

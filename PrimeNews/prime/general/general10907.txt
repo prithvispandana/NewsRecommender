@@ -1,0 +1,1 @@
+If I get the Thunderbolt 3 dock for my T470, can I use a eGPU through the TB3 passthrough on the dock? Thank you for any info!

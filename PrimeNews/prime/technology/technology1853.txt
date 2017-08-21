@@ -1,0 +1,3 @@
+The folks at XDA Developers have uncovered a new 'panic mode' in the latest-and-greatest version of Android, which can help you escape a malicious app to go straight to the home screen.
+
+Handsets ...

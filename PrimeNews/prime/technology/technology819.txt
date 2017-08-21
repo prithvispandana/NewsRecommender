@@ -1,0 +1,1 @@
+Pyroclast is a platform for building realtime event streaming applications

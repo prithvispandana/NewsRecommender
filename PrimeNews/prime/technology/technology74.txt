@@ -1,0 +1,1 @@
+NBC's iOS apps now support Apple's Single Sign-On feature.

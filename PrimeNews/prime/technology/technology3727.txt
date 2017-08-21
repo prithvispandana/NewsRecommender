@@ -1,0 +1,1 @@
+Let's take a look at Hoodie, the "Back-End as a Service" (BaaS) built specifically for front-end developers. I want to explain why I feel like it is a well

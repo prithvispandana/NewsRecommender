@@ -1,0 +1,1 @@
+You don't need to write tons of JavaScript code to create a JavaScript-friendly MVVM app. Let DotVVM can take over. Here's a basic tutorial for developing with it.

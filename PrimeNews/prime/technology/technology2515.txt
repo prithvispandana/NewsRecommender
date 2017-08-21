@@ -1,0 +1,1 @@
+How to read Excel File (CSV)  line by lines in python and as well insert or update to database

@@ -1,0 +1,1 @@
+GST Bill: In the excel sheet, the businesses would have to give details of transaction, like supply invoices issued to registered tax payers, export invoice details, consolidated details of supplies to consumers, credit/debit note details to registered/unregistered taxpayers and details of documents issued.

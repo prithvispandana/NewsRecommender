@@ -1,0 +1,1 @@
+The latest Tweets from GitLab.com Status (@gitlabstatus): "Azure has identified root cause as network connectivity issue in their storage layer and are working to fix, no ETA at this time"

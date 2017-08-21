@@ -1,0 +1,1 @@
+Online has a very specific and unsung job.  Behind the incredible ease and speed you feel when requesting a physical or virtual server in a few clics, nothing is virtual. For about 3 months now, some of our customers have been disappointed while trying to acquire new BareMetal Dedibox servers,

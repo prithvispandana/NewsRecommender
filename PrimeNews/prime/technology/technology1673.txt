@@ -1,0 +1,1 @@
+A curated a set of pragmatic practices for building a microservice architecture that fits well with modern web and cloud technologies.

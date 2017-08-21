@@ -1,0 +1,1 @@
+In this blog post, we'll try to analyze & desiccate how the famous Snapchat actually works, what tools and software libraries are needed to clone their behavior and finally we'll try to implement some filters with the help of the PixLab Restful API using whatever programming language that support HTTP requests.

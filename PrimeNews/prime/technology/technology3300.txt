@@ -1,0 +1,1 @@
+Rackspace, which strongly focuses on managed services these days, today announced a partnership with Pivotal, the company behind the open source Cloud Foundry..

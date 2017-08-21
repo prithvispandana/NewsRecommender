@@ -1,0 +1,1 @@
+I’ve got a new Shiny web app that I've embedded on another site where I'm doing some experimental things, and I wanted to talk generally about how I created i

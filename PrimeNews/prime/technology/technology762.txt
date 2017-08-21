@@ -1,0 +1,3 @@
+Today, I want to point you at a GitHub repository we have been contributing to for the last couple of weeks. Theia is a collaborative and open effort to build a new IDE framework in TypeScript.
+
+“Yet another IDE?”, You might think. Let me explain the motivation

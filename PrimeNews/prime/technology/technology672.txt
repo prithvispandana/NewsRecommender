@@ -1,0 +1,1 @@
+Developer turned a novel-generation project into an interactive Infocom tribute.

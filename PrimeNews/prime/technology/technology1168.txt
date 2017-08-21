@@ -1,0 +1,1 @@
+Fix the side buttons on your third-party mice in macOS.

@@ -1,0 +1,1 @@
+Summary: This is part two of my report about what I saw at the Stuttgart 2017 Autonomous Vehicles test & development symposium. It covers frameworks, simulators, scenario definitions and extrac…

@@ -1,0 +1,1 @@
+This is a resumed but technical description of my first compiler making.

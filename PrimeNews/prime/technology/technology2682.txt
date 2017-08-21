@@ -1,0 +1,1 @@
+Web site for the book An Introduction to Audio Content Analysis by Alexander Lerch. This site contains complementary Matlab code, excerpts, links, and more.

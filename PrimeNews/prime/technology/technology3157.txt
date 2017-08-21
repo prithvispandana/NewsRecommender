@@ -1,0 +1,1 @@
+rest.li - Rest.li is a REST+JSON framework for building robust, scalable service architectures using dynamic discovery and simple asynchronous APIs.

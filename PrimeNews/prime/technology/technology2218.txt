@@ -1,0 +1,1 @@
+Codeship launches its first stage of improved notifications settings. Let's take a look at what has changed and how you can customize your notifications.

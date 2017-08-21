@@ -1,0 +1,1 @@
+We've visualized each #GoT character as a snowflake, with their size and pattern determined by how much they were discussed on Twitter. Click on each snowflake to see that character's most talked about moment.

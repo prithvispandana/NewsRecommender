@@ -1,0 +1,1 @@
+Instead of keeping a library of customers’ biometric data—a juicy target for hackers—to allow access to automated teller machines, big banks are trying a different tack: relying on customers to store and safeguard the information themselves, via their own smartphones.

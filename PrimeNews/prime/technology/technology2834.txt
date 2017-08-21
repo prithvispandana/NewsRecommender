@@ -1,0 +1,1 @@
+Safari-specific blockers are fine, though

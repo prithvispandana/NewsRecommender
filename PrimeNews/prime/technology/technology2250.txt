@@ -1,0 +1,1 @@
+Storing dating in the cloud isn't always the safest means of locking it down, but avoiding local storage could benefit anyone concerned for their privacy..

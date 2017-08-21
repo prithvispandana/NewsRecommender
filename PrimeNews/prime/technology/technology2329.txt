@@ -1,0 +1,1 @@
+Indoor mapping is one of those problems that seems to only have solutions that involve a great deal of money and infrastructure: beacons, lasers, emitters,..

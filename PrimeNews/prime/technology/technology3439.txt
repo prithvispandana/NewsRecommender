@@ -1,0 +1,1 @@
+A short survey about current popular JavaScript technologies.

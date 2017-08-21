@@ -1,0 +1,1 @@
+If you're getting "jekyll serve" error: "Liquid exception: failed to get header", look no more, here is the quick simple verified solution.

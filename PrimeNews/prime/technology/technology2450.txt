@@ -1,0 +1,1 @@
+As you might know Qt 5.8 created challenging problems for our Wayland session and threw our efforts back quite a bit. In this post I want to discuss the actual problems it created, how we are addre…
