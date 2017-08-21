@@ -217,7 +217,7 @@ def get_appLikes(userName):
     ext_likes=[]
     interest_result = db.userslikes.find({'user' : userName})
     for obj in interest_result:
-        ext_likes.append(obj['keywords'])
+        ext_likes.extend(obj['keywords'])
     return ext_likes
 
 '''
@@ -228,7 +228,7 @@ def get_appsaved(userName):
     saved=[]
     interest_result = db.usernews.find({'user' : userName})
     for obj in interest_result:
-        saved.append(obj['keywords']) 
+        saved.extend(obj['keywords']) 
     return saved     
 '''
 User profile is saved into file and used for user similarty calculation

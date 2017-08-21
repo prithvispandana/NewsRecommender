@@ -222,12 +222,16 @@ def get_recommendation():
         app_saved=get_appsaved(POST_USERNAME)
         final_search_list = list(result_set) + processedWords + app_likes + app_saved
         #cold start user
-        final_search_list.append(dbp['acc_location'])
-        final_search_list.append(dbp['time_zone'])
-        print(final_search_list)
+        if dbp['acc_location'] is not None and dbp['acc_location']!="":
+            final_search_list.extend(dbp['acc_location'].split(","))
+        if dbp['time_zone'] is not None and dbp['time_zone']!="":    
+            final_search_list.extend(dbp['time_zone'].split(","))
+        print(final_search_list)  
         search_kwlst = set([ i.lower() for i in final_search_list])
         recom_list = db.news.find({"keywords":{"$in": list(search_kwlst)}})
         recom_scoredList=assign_score(recom_list, normCounts)
+        if not recom_scoredList: #If cold start problem is not solved with location and timezone field give top stories
+            recom_scoredList = db.news.find().sort("publishedAt", -1 ).limit(180)
     except Exception as e:
         print(e)
         return "Sorry We are not able to process your request this Time"
