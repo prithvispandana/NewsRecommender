@@ -2,7 +2,7 @@
 <div class="sidemenu col-md-2 col-sm-2 col-xs-2">
 <div class="menu-option" ng-repeat="myNew in myNews | unique: 'category'">
 
-<!-- myNews is a variable that holds the entire json data, unique is a custom filter that have been created and passing 'category' as a key -->
+<!-- myNews is a variable that holds the entire json data. unique is a filter that removes duplicate categories from ng-repeat -->
         
      <p>{{'{{myNew.category}}'}}</p>  <!-- It creates a seperate division for the list of unique categories in left side of news landing web page -->
 </div>
@@ -18,7 +18,7 @@ it will create 10 divs and 'col-md-10' defines the size (almost 83% of the scree
   <!--  'article-container' will take care of creation of divs based on unique category, 
   if entertainment has 10 article then it will create 10 divs and 'col-md-4' defines the size (33% in 83% of parent div)-->
   
-          <div class="col-md-4 article-container"  ng-repeat="subset in myNews| filter:{category:myNew.category}">
+          <div class="col-md-4 article-container"  ng-repeat="subset in myNews| filter:{category:myNew.category}"> <!-- filter:{category:myNew.category} fetchs and returns articles whose category is equivalent to myNew.category -->
           <div class="col-md-12 img-wrapper">
           <!-- It will occupy 100% in 33% -->
           <img class="img-responsive display-img"  src="{{'{{subset.urlToImage}}'}}"/><a href="{{'{{subset.url}}'}}" target="_blank">
