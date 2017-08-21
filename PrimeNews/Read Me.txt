@@ -24,6 +24,17 @@ db.news.createIndex(
  )
 
 
+# step3 - set the daily tasks
+# remove old data into news_history and keep data of last 10 days in collection news only [daily task]
+10 0 * * * /bin/bash /home/student/recommender/Prime-Repo/DataCollection/clean.sh
+
+# back up the collection news  [daily task]
+10 1 * * * /usr/bin/mongoexport --db tweets_db --collection news --out /TEAM_PRIME_NEWS_BACKUP/`date +\%Y\%m\%d`_news.json
+
+# back up the collection news_history  [daily task]
+20 1 * * * /usr/bin/mongoexport --db tweets_db --collection news_history --out /TEAM_PRIME_NEWS_BACKUP/`date +\%Y\%m\%d`_news_history.json
+
+
 #------------------------------------------------
 # Related Document
 #------------------------------------------------
