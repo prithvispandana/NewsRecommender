@@ -1,1 +1,0 @@
-tania - A PHP based, free, and open source farming management system.

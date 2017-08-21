@@ -1,1 +1,0 @@
-The oxygen reduction reaction (ORR) within a fuel cell is a fundamental process for determining its performance.

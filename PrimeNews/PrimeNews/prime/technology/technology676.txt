@@ -1,1 +1,0 @@
-mindr - an R package which converts markdown files (.md, .Rmd) into mindmaps (brainstorms)

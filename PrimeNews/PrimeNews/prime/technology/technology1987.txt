@@ -1,1 +1,0 @@
-RPCS3 is an open-source Sony PlayStation 3 emulator and debugger written in C++ for Windows and Linux.

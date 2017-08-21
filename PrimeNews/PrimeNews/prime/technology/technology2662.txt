@@ -1,1 +1,0 @@
-The other day I was rubber-ducking in my mind(A.K.A. thinking) and I was thinking about Javascript Fatigue once again. I realized that I…

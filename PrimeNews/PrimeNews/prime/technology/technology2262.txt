@@ -1,1 +1,0 @@
-Up, up, down, down, left, right, left, right, B, A, B, A, Select, Start.

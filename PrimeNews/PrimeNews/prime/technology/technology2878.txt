@@ -1,1 +1,0 @@
-SVG combined with Javascript offers a responsive and resolution independent platform to create interactive animations for the web.

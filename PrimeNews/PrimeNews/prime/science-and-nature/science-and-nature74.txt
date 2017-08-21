@@ -1,1 +1,0 @@
-A tool that reveals which aspects of a task an artificial intelligence is focusing on will help us understand why machines can be tricked

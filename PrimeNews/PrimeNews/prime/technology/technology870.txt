@@ -1,1 +1,0 @@
-42wallet - Easy and secure Ethereum HD wallet. Focused on Mobile and great UX

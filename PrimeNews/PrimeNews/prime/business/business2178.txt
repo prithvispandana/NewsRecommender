@@ -1,1 +1,0 @@
-Including payment card numbers and card security codes.

@@ -1,1 +1,0 @@
-SoundScrape - SoundCloud (and Bandcamp and Mixcloud) downloader in Python.

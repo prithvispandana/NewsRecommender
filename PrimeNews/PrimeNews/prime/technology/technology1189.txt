@@ -1,1 +1,0 @@
-Computer vision can indicate whether a neighborhood is likely to rise or fall.

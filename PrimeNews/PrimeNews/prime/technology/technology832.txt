@@ -1,1 +1,0 @@
-Converting existing designs to Grid without breaking in non-grid browsers

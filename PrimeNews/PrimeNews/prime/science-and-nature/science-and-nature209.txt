@@ -1,1 +1,0 @@
-The technique lets researchers predict an animal's maximum speed based on its size- and even works on dinosaurs.

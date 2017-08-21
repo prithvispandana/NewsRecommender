@@ -1,1 +1,0 @@
-sconsify - A spotify console application

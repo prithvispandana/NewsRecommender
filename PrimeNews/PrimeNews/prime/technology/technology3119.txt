@@ -1,1 +1,0 @@
-Codeplay is internationally recognized for expertise in Heterogeneous Systems, and has many years of experience in the development of Compilers, Runtimes, Debuggers, Test Systems, and other specialized tools.

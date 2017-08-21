@@ -1,1 +1,0 @@
-We just released version 11.0 of our iOS SDK, which adds a few new features:

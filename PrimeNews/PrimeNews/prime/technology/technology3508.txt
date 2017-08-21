@@ -1,1 +1,0 @@
-Neural-Network-Playground - A neural network Swift playground, with no third party dependencies.

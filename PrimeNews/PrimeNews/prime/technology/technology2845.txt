@@ -1,1 +1,0 @@
-airports - Airports API: get basic info by IATA or ICAO code

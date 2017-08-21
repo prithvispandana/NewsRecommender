@@ -1,1 +1,0 @@
-A lovely chatbot forwarding Amazon Web Services CloudWatch alarms to your Slack team.

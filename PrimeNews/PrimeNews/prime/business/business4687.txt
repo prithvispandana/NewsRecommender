@@ -1,1 +1,0 @@
-The platform is being built and tested by Borsa Italiana, the LSEG's Italian exchange operator.

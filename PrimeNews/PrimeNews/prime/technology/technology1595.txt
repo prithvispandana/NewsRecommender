@@ -1,1 +1,0 @@
-The tools help knock out backgrounds and draw smoother lines and curves.

@@ -1,1 +1,0 @@
-Contentious feature is added, without mandate to protect security researchers.

@@ -1,1 +1,0 @@
-An opinionated field guide on developer-friendly domain hosting services.

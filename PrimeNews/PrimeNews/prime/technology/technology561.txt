@@ -1,1 +1,0 @@
-Evaluate Wolfram Language code, call deployed APIs, execute standalone scripts directly from a command-line interface. Also has cloud connectivity.

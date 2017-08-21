@@ -1,1 +1,0 @@
-Nanobox isolates project requirements inside of a virtual environment. When that environment goes away, the cruft goes with it.

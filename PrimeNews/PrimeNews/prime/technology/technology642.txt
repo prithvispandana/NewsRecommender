@@ -1,1 +1,0 @@
-This sensor runs on nearly 10 billion times less power than a watt.

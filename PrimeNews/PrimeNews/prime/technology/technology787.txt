@@ -1,1 +1,0 @@
-After years of alpha, the open-source execution of BeOS is beautiful but buggy.

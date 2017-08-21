@@ -1,1 +1,0 @@
-A new type of userscript system. Control the web with floating buttons.

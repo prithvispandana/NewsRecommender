@@ -1,1 +1,0 @@
-The new JANUS acoustic signal will connect aquatic robots and sensors into an “Internet of Underwater Things”

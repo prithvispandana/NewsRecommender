@@ -1,1 +1,0 @@
-A critical fallacy of modern software package management systems is version ranges, which produce inconsistent builds, affect tests and introduce bugs.

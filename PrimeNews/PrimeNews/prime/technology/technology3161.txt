@@ -1,1 +1,0 @@
-Course for learning ArangoDB and its graph capabilities. From basic concepts to advanced query techniques

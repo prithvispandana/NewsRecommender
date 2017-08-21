@@ -1,2 +1,0 @@
-<p>
-Simple physics engine useful for games or other simulations

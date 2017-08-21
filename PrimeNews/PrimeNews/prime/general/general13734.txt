@@ -1,1 +1,0 @@
-If you try to write 'Winnie the Pooh' on Weibo, it returns a message: 'Content is illegal'

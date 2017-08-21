@@ -1,1 +1,0 @@
-shared-editing-demo - Demo of shared text editing using Yjs and IPFS

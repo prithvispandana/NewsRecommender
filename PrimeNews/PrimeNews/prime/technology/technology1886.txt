@@ -1,1 +1,0 @@
-New features and changes coming to DevTools in Chrome 61.

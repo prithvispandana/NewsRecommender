@@ -1,1 +1,0 @@
-Run Pharo Smalltalk methods in AWS Lambda

@@ -1,1 +1,0 @@
-dpg - The Deterministic Password Generator

@@ -1,1 +1,0 @@
-With Kubernetes gaining popularity quickly as the container orchestration program of choice, sysadmins need to learn all they can about this DevOps program.

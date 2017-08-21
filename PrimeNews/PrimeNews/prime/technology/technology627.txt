@@ -1,1 +1,0 @@
-The chip at the heart of the original Arduino was created by two annoyed students

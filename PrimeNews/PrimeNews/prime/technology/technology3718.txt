@@ -1,1 +1,0 @@
-It's not especially efficient, but we haven't had time to optimize the reaction.

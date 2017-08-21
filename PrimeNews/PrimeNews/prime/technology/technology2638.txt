@@ -1,1 +1,0 @@
-The C programming language is terrible. I mean, magnificent, too. Much of the world in which we live was built atop C. It is foundational to almost all..

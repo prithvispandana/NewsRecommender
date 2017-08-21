@@ -1,1 +1,0 @@
-Accessed through an unprotected Amazon S3 storage server

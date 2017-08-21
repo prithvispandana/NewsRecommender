@@ -1,1 +1,0 @@
-The Strategy pattern is the next in our examination of design patterns and how they can be leveraged in Ruby. This pattern is useful for…

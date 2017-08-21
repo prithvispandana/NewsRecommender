@@ -1,1 +1,0 @@
-Flight data uploaded to airdata.com and downloaded to Google Earth.

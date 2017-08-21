@@ -1,1 +1,0 @@
-The TIOBE Programming Community index is an indicator of the popularity of programming languages.

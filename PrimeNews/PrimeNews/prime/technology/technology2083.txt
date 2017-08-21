@@ -1,1 +1,0 @@
-GPD Host SSL certificates provide domain encryption and validation. With protection against fraud and identity theft, visitors feel safer on your website.

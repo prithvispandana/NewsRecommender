@@ -1,1 +1,0 @@
-spec.sh - A mini sh test framework that produces go test compatible output

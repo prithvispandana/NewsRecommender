@@ -1,1 +1,0 @@
-Some thoughts on old browsers and how to make good decisions about the technology choices that you have.

@@ -1,1 +1,0 @@
-swift14macOSApps - approaching macOS development using swift with 14 mini projects.

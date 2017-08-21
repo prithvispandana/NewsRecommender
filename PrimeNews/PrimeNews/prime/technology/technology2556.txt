@@ -1,1 +1,0 @@
-“Apparently future-dated gps packets disable Stingray phone signal intercept devices. The device thinks its license has expired and locks up. https://t.co/tCVp5AXkD4”

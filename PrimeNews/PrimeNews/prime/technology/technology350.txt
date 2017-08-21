@@ -1,1 +1,0 @@
-The article is devoted to type conversion issue, including its solution, installation and application, as well as describes its value types

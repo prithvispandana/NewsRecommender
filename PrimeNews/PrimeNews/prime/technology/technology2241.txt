@@ -1,1 +1,0 @@
-JumpFm - a minimalistic dual panel file manager that lets you jump
