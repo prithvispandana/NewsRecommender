@@ -4,28 +4,31 @@ app.config(function($routeProvider) { //router for single page application
 
 	$routeProvider
 	.when('/', { //default path
-		templateUrl: "/home", //home.html is a view file
+		templateUrl: "/home", //home.html is a view file to be display between header and footer of landing.html
 	})
 
-	// saved
+	// saved.html is the second view file to be display between header and footer of landing.html
 	.when('/saved', {
 		templateUrl: '/saved',
 	})
+	
+	// searchpage.html is the third view file to be display between header and footer of landing.html
 
 	.when('/searchpage', {
 		templateUrl: '/searchpage',
 	})
 });
 
-app.controller('mainCtrl', function($scope, $http, ajaxCall) { //main controller
+app.controller('mainCtrl', function($scope, $http, ajaxCall) { //main controller to control the flow of data in the application
+	// mainCtrl takes care of all the data manipulation which includes like, dislike, saved, displaying more articles and so on.
 	$scope.ArticlestoShow = []; //local storage scope variable
 	$scope.saved = false;
 	$scope.like = false;
 	$scope.dislike = false;
-	var savedArticle = [], alreadySaved = [], likedArticle=[], dislikedArticle = []; //variable to store the saved article and already saved article
+	var savedArticle = [], alreadySaved = [], likedArticle=[], dislikedArticle = []; //variable to store the article ID when user click on bookmark, like and dislike icons 
 
 //service method to get the recommended news 	
-	ajaxCall.getMethod().then(function(respdata){ //ajax call for fetch the date from sample.json
+	ajaxCall.getMethod().then(function(respdata){ //ajax call for fetch the json file
 		$scope.myNews= respdata; //myNews holds the whole json data
 	});
 	
@@ -61,14 +64,15 @@ app.controller('mainCtrl', function($scope, $http, ajaxCall) { //main controller
 			
 		})
 	
-//This method saved the all bookmarked article into database	
-	$scope.isSaved = function(subset, event) { //function to fetch the saved article from localstorage and will be used in saved.html page
+	//function to be called to retrieve the article ID when user clicks bookmark icon
+	$scope.isSaved = function(subset, event) { 
         console.log(subset._id.$oid)
         var target = angular.element(event.target);
         if (target.hasClass('saved') == false) {
             savedArticle.push(subset._id.$oid)
             console.log('userName', window.userName);
-
+		
+	    // saves the article ID into mongoDB	
             $http.post('/usernews', {newsId: subset._id.$oid, userId: window.userName, keywords: subset.keywords})
                 .success(function (response) {
                     console.log('saved')
@@ -76,8 +80,8 @@ app.controller('mainCtrl', function($scope, $http, ajaxCall) { //main controller
         }
     }
 
-//If article is already saved maintatin the state
-        $scope.alreadyMarked = function (subset) { //to check whether the article is already saved or not
+//If article is already saved, maintain the state
+        $scope.alreadyMarked = function (subset) { //checks whether the article is already saved or not
             var breaks = false
             //var subset = subsets._id.$oid
             for (var i = 0; i < savedArticle.length; i++) {
@@ -107,7 +111,7 @@ app.controller('mainCtrl', function($scope, $http, ajaxCall) { //main controller
         }
 
 
-//To save the liked article into database
+//function to be called to retrieve the article ID when user clicks the like icon and to save the liked article details into database
 	$scope.liked = function(subset, $event){
 		$($event.target).toggleClass('like');
 		$($event.target).next().removeClass('dislike')
@@ -117,13 +121,13 @@ app.controller('mainCtrl', function($scope, $http, ajaxCall) { //main controller
 		if(target.hasClass('like') ==true)
 		{
 			likedArticle.push(subset._id.$oid)
-			// savedArticle.push(subset._id.$oid)
 			console.log('userName', window.userName);
 			$http.post('/likes', { newsId: subset._id.$oid, userId: window.userName, keywords: subset.keywords })
 			.success(function () {
 				console.log('saved')
 			});
-
+			
+			// if a user dislikes an artilce, its ID is stored in dislikedArticle array. if the same user likes the same article later, its the article ID is removed from dislikedArticle array
 			if(dislikedArticle.indexOf(subset._id.$oid) > -1){
 				dislikedArticle.splice(dislikedArticle.indexOf(subset._id.$oid), 1 )
 
@@ -131,7 +135,7 @@ app.controller('mainCtrl', function($scope, $http, ajaxCall) { //main controller
 		}
 	}
 
-//to save the disliked article into database
+//function to be called to retrieve the article ID when user clicks the dislike icon and to save the disliked article details into database
 	$scope.disliked = function(subset, $event){
 		$($event.target).toggleClass('dislike');
 		$($event.target).prev().removeClass('like');
@@ -151,7 +155,7 @@ app.controller('mainCtrl', function($scope, $http, ajaxCall) { //main controller
 
 
 
-//Method to fetch the similar article and create the popup
+// function to fetch the similar article via ajax call when user hover over "more.."
 	$scope.othersDisplay =function(subset, $event){
 		console.log("others")
 		$http.post('/simNews',subset)
@@ -163,7 +167,7 @@ app.controller('mainCtrl', function($scope, $http, ajaxCall) { //main controller
 			if($scope.othersdetails.length>0){
 				dummyvar = true;
 				$('.display-popup').removeClass('hide');
-				//calcuating the position
+				// calculating the position of the particular DOM, i.e., document object model to display the similar or embedded articles as a drop down list in the corresponding position
 				$('.display-popup').css({'top':($($event.target).offset().top + $($event.target).height()) + 10,
 					'left':  ($($event.target).offset().left - $('.display-popup').width()/2)});
 				$('.display-popup').mouseleave(function() {
@@ -189,9 +193,10 @@ app.controller('mainCtrl', function($scope, $http, ajaxCall) { //main controller
 });
 
 
-//This call is made to fetch recommended article
+// factory has been defined for http request using $http directive 
 app.factory('ajaxCall', function($http) { //ajax call to fetch /recom
 	return {
+		// getMethod returns data from the json file
 		getMethod: function() {
 			var getresult = $http({
 				method: 'GET',
