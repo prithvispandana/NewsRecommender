@@ -192,6 +192,8 @@ according to in memory user profile recommendation will be done
 '''
 @app.route('/recom', methods=['GET', 'POST'])
 def get_recommendation():
+    i = datetime.datetime.now()
+    app.logger.info("#154 (tweets part start) ---------" + i.isoformat())
     try:      
         api = dbp['api']
     except Exception as e:
@@ -239,7 +241,6 @@ This method returns the article which are similar to the recommended article
 @app.route('/simNews', methods=['POST'])
 def simNews():
     data = request.get_json(True)
-    # get similar news articles
     return sim_News(data)
 
 '''
@@ -313,14 +314,11 @@ from category page (personalised intrest page)
 def category():
     #global POST_USERNAME
     if 'screen_name' in dbp:
-        # login as a tweeter user
         userName = dbp['screen_name']
         app.logger.info("dbp['screen_name'] =" + dbp['screen_name'])
     else:
-        # login as normal user
         userName = session['username']
         app.logger.info("session['username'] =" + session['username'])
-    # transfer user's interest items to the web page 
     return render_template("category.html", user2category = get_perCategory(userName))
 
 
@@ -330,18 +328,14 @@ and can be used to prioriize recommended news category.
 '''
 @app.route('/category_modify', methods=['GET', 'POST'])
 def category_modify():
-    # get user's interests via the post
     pcid = request.form.get('ids')
     userName = ''
-    if 'screen_name' in dbp:
-        # login as a tweeter user
+    if 'screen_name' in dbp: # -- Bo, 20170815
         userName = dbp['screen_name']
         app.logger.info("category_modify - dbp['screen_name'] =" + dbp['screen_name'])
     else:
-        # login as a nomral user
         userName = session['username']
         app.logger.info("category_modify - session['username'] =" + session['username'])
-    # update the user's interests into MongoDB
     update_perCategory(pcid,userName)   
     return render_template("user2category_saved.html")
 
@@ -367,7 +361,6 @@ App host and port is initialised (localhost ip can not be visible outside)
 To make public, replace host by (0.0.0.0) and can use http port 80 or https port 443
 '''
 if __name__ == '__main__':
-    # add log function for web app
     handler = RotatingFileHandler('app.log', maxBytes=10000, backupCount=1) 
     handler.setLevel(logging.INFO)
     app.logger.addHandler(handler)
