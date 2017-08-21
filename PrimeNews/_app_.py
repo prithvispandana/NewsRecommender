@@ -233,6 +233,7 @@ def get_recommendation():
         #cold start user
         final_search_list.append(dbp['acc_location'])
         final_search_list.append(dbp['time_zone'])
+        print(final_search_list)
         search_kwlst = set([ i.lower() for i in final_search_list])
         recom_list = db.news.find({"keywords":{"$in": list(search_kwlst)}})
         recom_scoredList=assign_score(recom_list, normCounts)

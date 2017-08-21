@@ -38,11 +38,6 @@ def load_profiles():
         fin = open(filename,"r",encoding='utf8')  #open the file for reading
         profiles_id.add(os.path.basename(filename)) #document name for future reference
         all_profiles.add(fin.read()) #read full content of file and added to the client
-        print(all_profiles)
-        friendslst=db.friends.find({'user' : os.path.basename(filename)})
-        for doc in friendslst:
-            all='\n'.join(doc['friendsList'])
-            print(all_profiles.union(all))
         fin.close() #close the file
 
 

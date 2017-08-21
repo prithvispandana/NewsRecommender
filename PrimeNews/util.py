@@ -12,6 +12,7 @@ from collections import Counter
 noisy_pos_tags = ['PROP']
 min_token_length = 2
 common_token=30
+save_path = R'files'
 #Mongodb client
 client = pymongo.MongoClient("localhost", 27017)
 db = client.tweets_db
@@ -238,8 +239,7 @@ def get_appsaved(userName):
 '''
 User profile is saved into file and used for user similarty calculation
 '''
-def save_profile(profile_wordList, userName):
-    save_path = R'files'   
+def save_profile(profile_wordList, userName):   
     completeName = os.path.join(save_path, userName)         
     file1 = open(completeName, "w",encoding='utf8')
     for i in profile_wordList:

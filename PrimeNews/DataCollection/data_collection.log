@@ -1,0 +1,33 @@
+2017-06-19 17:05:02,718 - root - INFO - Write into DB - DONE
+2017-06-19 17:05:02,726 - root - INFO - Article - http://www.football-italia.net/104393/conti-agent-%E2%80%98raiola-not-professional%E2%80%99
+2017-06-19 17:05:02,816 - root - INFO - Get news summary & content - DONE
+2017-06-19 17:05:02,817 - root - INFO - Write into DB - DONE
+2017-06-19 17:05:02,822 - root - INFO - Article has already existed - http://www.football-italia.net/104392/milan-ultras-slam-raiola-donnarumma
+2017-06-19 17:05:02,827 - root - INFO - Article has already existed - http://www.football-italia.net/104391/moura-%E2%80%98leaving-psg-possible%E2%80%99
+2017-06-19 17:05:02,833 - root - INFO - Article has already existed - http://www.football-italia.net/104390/day-italy-win-second-world-cup
+2017-06-19 17:05:02,838 - root - INFO - Article has already existed - http://www.football-italia.net/104389/barcelona-buy-back-deulofeu
+2017-06-19 17:05:02,843 - root - INFO - Article has already existed - http://www.football-italia.net/104388/udinese-optimistic-meret-sale
+2017-06-19 17:05:02,847 - root - INFO - Article has already existed - http://www.football-italia.net/104387/genoa-perin-milan-week
+2017-06-19 17:05:02,848 - root - INFO - Deal with agency [football-italia] - end
+2017-06-19 17:05:02,848 - root - INFO - Sleep for 60s
+2017-06-19 17:05:02,848 - root - INFO - --------------------------------------------------
+2017-06-19 17:06:02,848 - root - INFO - Deal with agency [fortune] - start
+2017-06-19 17:06:02,848 - root - INFO - News List - https://newsapi.org/v1/articles?source=fortune&sortBy=latest&apiKey=68ea6829ef03493d9fb820b16c6151bf
+2017-06-19 17:06:03,363 - root - INFO - Article - http://fortune.com/2017/06/19/dropbox-private-network/
+2017-06-19 17:06:03,365 - root - INFO - Write into DB - DONE
+2017-06-19 17:06:03,372 - root - INFO - Article - http://fortune.com/2017/06/19/clovis-oncology-stock/
+2017-06-19 17:06:03,373 - root - INFO - Write into DB - DONE
+2017-06-19 17:06:03,378 - root - INFO - Article - http://fortune.com/2017/06/19/emmanuel-macron-majority-stocks/
+2017-06-19 17:06:03,379 - root - INFO - Write into DB - DONE
+2017-06-19 17:06:03,384 - root - INFO - Article - http://fortune.com/2017/06/19/uber-engineer-susan-fowler-apology/
+2017-06-19 17:06:03,385 - root - INFO - Write into DB - DONE
+2017-06-19 17:06:03,391 - root - INFO - Article - http://fortune.com/2017/06/19/id2020-blockchain-microsoft/
+2017-06-19 17:06:03,392 - root - INFO - Write into DB - DONE
+2017-06-19 17:06:03,397 - root - INFO - Article has already existed - http://fortune.com/2017/06/19/facebook-live-violence/
+2017-06-19 17:06:03,402 - root - INFO - Article has already existed - http://fortune.com/2017/06/19/jay-z-sprint-exclusive-444/
+2017-06-19 17:06:03,407 - root - INFO - Article has already existed - http://fortune.com/2017/06/19/lockheed-martin-tata-india/
+2017-06-19 17:06:03,412 - root - INFO - Article has already existed - http://fortune.com/2017/06/19/term-sheet-monday-june-19/
+2017-06-19 17:06:03,417 - root - INFO - Article has already existed - https://www.wallpaper.com/design/joe-gebbia-and-bernhardt-design-neighborhood-icff
+2017-06-19 17:06:03,417 - root - INFO - Deal with agency [fortune] - end
+2017-06-19 17:06:03,417 - root - INFO - Sleep for 60s
+2017-06-19 17:06:03,418 - root - INFO - --------------------------------------------------
