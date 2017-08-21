@@ -1,5 +1,5 @@
 
-//filter
+//custom filter for fetching articles based on unique category.
 app.filter('unique', function() {
   
    return k= function(collection, keyname) {
