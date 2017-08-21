@@ -1,0 +1,1 @@
+The tests will use the UC San Diego’s massive shake table to recreate the tremors of powerful earthquakes. This will allow them to test the durability of a two-story wooden structure.

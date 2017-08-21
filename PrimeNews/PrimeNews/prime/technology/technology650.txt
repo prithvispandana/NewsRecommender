@@ -1,0 +1,1 @@
+Everyone knows that startups should make things. But somewhere along the way, it seems that we have lost touch with that simple truth. This is my talk given at Fishburners. In this talk, I describe lessons I learned while bootstrapping startups after finishing school. Although abstract, they all stem from a single observation: there is too much bullshit in the startup scene.

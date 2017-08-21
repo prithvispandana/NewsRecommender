@@ -1,0 +1,1 @@
+The Rails community thrives on its open source gems. Implementing a well written, well tested and vetted gem can make the difference between days and weeks of development of new features. Not every gem is great, but I wanted to share a list of gems that I have used on nearly every recent project I have worked on.

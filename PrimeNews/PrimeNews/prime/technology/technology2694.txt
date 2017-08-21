@@ -1,0 +1,5 @@
+When we're trying to speed up some part of our code, we want quick, targeted
+feedback about how our changes perform against the initial implementation. It's
+common practice to write a _microbenchmark_: a small program that runs just the
+code you're interested in and measures how well it performs. But be warned:
+microbenchmarks are fraught with peril, even for experts.

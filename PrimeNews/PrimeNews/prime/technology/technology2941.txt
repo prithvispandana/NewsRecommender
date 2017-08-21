@@ -1,0 +1,3 @@
+Introduction 
+ElasticSearch does much of the heavy lifting on handling horizontal scalability for us, managing failures, nodes, shards. cluster.name 
+No…

@@ -1,0 +1,1 @@
+A neural network trained to rate how human-like an AI is could turn Alexa and Siri into much more convincing conversation partners

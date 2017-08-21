@@ -1,0 +1,1 @@
+The projection is on a transparent screen but the user's movements are tracked, which maintains the illusion of a 3D image.

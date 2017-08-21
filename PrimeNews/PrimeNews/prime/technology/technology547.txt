@@ -1,0 +1,1 @@
+This article looks at configuring the low cost Arty FPGA board with an Arduino compatible RISC-V platform.

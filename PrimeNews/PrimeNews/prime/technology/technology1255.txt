@@ -1,0 +1,1 @@
+Forget higher clock speeds -- scientists have found that super-flexible memory caches can speed up processors.

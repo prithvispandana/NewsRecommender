@@ -1,0 +1,1 @@
+HTTP is often used as a substrate for other application protocols. This document specifies best practices for these protocols’ use of HTTP.

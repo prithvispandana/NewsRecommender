@@ -1,0 +1,1 @@
+We provide a different view of AMD EPYC Infinity Fabric v. Intel Xeon E5-2600 V4 (Broadwell-EP) QPI architecture and NUMA design to share with colleagues

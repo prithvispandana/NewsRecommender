@@ -1,0 +1,1 @@
+A while ago I was a mobile developer. I made apps for iOS and had to constantly worry about memory consumption, performance, you know, all…

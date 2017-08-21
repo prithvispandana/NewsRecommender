@@ -1,0 +1,1 @@
+Worry-free Postgres for SaaS. Designed to scale out, Citus is available as a database service, on-prem, and as open source. So you can focus on your app—not your database.

@@ -1,0 +1,1 @@
+whs.js - :rocket: 🌪 Super-fast 3D framework for Web Applications 🥇 & Games 🎮. Based on Three.js

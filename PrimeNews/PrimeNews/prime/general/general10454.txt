@@ -1,0 +1,1 @@
+We talk to Jorge about how he's been adopting functional programming to improve the architecture of his Android applications, and also discover that explaining what a monad is on a podcast can be quite challenging, to say the least!

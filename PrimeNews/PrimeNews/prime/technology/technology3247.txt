@@ -1,0 +1,1 @@
+Simul now integrates seamlessly into SharePoint Online

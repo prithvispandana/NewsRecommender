@@ -1,0 +1,1 @@
+sparky - Sparky is a continues integration server based on Sparrow/Sparrowdo ecosystem.

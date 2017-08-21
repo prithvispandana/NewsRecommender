@@ -1,0 +1,1 @@
+A framework for building Mobile cross-platform UIs. Different from a "web app", "HTML5 app", or "hybrid app", you can use Weex to build a real mobile app. The code that you write is relatively simple,

@@ -1,0 +1,1 @@
+Although storing passwords in plaintext anywhere online is fundamentally the opposite of security, routine data breaches at some of the world’s biggest companies haven’t dissuaded some users from engaging in this obviously terrible practice.

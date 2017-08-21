@@ -1,0 +1,1 @@
+Get an introduction to Haskell, the increasingly popular functional programming language, with this University of Glasgow course.

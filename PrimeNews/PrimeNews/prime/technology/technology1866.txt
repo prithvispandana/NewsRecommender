@@ -1,0 +1,1 @@
+Vuln hit "all versions of Samba from 4.0.0 onward using embedded Heimdal Kerberos."

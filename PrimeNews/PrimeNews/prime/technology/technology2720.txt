@@ -1,0 +1,1 @@
+SecureHeaders - A PHP library aiming to make the use of browser security features more accessible.

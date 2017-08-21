@@ -1,0 +1,8 @@
+If you're reading this article, you're probably wondering a few things:
+
+What the heck is Qim?
+What the heck do I mean by "symmetrically"?
+Is "JavaScript cake" a useful analogy or just an attempt to be clever?
+How do I pronounce Qim?
+
+So, let me try to answer...

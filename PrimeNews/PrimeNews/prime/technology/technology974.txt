@@ -1,0 +1,1 @@
+The following steps will help you successfully deploy from Codeship to Dokku, so everytime you push to GitHub, Codeship will automatically run the deployment script as long as your tests pass.

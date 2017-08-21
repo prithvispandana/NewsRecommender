@@ -1,0 +1,1 @@
+Blockchain-based, distributed peer-to-peer file storage. Easily share files using Ethereum Swarm - for free and in your Browser. No plugin, Addon or Client or hosting it yourself required.

@@ -1,0 +1,66 @@
+<div class="row wrapper-container">
+<div class="sidemenu col-md-2 col-sm-2 col-xs-2">
+<div class="menu-option" ng-repeat="myNew in myNews | unique: 'category'">
+
+<!-- myNews is a variable that holds the entire json data, unique is a filter that we have created and passing 'category' as a key -->
+        
+     <p>{{'{{myNew.category}}'}}</p>  <!-- It creates the list of categories in left side -->
+</div>
+</div>
+
+<div class="slider col-md-10 col-sm-10 col-xs-10" >
+
+<!--  'bxslider' will take care of creation of divs based on categories, if the json has 10 unique category then 
+it will create 10 divs and 'col-md-10' defines the size (almost 83% of the screen) -->
+
+  <div class="row bxslider" ng-repeat="myNew in myNews | unique: 'category'" >
+  
+  <!--  'article-container' will take care of creation of divs based on unique category, 
+  if entertainment has 10 article then it will create 10 divs and 'col-md-4' defines the size (33% in 83% of parent div)-->
+  
+          <div class="col-md-4 article-container"  ng-repeat="subset in myNews| filter:{category:myNew.category}">
+          <div class="col-md-12 img-wrapper">
+          <img class="img-responsive display-img"  src="{{'{{subset.urlToImage}}'}}"/><a href="{{'{{subset.url}}'}}" target="_blank">
+          <p class="col-md-12 slide-title">{{'{{subset.title | limitTo: 70}}..'}}
+<br>
+
+<span style="color:#FFC107; font-weight:bold; font-size: 1rem; font-family: opensans-light,sans-serif; letter-spacing: 1px">{{'{{subset.author}} | {{subset.publishedAt | date}}'}}</span>
+<!-- embedded doc -->
+<span class="other-news" id="other-news" ng-mouseover="othersDisplay(subset, $event)">{{'{{subset.length}}'}} more..</span>
+
+</p></a>
+
+          <p class="icons">
+          <!-- <i class="fa fa-bookmark" aria-hidden="true" ng-click="saved = !saved; isSaved(subset, $event)" ng-class="{'saved': saved} "> </i>
+          <i class="fa fa-thumbs-o-up" aria-hidden="true" ng-click="like = !like" ng-class="{'like': like} "></i>
+          <i class="fa fa-thumbs-o-down" aria-hidden="true" ng-click="dislike = !dislike" ng-class="{'dislike': dislike} "> </i> -->
+          
+          <i class="fa fa-bookmark" aria-hidden="true" ng-click="saved= !saved; isSaved(subset, $event) " ng-class="alreadyMarked(subset._id.$oid) "> </i>
+          <i class="fa fa-thumbs-o-up" aria-hidden="true" ng-click="liked(subset, $event) "></i>
+          <i class="fa fa-thumbs-o-down" aria-hidden="true" ng-click="disliked(subset, $event)"> </i>
+          </p>
+
+          </div><a href="{{'{{subset.url}}'}}" target="_blank">
+          <p class="col-md-12 slide-description">{{'{{subset.description | limitTo: 160 }}..'}}</p></a>
+          </div>
+  </div>
+
+</div>
+
+<!-- embedded doc -->
+<div class="display-popup hide" id="display-popup">
+        <div ng-repeat="othersdetail in othersdetails | firstPage:currentPage*pageSize | limitTo:pageSize">
+            <a href="{{'{{othersdetail.url}}'}}" target="_blank">
+                <span class="othersdetail-title">{{'{{othersdetail.title | limitTo: 70 }}..'}}</span></br>
+                <span class="othersdetail-published">{{'{{othersdetail.publishedAt }}'}}</span>
+                <span class="othersdetail-agency">{{'{{othersdetail.agencyName}}'}}</span>
+            </a>
+        </div>
+
+        <div class="pagination">
+            <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1"><</button>
+            <span>{{'{{currentPage+1}}/{{numberOfPages()}}'}}</span>
+            <button ng-disabled="currentPage >= othersdetails.length/pageSize - 1" ng-click="currentPage=currentPage+1">></button>
+        </div>
+    </div>
+</div>

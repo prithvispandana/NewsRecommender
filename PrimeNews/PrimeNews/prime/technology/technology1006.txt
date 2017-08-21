@@ -1,0 +1,1 @@
+This series of posts aims to highlight some of the main differences between conventional programming and parallel programming on the algorithmic level, using broad-phase collision detection as an example. The first part will give some background, discuss two commonly used approaches, and introduce the concept of divergence. The second part will switch gears to hierarchical …

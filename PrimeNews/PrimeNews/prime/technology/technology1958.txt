@@ -1,0 +1,1 @@
+How developers discover and understand code. Sourcegraph is a fast, global, semantic code search and cross-reference engine.

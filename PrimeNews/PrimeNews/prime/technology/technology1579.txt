@@ -1,0 +1,3 @@
+Microsoft's Presentation Translator add-on for PowerPoint is now available for download. The translator provides real-time subtitles for your presentations in over 60 languages.
+
+This ...

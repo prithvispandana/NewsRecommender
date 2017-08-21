@@ -1,0 +1,1 @@
+DoNotPay, a bot created by a Stanford student Joshua Browder, has helped people beat 375,000 tickets in 3 cities. It rolling out to all 50 states for over 1,000 issues beyond tickets.

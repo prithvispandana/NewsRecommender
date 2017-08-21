@@ -1,0 +1,1 @@
+goreleaser - Deliver Go binaries as fast and easily as possible

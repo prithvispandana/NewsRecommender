@@ -1,0 +1,3 @@
+The Android blob lives! Kind of.
+
+For those not in the know, Android O is replacing Google's classic blob emoji with more generic-looking emoji. A lot of people are not happy about ...

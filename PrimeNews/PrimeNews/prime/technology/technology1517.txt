@@ -1,0 +1,1 @@
+Graphene handles the issues that come with an electrode's lithium moving elsewhere.

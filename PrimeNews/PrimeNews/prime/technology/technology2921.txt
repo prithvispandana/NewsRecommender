@@ -1,0 +1,1 @@
+throttle-decorator - ES decorator that makes a function throttled.

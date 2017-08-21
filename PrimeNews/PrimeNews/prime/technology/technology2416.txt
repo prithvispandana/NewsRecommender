@@ -1,0 +1,1 @@
+What's behind the recent spat of database vulnerabilities? Good ol' fashioned human error.

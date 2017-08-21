@@ -1,0 +1,1 @@
+Developers love speed, so developers love benchmarks. Benchmarks on programming language performance, app server performance, JavaScript engine performance, etc. have always attracted a lot of attention. However, there are lots of caveats involved in running a good benchmark. One of those caveats is benchmark stability: if you run a benchmark

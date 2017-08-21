@@ -1,0 +1,1 @@
+Going directly to a microservices architecture is risky, so consider building a monolithic system first. Split to microservices when, and if, you need it.

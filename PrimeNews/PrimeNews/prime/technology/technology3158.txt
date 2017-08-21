@@ -1,0 +1,1 @@
+The DOM and native browser API's have improved by leaps and bounds since jQuery's release all the way back in 2006. People have been writing "You Might Not

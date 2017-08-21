@@ -1,0 +1,27 @@
+<html ng-app>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
+
+<div>
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+        <div>
+            <div ng-repeat="Articletosearch in Articlestosearch">
+                <div class="w3-card-2" style="width: 50rem;">
+                    <div class="float-left">
+                        <img src="{{ '{{Articletosearch.image}}' }}" style="width:200px">
+                    </div>
+                    <div class="float-right">
+                        <p> <a href="{{ '{{Articletosearch.url}}' }}"> {{ '{{Articletosearch.title | limitTo:100}} ..' }}</a></p>
+                        <p>{{ '{{Articletosearch.description | limitTo:180}}..' }}</p>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-2"></div>
+</body>
+</html>

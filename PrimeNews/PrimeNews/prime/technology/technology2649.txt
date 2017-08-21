@@ -1,0 +1,1 @@
+Book Suggestions Ninja gives you quick book recommendations. It tries to never suggest sequels - after all why would you read the second book in a series if you haven't read the first! It also tries to suggest only great books worth reading.

@@ -1,0 +1,1 @@
+So as a freelance developer I end up in Node.js based projects a lot. Most of these have some base properties in common

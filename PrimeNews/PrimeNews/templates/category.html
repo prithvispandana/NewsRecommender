@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+	*					{ margin: 0; padding: 0; }
+
+#page-wrap		    { width: 500px; margin: 20px auto; }
+
+.image              { position: relative; margin-bottom: 20px; width: 100%; }
+h2                  { position: absolute; top: 200px; left: 0; width: 100%; }
+h2 span             { color: white; font: bold 24px/45px Helvetica, Sans-Serif; letter-spacing: -1px;  
+                      background: rgb(0, 0, 0); background: rgba(0, 0, 0, 0.7); padding: 10px; }
+h2 span.spacer      { padding: 0 2px; background: none; }
+</style>
+<script type="text/javascript">
+function getCheckedBoxes() 
+{
+  var checkboxes = document.getElementsByName('chkboxName');
+  var checkboxesChecked = [];
+  for (var i=0; i<checkboxes.length; i++) 
+  {
+     if (checkboxes[i].checked) 
+	 {
+        checkboxesChecked.push(checkboxes[i].value);
+     }
+  }
+
+  if (checkboxesChecked.length == 0)
+  {
+	  alert('Please choose at least 1 item')
+	  return
+  }
+
+  ids = checkboxesChecked.join()
+  document.getElementById("ids").value=ids;
+  document.ctgform.submit();
+}
+</script>
+<body>
+	<form id="ctgform" name="ctgform" method="post" action="{{url_for('category_modify')}}">
+	<table>
+	    <input type="hidden" name="ids" id="ids" value="" />
+		<tr>
+			<td>
+			<div class="image">
+				  <img src="/static/img/general.jpg">
+				  <h2><span><input type="checkbox" name="chkboxName" value="general" {{ "checked" if "general" in user2category else "" }}>General</span></h2>
+			</div>
+			</td>
+			<td>
+			<div class="image">
+				  <img src="/static/img/technology.jpg">
+				  <h2><span><input type="checkbox" name="chkboxName" value="technology" {{ "checked" if "technology" in user2category else "" }}>Technology</span></h2>
+			</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<div class="image">
+				  <img src="/static/img/business.jpg">
+				  <h2><span><input type="checkbox" name="chkboxName" value="business" {{ "checked" if "business" in user2category else "" }}>Business</span></h2>
+			</div>
+			</td>
+			<td>
+			<div class="image">
+				  <img src="/static/img/politics.jpg">
+				  <h2><span><input type="checkbox" name="chkboxName" value="politics" {{ "checked" if "politics" in user2category else "" }}>Politics</span></h2>
+			</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<div class="image">
+				  <img src="/static/img/entertainment.jpg">
+				  <h2><span><input type="checkbox" name="chkboxName" value="entertainment" {{ "checked" if "entertainment" in user2category else "" }}>Entertainment</span></h2>
+			</div>
+			</td>
+			<td>
+			<div class="image">
+				  <img src="/static/img/gaming.jpg">
+				  <h2><span><input type="checkbox" name="chkboxName" value="gaming" {{ "checked" if "gaming" in user2category else "" }}>Gaming</span></h2>
+			</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<div class="image">
+				  <img src="/static/img/music.jpg">
+				  <h2><span><input type="checkbox" name="chkboxName" value="music" {{ "checked" if "music" in user2category else "" }}>Music</span></h2>
+			</div>
+			</td>
+			<td>
+			<div class="image">
+				  <img src="/static/img/science-and-nature.jpg">
+				  <h2><span><input type="checkbox" name="chkboxName" value="science-and-nature" {{ "checked" if "science-and-nature" in user2category else "" }}>science-and-nature</span></h2>
+			</div>
+			</td>
+		</tr>
+		</table>
+</form>
+<input type="button" name="submit" value="Save" onclick="getCheckedBoxes()">
+</body>
+</html>

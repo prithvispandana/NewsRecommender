@@ -1,0 +1,3 @@
+A few days ago I noticed some weird behaviour in the beacon.js
+repository. I wasn't able to view repository statistics, merge pull
+requests and some other minor bugs. That was especially strange be...

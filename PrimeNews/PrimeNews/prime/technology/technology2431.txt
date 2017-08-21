@@ -1,0 +1,1 @@
+A converter to compile a sql query into an autonomous bash script

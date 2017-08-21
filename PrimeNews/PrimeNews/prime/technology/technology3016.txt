@@ -1,0 +1,2 @@
+Zoomer Analytics is the creator of xlwings and provides consulting services for
+                                  scientific applications with a focus on Python for Finance.

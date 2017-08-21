@@ -1,0 +1,1 @@
+pg-amqp-bridge - Send messages to RabbitMQ from PostgreSQL

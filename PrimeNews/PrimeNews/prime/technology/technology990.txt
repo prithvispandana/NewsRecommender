@@ -1,0 +1,7 @@
+In a few months, beginning 1 August 2017, there may be some turbulence ahead for the Bitcoin network.
+Bitcoin Core full-nodes comprise more than 95% of the Bitcoin network and are susceptible to CVE-2017-9230. BIP 148 upgraded nodes would fix this security vulnerability.
+Don't be scared though since this serious CVE bug and security vulnerability is being intensively reviewed by the technical community. If you run and rely on the most recent version of a Bitcoin Core full-node then you should be 99% safe (but for the 1% chance)!
+The UASF will result from a fork of Bitcoin Core and BIP 148 coins that will be listed by Bitfinex.
+To be clear, you will need to be running two full-nodes: (1) legacy Bitcoin Core and (2) BIP 148 enforcing Bitcoin Core fork. We assume you have an understanding of best practices as outlined in the Glacier Protocol.
+To help you protect your money, this guide will be frequently updated with the latest developments.
+Share this guide with your friends by directing them to: www.uasfguide.com

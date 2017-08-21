@@ -1,0 +1,1 @@
+A machine learning algorithm trained on thousands of lines of English poetry can now mimic different poetic styles - but its verse doesn’t quite ring true

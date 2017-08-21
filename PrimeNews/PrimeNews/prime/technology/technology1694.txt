@@ -1,0 +1,1 @@
+SynCity simulates environments for autonomous applications, providing sensor simulations of real-world phenomena such as day/night cycles, weather and lighting conditions.

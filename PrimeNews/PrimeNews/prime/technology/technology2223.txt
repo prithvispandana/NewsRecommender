@@ -1,0 +1,1 @@
+imgspy finds the metadata (type, size) of an image given its url by fetching as little as needed

@@ -1,0 +1,1 @@
+Sometimes people have a very hard time debugging. Mostly, these are people who believe that in order to debug a system, you have to think about it instead of looking at it. Let me give you an examp…

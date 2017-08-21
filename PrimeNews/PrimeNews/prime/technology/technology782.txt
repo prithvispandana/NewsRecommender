@@ -1,0 +1,1 @@
+A pattern to generate SQL queries using higher order functions, and leverage them to make our Knex query builders modular, concise, and easy to understand.

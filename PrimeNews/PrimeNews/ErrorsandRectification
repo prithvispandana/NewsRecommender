@@ -1,0 +1,12 @@
+Note: Most of the errors are handled in application
+
+Possible errors: 
+
+Error1: Pymongo Error
+Ans: Check first pymongo server is start or not
+
+
+Error2: Session Error
+Ans: If there is old invalid session in present in browser cache, please clear browser history of our application
+
+

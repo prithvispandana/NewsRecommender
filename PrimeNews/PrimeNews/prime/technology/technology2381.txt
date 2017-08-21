@@ -1,0 +1,1 @@
+navigate to a go project directory easily using `goto` command

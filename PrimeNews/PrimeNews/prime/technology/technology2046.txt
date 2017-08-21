@@ -1,0 +1,2 @@
+Optimization sounds ideal. Ironically, the very aspect of our code we are trying to optimize can be sabotaged by this process, taking out innocent bystanders along the way.  Is it a perfectionists' goldmine...or minefield?
+In this article, Toptal Freelance Software Engineer Kevin Bloch offers a more balanced approach to the art and science of optimization.

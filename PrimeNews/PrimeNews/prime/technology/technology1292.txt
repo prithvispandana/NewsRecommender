@@ -1,0 +1,1 @@
+A simulator helps give the Ben Heck Show team a good idea how their miniature pinball prototype will work in practice.

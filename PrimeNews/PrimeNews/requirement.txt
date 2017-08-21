@@ -1,0 +1,13 @@
+flask
+flask_cors
+pymongo
+bcrypt
+pickle
+tweepy
+bson
+spacy
+sklearn
+pandas
+nltk
+glob
+os

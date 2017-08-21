@@ -1,0 +1,1 @@
+Post by Karan Desai, Solution Architect, AWS Are you an Airbnb host? Would you like to have an easy way to know when your guests come in and leave, or need help? In this post, I show how you can set up an AWS IoT button to build a simple project that can do the […]

@@ -1,0 +1,1 @@
+Divide and conquer has been a core strategy in software engineering. We decompose our systems into smaller modules with focused, simple…

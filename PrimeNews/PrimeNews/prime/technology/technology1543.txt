@@ -1,0 +1,15 @@
+In the example below, we are setting up LDAP with Active Directory (AD), one of the more popular server implementations, using the BigSQL PostgreSQL 96 distribution. Available for Windows and Linux.
+
+Download BigSQL Distribution
+
+Linux:
+
+python -c "$(curl -fsSL http://s3.amazonaws.com/pgcentral/install.py)" 
+
+
+Windows:
+
+@powershell -NoProfile -ExecutionPolicy unrestricted -Command "iex ((new-object net.webclient).DownloadString('http://s3.amazonaws.com/pgcentral/install.ps1'))"
+
+
+Find the

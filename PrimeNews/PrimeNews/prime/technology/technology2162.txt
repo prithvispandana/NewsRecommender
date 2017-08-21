@@ -1,0 +1,1 @@
+Fundamentals of garbage collection learned from adopting G1GC at HubSpot.

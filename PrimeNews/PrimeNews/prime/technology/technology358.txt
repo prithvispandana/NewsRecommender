@@ -1,0 +1,1 @@
+In a previous blog post, we explained how we enhanced a Django application to make it compatible with a wide range of Python/Django versions. In this blog post, we explain how we deployed a demo application on Heroku.

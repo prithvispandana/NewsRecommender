@@ -1,0 +1,1 @@
+Postgres-BDR, or simply BDR, is the first open source multi-master replication system for PostgreSQL to reach full production status.

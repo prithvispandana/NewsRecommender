@@ -1,0 +1,30 @@
+<html ng-app>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
+
+<div ng-init="loadUserNews()">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+        <div>
+            <div ng-repeat="ArticletoShow in ArticlestoShow" class="article-items">
+                <div class="w3-card-2" style="width: 50rem;">
+                    <div class="float-left">
+                        <img src="{{ '{{ArticletoShow.urlToImage}}' }}" style="width:200px">
+                    </div>
+                    <div class="float-right">
+                        <p> <a href="{{ '{{ArticletoShow.url}}' }}"> {{ '{{ArticletoShow.title | limitTo:60}} ..' }}</a></p>
+                        <p>{{ '{{ArticletoShow.author}}' }}&nbsp &nbsp &nbsp &nbsp{{ '{{ArticletoShow.publishedAt | date}}' }} </p>
+                        <p>{{ '{{ArticletoShow.description | limitTo:120 }}' }}</p>
+                    </div>
+                    <div class="clear">
+
+                    </div>
+ 				</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-2"></div>
+</body>
+</html>

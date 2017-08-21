@@ -1,0 +1,1 @@
+“#OpenBSD vmm(4) can now snapshot VMs and migrate VMs between hosts, thanks to @pdvyas and team. https://t.co/wJHPQuSgBF”

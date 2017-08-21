@@ -1,0 +1,1 @@
+Called 'Find wi-fi' it shows users a map with the nearest access points mapped. Once activated, the feature automatically detects places with free Wi-Fi nearby.

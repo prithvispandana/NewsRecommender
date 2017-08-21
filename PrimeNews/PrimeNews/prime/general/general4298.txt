@@ -1,0 +1,1 @@
+Incognito Chrome(not signed in) is showing pornhub style previews on:hover of video thumbnails. Chrome signed into my gmail account is not doing that.

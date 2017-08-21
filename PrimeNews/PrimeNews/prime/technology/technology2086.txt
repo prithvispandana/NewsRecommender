@@ -1,0 +1,1 @@
+tldr; I think the conventional way of structuring Elixir code could be improved by paying more attention to decoupling.

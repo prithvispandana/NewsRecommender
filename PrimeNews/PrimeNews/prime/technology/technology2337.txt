@@ -1,0 +1,1 @@
+In the fall of 2009, I wrote a pair of algorithms to place nearly 3,000 names on the 9/11 memorial in Manhattan. The crux of the problem…

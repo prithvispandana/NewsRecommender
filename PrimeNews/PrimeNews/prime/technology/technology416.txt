@@ -1,0 +1,4 @@
+The Deep Learning Tsunami
+
+Deep Learning waves have lapped at the shores of computational linguistics for several
+years now, but 2015 seems like the year when the full force of...

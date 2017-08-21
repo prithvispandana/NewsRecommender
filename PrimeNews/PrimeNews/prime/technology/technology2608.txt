@@ -1,0 +1,1 @@
+Statically-typed JavaScript exploded in use in 2016. More and more companies are leveraging the vast potential of types in JavaScript. Two major players we.

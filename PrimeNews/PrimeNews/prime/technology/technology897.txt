@@ -1,0 +1,1 @@
+Samsung's Flow app now uses your phone's fingerprint reader to log in to Windows 10 computers.

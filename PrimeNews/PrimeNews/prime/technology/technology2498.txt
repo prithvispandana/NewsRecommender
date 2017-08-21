@@ -1,0 +1,1 @@
+Here at OkCupid (we're hiring btw) we recently spent a lot of time trying to debug an application panic that seemed like it couldn't possibly happen.  Well, it turns out that the panic was happening, but we thought it was triggered from a different code path than it actually was,

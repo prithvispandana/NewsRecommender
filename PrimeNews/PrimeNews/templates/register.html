@@ -1,0 +1,35 @@
+{% block body %} 
+<link rel="stylesheet" href="static/css/registercss.css">
+<div class="container">
+
+    <form method=POST action="{{ url_for('register') }}" id="signup" >
+
+        <div class="header">
+        
+            <h3>Sign up with PRIME</h3>
+            
+            <p>Please enter your name and password</p>
+            
+        </div>
+        
+        <div class="sep"></div>
+
+        <div class="inputs">
+        
+            <input type="text" name="username" placeholder="Username" autofocus />
+        
+            <input type="password" name="pass" placeholder="Password" />
+            
+            <!-- <div class="checkboxy">
+                <input name="cecky" id="checky" value="1" type="checkbox" /><label class="terms">I accept the terms of use</label>
+            </div> -->
+            
+            <button type="submit" id="submit">REGISTER</button>
+            <!-- <a id="submit" href="#">REGISTER</a> -->
+        
+        </div>
+
+    </form>
+
+</div>
+{% endblock %}

@@ -1,0 +1,1 @@
+“Now A* with more details: the search from Berlin visits &gt;600K nodes https://t.co/Bmdvs1pAVX #OpenStreetMap https://t.co/tg5V7moyc7”

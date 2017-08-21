@@ -1,0 +1,1 @@
+Although not a full-blown quantum computer, the simulator could be used to study the interactions between atoms

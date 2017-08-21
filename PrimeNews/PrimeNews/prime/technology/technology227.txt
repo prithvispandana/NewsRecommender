@@ -1,0 +1,1 @@
+But how to protect files from users who have access to those files remains tricky.

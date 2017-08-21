@@ -1,0 +1,1 @@
+Japanese computer-maker Fujitsu is developing an AI-specific microprocessor called the Deep Learning Unit (DLU). The company’s goal is to produce a chip that delivers 10 times better performance per watt than the competition.

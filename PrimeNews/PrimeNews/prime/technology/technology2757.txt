@@ -1,0 +1,1 @@
+In my previous post, I mentioned, as an aside, a remotely exploitable WAN-side CWMP/TR-069 vulnerability in Technicolor ASDL residential gateways, a vulnerability affecting the customers of many fo…

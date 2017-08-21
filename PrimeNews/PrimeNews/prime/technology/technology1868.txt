@@ -1,0 +1,1 @@
+New app merges Drive and Photos, gains the ability to back up arbitrary folders.

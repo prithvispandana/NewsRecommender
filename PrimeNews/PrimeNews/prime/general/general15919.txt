@@ -1,0 +1,6 @@
+Ethereum News and Links
+Top
+• Latest Core Dev meeting video. Agenda. Decisions per Hudson Jameson:
+• Splitting Metropolis into 2 hard forks.
+• Delaying EIP 86 until Metro HF 2.
+• Likely adding miner...

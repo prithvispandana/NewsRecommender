@@ -1,0 +1,1 @@
+In this tutorial we are going to add a fully functional admin dashboard backend to a new Laravel application with a MySQL database that we also create. It will only take 5 minutes
