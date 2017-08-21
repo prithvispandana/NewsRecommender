@@ -86,7 +86,9 @@ def save_usersdislikes(data,userName):
     return jsonify({ "status": "ok"})
 
 
-
+'''
+Calculate the similarity between a recommended news article and others and get the top N
+'''
 def sim_News(data):
     #retrieve the object to find the similar news of it
     data = request.get_json(True)
@@ -94,8 +96,19 @@ def sim_News(data):
     # get excluded URLs that should not show up in embmed documents
     excURLs = getExcludedURL(data)
     strCategory =data['category']
+    # search by Text Index with all words in TITLE & DESCRIPTION
+    # (Text Search function will remove STOP-WORDS and run WORDS STEMMING automatically)
     strSearch = data['title'] + " " + data['description']
-     
+    
+    # text search on the collection NEWS
+    '''
+    $search	- Keywords that will be searched on TITLE & DESCRIPTION of collection NEWS
+    $caseSensitive - Whether it should be sensitive to uppercase/lowercase
+    $diacriticSensitive - Whether it should be sensitive to diacritic, for example, CAFÉ
+    $language - he language it will deal with, for example, "en" 
+                [ If setting to "en", it will deal with STOP-WORDS and doing WORDS STEMMING based on English Language, 
+                  which exactly what NLTK does but more automatically.]
+    '''
     pipeline = [{ "$match": { "url": { "$nin": excURLs},
                               "category": strCategory,
                               "$text": { "$search": strSearch , 
@@ -120,11 +133,14 @@ def sim_News(data):
                 { "$sort": { "score": { "$meta": "textScore" }}},
                 { "$limit" : 9 }]
     
+    # execute the SQL on MongoDB
     cursor = db.news.aggregate(pipeline)
                     
     return dumps(cursor)
 
-
+'''
+Exclude the URLs of the news articles in recommended news list
+'''
 def getExcludedURL(jsonData):
     urlList = []
     urlList.append(jsonData['url'])
