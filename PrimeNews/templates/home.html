@@ -2,7 +2,7 @@
 <div class="sidemenu col-md-2 col-sm-2 col-xs-2">
 <div class="menu-option" ng-repeat="myNew in myNews | unique: 'category'">
 
-<!-- myNews is a variable that holds the entire json data, unique is a custom filter that have been created and passing 'category' as a key, it returns an array of unique categories -->
+<!-- myNews is a variable that holds the entire json data, unique is a custom filter that have been created and passing 'category' as a key -->
         
      <p>{{'{{myNew.category}}'}}</p>  <!-- It creates a seperate division for the list of unique categories in left side of news landing web page -->
 </div>
