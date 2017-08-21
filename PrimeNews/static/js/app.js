@@ -83,7 +83,7 @@ app.controller('mainCtrl', function($scope, $http, ajaxCall) { //main controller
 //If article is already saved, maintain the state
         $scope.alreadyMarked = function (subset) { //checks whether the article is already saved or not
             var breaks = false
-            //var subset = subsets._id.$oid
+            
             for (var i = 0; i < savedArticle.length; i++) {
                 if (subset == savedArticle[i]) {
                     breaks = true;
