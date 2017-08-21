@@ -1,0 +1,54 @@
+
+#------------------------------------------------
+# Initial Steps
+#------------------------------------------------
+
+# step1 - create Unique Index on collection NEWS
+db.news.ensureIndex({'title' : 1}, {unique : true, dropDups : true})
+db.news.ensureIndex({'url' : 1}, {unique : true, dropDups : true})
+
+
+# step2 - create Text Index on collection NEWS
+db.news.createIndex(
+   {
+     title: "text",
+     description: "text"
+   },
+   {
+     weights: {
+       title: 3,
+       description: 1
+     },
+     name: "TextIndex"
+   }
+ )
+
+
+#------------------------------------------------
+# Related Document
+#------------------------------------------------
+
+# all tables used in the sytem
+news		- store News Articles (only last 10 days)
+news_history	- store News Atricles which older than last 10 days
+
+<NEED TO ADD MORE>
+
+#------------------------------------------------
+# structure of the project
+#------------------------------------------------
+
+── DataCollection
+│   ├── clean.sh		--> daily task for cleaning olde news articles and keep only the last 10 days news in the collection NEWS
+│   ├── DataCollection.py	--> the main script for collecting news records
+│   ├── log.cfg			--> the configuration of logger
+│   ├── news.cfg		--> the configuration of the main script
+
+── APP
+│   ├── _app1_.py
+│   ├── files
+│   ├── prime
+│   ├── primemodel.py
+│   ├── static
+│   ├── templates
+│   └── user_sim_matrix_calc.py
