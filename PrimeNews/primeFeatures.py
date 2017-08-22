@@ -4,29 +4,31 @@ from flask import jsonify
 client = pymongo.MongoClient("localhost", 27017)
 db = client.tweets_db
 
-#This function will be called when user enters search word in the UI
+'''
+This function will be called when user enters search word in the UI
+'''
 def searchNews(data,userName):
     searchlist = data['search'].split()
     if db.searchsave.find_one({'user':userName}) == None: # prevent duplicate tweets being stored
-        db.searchsave.save({ 'user' : userName,'keywords' : searchlist})
+        db.searchsave.save({ 'user' : userName,'keywords' : searchlist}) #search keywords saved to database
     elif len(searchlist)>1:
-        db.searchsave.update_one({'user': userName},{'$set':{'keywords' : searchlist}})
-  # To check index is made
+        db.searchsave.update_one({'user': userName},{'$set':{'keywords' : searchlist}}) #updated the search keywords
+    # To check index is made
     db.news.ensure_index([
         ('title', 'text'),
         ('description', 'text'),
     ],
-        name="TextIndex",'''Name assigned to the index'''
-        weights={ '''Weights assigned to the index '''
+        name="TextIndex",#Name assigned to the index
+        weights={ #Weights assigned to the index 
             'title': 3,
             'description': 1
         }
     )
-    results=db.news.find({"$text":{"$search":data['search'],"$caseSensitive": False, }})#Returns all the relative search results'''
+    results=db.news.find({"$text":{"$search":data['search'],"$caseSensitive": False, }})# Returns all the relative search results
     print(results)
     array=[]
     arr=[]
-    for obj in results:
+    for obj in results: #send specific information to frontend
         coll = {'title': obj['title'],
                 'url': obj['url'],
                 'description':obj['description'],
@@ -36,12 +38,13 @@ def searchNews(data,userName):
         array.append(coll)
 
     return dumps(array)
-
-#This function will be called when bookmark symbol is pressed in the UI'''
+'''
+This function will be called when bookmark symbol is pressed in the UI
+'''
 def save_userNews(data,userName):
-    if db.usernews.find_one({'newsId':data['newsId'],'userId':userName}) is None: #function saves a new usernews document ( data ), if it is not found'''
+    if db.usernews.find_one({'newsId':data['newsId'],'userId':userName}) is None: # function saves a new usernews document ( data ), if it is not found
         print('Document not found.Ready to insert')
-        db.usernews.insert_one(data)
+        db.usernews.insert_one(data) #insert data to usernews collection
         print('Document Inserted')
     else:
         print("Document Already exists")
@@ -49,21 +52,23 @@ def save_userNews(data,userName):
     return jsonify({ "status": "ok"})
 
 
-
-#This function will be called to get the user news
+'''
+This function will be called to get the user news
+'''
 def get_userNews(userid):
     # get from db db.usernews
-    news = db.usernews.find({ "userId": userid})#Find's the news for the particular user
+    news = db.usernews.find({ "userId": userid}) # Find's the news for the particular user
     articles = []
     for obj in news:
         art = db.news.find_one( ObjectId(obj['newsId'] ))
         articles.append(art)
     return dumps(articles)
 
-
-#This function will be called when liked symbol is pressed in the UI
+'''
+This function will be called when liked symbol is pressed in the UI
+'''
 def save_userlikes(data, userName):
-    if db.userslikes.find_one({'newsId': data['newsId'], 'userId': userName}) is None:# function saves a new userlikes document ( data ), if it is not found
+    if db.userslikes.find_one({'newsId': data['newsId'], 'userId': userName}) is None: # function saves a new userlikes document ( data ), if it is not found
         print('Document not found.Ready to insert')
         db.userslikes.insert_one(data)
         if db.usersdislikes.find_one({'newsId': data['newsId'], 'userId': userName}) is not None:
@@ -72,10 +77,11 @@ def save_userlikes(data, userName):
     else:
         print("Document Already exists")
     return jsonify({ "status": "ok"})
-
-#This function will be called when disliked symbol is pressed in the UI
+'''
+This function will be called when disliked symbol is pressed in the UI
+'''
 def save_usersdislikes(data,userName): 
-    if db.usersdislikes.find_one({'newsId': data['newsId'], 'userId': userName}) is None:#function saves a new userdislikes document ( data ), if it is not found
+    if db.usersdislikes.find_one({'newsId': data['newsId'], 'userId': userName}) is None:// function saves a new userdislikes document ( data ), if it is not found
         print('Document not found.Ready to insert')
         db.usersdislikes.insert_one(data)
         if db.userslikes.find_one({'newsId': data['newsId'], 'userId': userName}) is not None:
