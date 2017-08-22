@@ -73,6 +73,10 @@ If you can see "waiting for connections on port 27017", it started successfully
 # initialization of the System
 #------------------------------------------------
 
+# step0
+> mongo
+> use tweets_db
+
 # step1 - create Unique Index on collection NEWS
 db.news.ensureIndex({'title' : 1}, {unique : true, dropDups : true})
 db.news.ensureIndex({'url' : 1}, {unique : true, dropDups : true})
