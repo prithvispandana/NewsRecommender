@@ -71,7 +71,7 @@ def save_userlikes(data, userName):
     if db.userslikes.find_one({'newsId': data['newsId'], 'userId': userName}) is None: # function saves a new userlikes document ( data ), if it is not found
         print('Document not found.Ready to insert')
         db.userslikes.insert_one(data)
-        if db.usersdislikes.find_one({'newsId': data['newsId'], 'userId': userName}) is not None:
+        if db.usersdislikes.find_one({'newsId': data['newsId'], 'userId': userName}) is not None: #delete news from dislikes to maintain consistency
             db.usersdislikes.delete_one( {'newsId': data['newsId'], 'userId': userName});
         print('Document inserted')
     else:
@@ -81,10 +81,10 @@ def save_userlikes(data, userName):
 This function will be called when disliked symbol is pressed in the UI
 '''
 def save_usersdislikes(data,userName): 
-    if db.usersdislikes.find_one({'newsId': data['newsId'], 'userId': userName}) is None:// function saves a new userdislikes document ( data ), if it is not found
+    if db.usersdislikes.find_one({'newsId': data['newsId'], 'userId': userName}) is None:# function saves a new userdislikes document ( data ), if it is not found
         print('Document not found.Ready to insert')
         db.usersdislikes.insert_one(data)
-        if db.userslikes.find_one({'newsId': data['newsId'], 'userId': userName}) is not None:
+        if db.userslikes.find_one({'newsId': data['newsId'], 'userId': userName}) is not None: #delete dislikes from likes news
             db.userslikes.delete_one( {'newsId': data['newsId'], 'userId': userName});
         print('Document inserted')
     else:
