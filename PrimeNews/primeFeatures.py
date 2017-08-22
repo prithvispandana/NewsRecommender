@@ -48,7 +48,7 @@ def save_userNews(data,userName):
 
     return jsonify({ "status": "ok"})
 
-    # return jsonify({ "status": "ok"})
+
 
 
 def get_userNews(userid):
