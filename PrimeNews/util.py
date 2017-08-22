@@ -9,17 +9,17 @@ from collections import Counter
 
 
 #Properties used in methods
-noisy_pos_tags = ['PROP']
-min_token_length = 2
-common_token=30
+noisy_pos_tags = ['PROP'] #noisy tags
+min_token_length = 2 #minimum token length to remove 
+common_token=30 #most characteristic keywords
 save_path = R'files'
 #Mongodb client
-client = pymongo.MongoClient("localhost", 27017)
-db = client.tweets_db
+client = pymongo.MongoClient("localhost", 27017) #intialize driver
+db = client.tweets_db #intialize connection for database
 
 #load model for prediction
 with open('primemodel.pkl', 'rb') as fin:
-        vectorizer, clf, prime_train = pickle.load(fin)
+        vectorizer, clf, prime_train = pickle.load(fin) #load the vector, model and dictionay for prediction
 
 
 '''
@@ -27,9 +27,9 @@ This method predict the user intrest with the help of user tweets, retweets like
 '''
 def get_tweetIntrest(tweets):
     intrest_list = []
-    X_new = vectorizer.transform(tweets)
-    X_new_preds = clf.predict(X_new)
-    for doc ,category in zip(tweets, X_new_preds):
+    X_new = vectorizer.transform(tweets) #create the vector of tweets
+    X_new_preds = clf.predict(X_new) #predict the category of tweets
+    for doc ,category in zip(tweets, X_new_preds): #make the list of category intrest
         intrest_list.append(prime_train.target_names[category])
     return intrest_list
 
@@ -39,9 +39,9 @@ for analysis purpose, how user intrest changed over time?
 '''
 def save_tweetIntrest(final_intrest_category,userName):
     if db.interest.find_one({'user':userName}) == None: # prevent duplicate tweets being stored
-        db.interest.save({ 'user' : userName,'interest' : final_intrest_category})
+        db.interest.save({ 'user' : userName,'interest' : final_intrest_category}) #intrested categories stored in database
     else:
-        db.interest.update_one({'user': userName},{'$set':{'interest' : final_intrest_category}})
+        db.interest.update_one({'user': userName},{'$set':{'interest' : final_intrest_category}}) #update if exists
 
 
 '''
@@ -50,11 +50,11 @@ This method validate all the passed tokens and set true false on it
 '''
 def isNoisy(token):     
     is_noise = False
-    if token.pos_ in noisy_pos_tags:
+    if token.pos_ in noisy_pos_tags: #If token is present in noisy parts of speech (noisy leafs of tree)
         is_noise = True 
-    elif token.is_stop == True:
+    elif token.is_stop == True: #token is presnt in stop words
         is_noise = True
-    elif len(token.string) <= min_token_length:
+    elif len(token.string) <= min_token_length: #token is less than minimum token length 
         is_noise = True
     return is_noise 
 
