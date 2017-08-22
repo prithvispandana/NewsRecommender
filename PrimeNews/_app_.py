@@ -31,8 +31,8 @@ stopwords = text.ENGLISH_STOP_WORDS
 CORS(app)
 #Mongo Db Client and DB
 client = pymongo.MongoClient("localhost", 27017)
-db = client.tweets_db
-nlp = spacy.load("en")
+db = client.tweets_db #DB is created if not exist in mongodb
+nlp = spacy.load("en") #loan the spacy model to detect english keywords
 topN=2
 
 '''
@@ -42,14 +42,14 @@ if user is already logged in system , then user will redirect to home
 '''
 @app.route('/')
 def index():
-    if not session.get('logged_in'):
+    if not session.get('logged_in'): #if user is not logged in 
         dbp.clear()
-        return render_template('index.html')
-    elif dbp:
-        return render_template('landing.html', user =dbp['screen_name'] , img_url=dbp['prof_url'])
+        return render_template('index.html') #redirected to login page of application
+    elif dbp: #If user is twitter user
+        return render_template('landing.html', user =dbp['screen_name'] , img_url=dbp['prof_url']) #home page is loaded
     else:
         dbp.clear()
-        return render_template('landing.html', user=session['username'])
+        return render_template('landing.html', user=session['username']) #home page for non twitter user
 
 
 '''
@@ -61,14 +61,14 @@ stories and prime appliaction run over time and recommend the news accordingly.
 def register():
     if request.method == 'POST':
         #Non twitter users
-        existing_user = db.users.find_one({'name' : request.form['username']})
+        existing_user = db.users.find_one({'name' : request.form['username']}) #search the user is exist or not in database
 
-        if existing_user is None:
-            hashpass = bcrypt.hashpw(request.form['pass'].encode('utf-8'), bcrypt.gensalt())
-            db.users.insert({'name' : request.form['username'], 'password' : hashpass})
-            session['username'] = request.form['username']
-            return redirect(url_for('index'))
-        return 'That username already exists!'
+        if existing_user is None: #if user is not exist then register the user
+            hashpass = bcrypt.hashpw(request.form['pass'].encode('utf-8'), bcrypt.gensalt()) #password is encrypted
+            db.users.insert({'name' : request.form['username'], 'password' : hashpass}) #encrypted password is stored in database
+            session['username'] = request.form['username'] #user name from screen
+            return redirect(url_for('index')) #redirection to login page
+        return 'That username already exists!' #if user exist throw the error
     return render_template('register.html')
 
 
@@ -78,13 +78,13 @@ and password from the databse
 '''
 @app.route('/login', methods=['POST'])  
 def login():
-    login_user = db.users.find_one({'name' : request.form['username']})
+    login_user = db.users.find_one({'name' : request.form['username']}) #check user is present in database or not
     if login_user:
-        if bcrypt.hashpw(request.form['pass'].encode('utf-8'), login_user['password']) == login_user['password']:
-            session['username'] = request.form['username']
-            session['logged_in'] = True
-            return redirect(url_for('index'))
-    return 'Invalid username/password combination'
+        if bcrypt.hashpw(request.form['pass'].encode('utf-8'), login_user['password']) == login_user['password']: #password matching
+            session['username'] = request.form['username'] #user name from screen
+            session['logged_in'] = True #make the session true
+            return redirect(url_for('index')) #redirect to index method which redirect page according to user type
+    return 'Invalid username/password combination' #if not match error is shown
 
 
 '''
@@ -94,12 +94,12 @@ application
 '''
 @app.route('/login')
 def twitterlogin():
-    auth = tweepy.OAuthHandler(CONSUMER_TOKEN, CONSUMER_SECRET, CALLBACK_URL)    
+    auth = tweepy.OAuthHandler(CONSUMER_TOKEN, CONSUMER_SECRET, CALLBACK_URL)  #standard way to create auth object of application
     try: 
         #get the request tokens
-        redirect_url= auth.get_authorization_url()
-        session['request_token']= (auth.request_token)
-    except tweepy.TweepError:
+        redirect_url= auth.get_authorization_url() #get authorized redirection url which is registered in twitter
+        session['request_token']= (auth.request_token) #access the request token
+    except tweepy.TweepError: #if error occur during access of token
         print('Error! Failed to get request token')
     return redirect(redirect_url)
 
@@ -115,21 +115,21 @@ and location which account is created.
 def get_verification():    
     #get the verifier key from the request url
     verifier= request.args['oauth_verifier']
-    auth = tweepy.OAuthHandler(CONSUMER_TOKEN, CONSUMER_SECRET)
-    token = session['request_token']
+    auth = tweepy.OAuthHandler(CONSUMER_TOKEN, CONSUMER_SECRET) #auth object is created
+    token = session['request_token'] #access token from session variable
     #del session['request_token']
-    auth.request_token=token
+    auth.request_token=token 
     try:
-        verifier = request.args.get('oauth_verifier')
-        auth.get_access_token(verifier)
-        session['token'] = (auth.access_token, auth.access_token_secret)
-        dbp.clear()
-        api = tweepy.API(auth)
-        session['logged_in'] = True
+        verifier = request.args.get('oauth_verifier') #create user varifier object
+        auth.get_access_token(verifier) #get access token of user
+        session['token'] = (auth.access_token, auth.access_token_secret) #store user token
+        dbp.clear() #clear previous entry
+        api = tweepy.API(auth) #auth is updated for user and create api which can access the value
+        session['logged_in'] = True #Make the session true
         #store in a db
-        dbp['api']=api
-        dbp['access_token_key']=auth.access_token
-        dbp['access_token_secret']=auth.access_token_secret
+        dbp['api']=api #store api for longer user
+        dbp['access_token_key']=auth.access_token #auth access token of user
+        dbp['access_token_secret']=auth.access_token_secret #auth secret token of user
     except tweepy.TweepError:
             print('Error! Failed to get access token.')    
     return redirect(url_for('authorized'))
@@ -141,19 +141,19 @@ If user is already logged in system, then user will redirect to landing
 '''    
 @app.route('/authorized')
 def authorized():
-    if not session.get('logged_in'):
+    if not session.get('logged_in'): #if session is not true redirect to login page
         return render_template('index.html')
     else:
-        global POST_USERNAME
-        api = dbp['api']
+        global POST_USERNAME #store the user name in global variable
+        api = dbp['api'] #access api of user from dictionary
         usr =api.me()
-        POST_USERNAME=usr.screen_name
-        img=usr.profile_image_url
-        dbp['screen_name']=POST_USERNAME
-        dbp['prof_url']=img
-        dbp['acc_location']=usr.location
-        dbp['time_zone']=usr.time_zone
-        return render_template('landing.html', user=POST_USERNAME, img_url=img)
+        POST_USERNAME=usr.screen_name #user screen name
+        img=usr.profile_image_url #user profile url
+        dbp['screen_name']=POST_USERNAME #store user name in dictionary for longer user
+        dbp['prof_url']=img #store image
+        dbp['acc_location']=usr.location #store location
+        dbp['time_zone']=usr.time_zone #store time_zone
+        return render_template('landing.html', user=POST_USERNAME, img_url=img) #redirect to home page of screen
 
 
 '''
@@ -162,9 +162,9 @@ This method invalidate the user session and redirect to index (login page)
 @app.route("/logout")
 def logout():
     #session["__invalidate__"] = True
-    session.pop('logged_in', None)
+    session.pop('logged_in', None) #make the session None
     #session['logged_in'] = False
-    dbp.clear()
+    dbp.clear() #clear the dictionary
     return index()
 
 
@@ -196,45 +196,44 @@ def get_recommendation():
         api = dbp['api']
     except Exception as e:
         dbp.clear()
-        gen_user = db.news.find().sort("publishedAt", -1 ).limit(180)
+        gen_user = db.news.find().sort("publishedAt", -1 ).limit(180) #non twitter user recoomend the top stories in each category
         return dumps(gen_user)
     recom_scoredList=[]
     try:    
-        friend_list=save_friendList(api,POST_USERNAME)
-        tweets = get_tweets(api, POST_USERNAME)
-        liked = get_likes(api,POST_USERNAME)
-        tweets.extend(liked)
-        document=" ".join(tweets)
-        document = nlp(document)
-        most_common=get_mostCommon(document)
-        entities=get_entities(document)
-        most_common.extend(entities)
-        processedWords=list(set(most_common))
-        save_uniqueWords(processedWords,POST_USERNAME)
-        tweet_intrest=get_tweetIntrest(tweets)
-        final_intrest_category, normCounts = get_normIntrest(tweet_intrest)
-        final_intrest_category = list(set(final_intrest_category))
-        save_tweetIntrest(final_intrest_category,POST_USERNAME)
-        profile_list_combined = final_intrest_category + processedWords
-        save_profile(profile_list_combined,POST_USERNAME)
-        result_set=get_collKeywords(topN,POST_USERNAME)
-        app_likes=get_appLikes(POST_USERNAME)
-        app_saved=get_appsaved(POST_USERNAME)
-        final_search_list = list(result_set) + processedWords + app_likes + app_saved
+        friend_list=save_friendList(api,POST_USERNAME) #get the user friend list
+        tweets = get_tweets(api, POST_USERNAME) #get user tweets
+        liked = get_likes(api,POST_USERNAME) #get user likes
+        tweets.extend(liked) #make single collection for likes, tweet and retweet
+        document=" ".join(tweets) #convert list to string by space seprateor
+        document = nlp(document) #Pass the string to spacy nlp function for pre processing
+        most_common=get_mostCommon(document) #get most common keywords spacy
+        entities=get_entities(document) #get user entities 
+        most_common.extend(entities) #add entities to most common
+        processedWords=list(set(most_common)) #make single unique list of all keywords
+        save_uniqueWords(processedWords,POST_USERNAME) #save words in database
+        tweet_intrest=get_tweetIntrest(tweets) #calculate user intrest from tweets
+        final_intrest_category, normCounts = get_normIntrest(tweet_intrest) #counts dictionary of tweets
+        final_intrest_category = list(set(final_intrest_category)) #make unique list of calculated category intrest
+        save_tweetIntrest(final_intrest_category,POST_USERNAME) #user intrest is saved to database
+        profile_list_combined = final_intrest_category + processedWords #combined list of catgory and processed words
+        save_profile(profile_list_combined,POST_USERNAME) #user profile is saved
+        result_set=get_collKeywords(topN,POST_USERNAME) #Similar user profile keywords is extracted
+        app_likes=get_appLikes(POST_USERNAME) #user liked article keywords in prime application
+        app_saved=get_appsaved(POST_USERNAME) #user saved article keywords list in prime application
+        final_search_list = list(result_set) + processedWords + app_likes + app_saved #final list to search in database
         #cold start user
-        if dbp['acc_location'] is not None and dbp['acc_location']!="":
+        if dbp['acc_location'] is not None and dbp['acc_location']!="": #update the search list, it helps in case of cold start user
             final_search_list.extend(dbp['acc_location'].split(","))
-        if dbp['time_zone'] is not None and dbp['time_zone']!="":    
+        if dbp['time_zone'] is not None and dbp['time_zone']!="":   #cold start user time zone
             final_search_list.extend(dbp['time_zone'].split(","))
-        print(final_search_list)  
-        search_kwlst = set([ i.lower() for i in final_search_list])
-        recom_list = db.news.find({"keywords":{"$in": list(search_kwlst)}})
+        search_kwlst = set([ i.lower() for i in final_search_list]) #final keyword list which is searched in database
+        recom_list = db.news.find({"keywords":{"$in": list(search_kwlst)}}) #database search query
         recom_scoredList=assign_score(recom_list, normCounts)
         if not recom_scoredList: #If cold start problem is not solved with location and timezone field give top stories
-            recom_scoredList = db.news.find().sort("publishedAt", -1 ).limit(180)
+            recom_scoredList = db.news.find().sort("publishedAt", -1 ).limit(180) #top stories
     except Exception as e:
         print(e)
-        return "Sorry We are not able to process your request this Time"
+        return "Sorry We are not able to process your request this Time" #in case of exception 
     return dumps(recom_hybridarticles(recom_scoredList,POST_USERNAME))
 
 '''
@@ -242,7 +241,7 @@ This method returns the article which are similar to the recommended article
 '''
 @app.route('/simNews', methods=['POST'])
 def simNews():
-    data = request.get_json(True)
+    data = request.get_json(True) #get the title and description of user which is passed to similer news function
     # get similar news articles
     return sim_News(data)
 
@@ -251,13 +250,13 @@ User article is saved and can be read in future fron saved article user interfac
 '''
 @app.route('/usernews', methods=['POST'])
 def post_usernews():
-    data = request.get_json(True)
+    data = request.get_json(True) #get iportant field of user news
     if 'screen_name' in dbp:
-        userName = dbp['screen_name']
+        userName = dbp['screen_name'] #twitter user
     else:
-        userName = session['username']
+        userName = session['username'] #non twitter user
 
-    return save_userNews(data,userName)
+    return save_userNews(data,userName) #news article is saved along with username
 
 
 '''
@@ -265,7 +264,7 @@ Saved article is accessed using userid
 '''
 @app.route('/usernews/<userid>', methods=['GET'])
 def get_usernews(userid):
-    return get_userNews(userid)
+    return get_userNews(userid) #get saved news of user
 
 
 '''
@@ -274,26 +273,26 @@ for future recommendation.
 '''
 @app.route('/likes', methods=['POST'])
 def post_userlikes():
-    data = request.get_json(True)
+    data = request.get_json(True) #get id and other details of news of userlikes
     print(data)
     if 'screen_name' in dbp:
-        userName = dbp['screen_name']
+        userName = dbp['screen_name'] #twitter user
     else:
-        userName = session['username']
-    return save_userlikes(data,userName)
+        userName = session['username'] #non twitter user
+    return save_userlikes(data,userName) #save user likes in database
 
 '''
 User dislikes is saved into database
 '''
 @app.route('/dislikes', methods=['POST'])
 def post_usersdislikes():
-    data = request.get_json(True)
+    data = request.get_json(True) #user dislike article information
     if 'screen_name' in dbp:
         userName = dbp['screen_name']
     else:
         userName = session['username']
 
-    return save_usersdislikes(data,userName)
+    return save_usersdislikes(data,userName) #save user dislike along with user name
 
 
 '''
@@ -302,12 +301,12 @@ of search feature.
 '''
 @app.route("/search",methods=['POST'])
 def search():
-    data = request.get_json(True)
+    data = request.get_json(True) #get the search field data
     if 'screen_name' in dbp:
         userName = dbp['screen_name']
     else:
         userName = session['username']
-    return searchNews(data,userName)
+    return searchNews(data,userName) # return search news from database
 
 '''
 User personalised intrest is saved into database and can be viewed 
