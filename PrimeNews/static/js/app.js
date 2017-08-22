@@ -99,7 +99,7 @@ app.controller('mainCtrl', function($scope, $http, ajaxCall) { //main controller
             console.log('loading usernews ')
             var getresult = $http({
                 method: 'GET',
-                url: "/usernews/" + window.userName
+                url: "/usernews/" + window.userName //Call made to get the stored user news for the particular user.
             }).then(function (response) {
                 console.log(response.data)
                 console.log("succ")
