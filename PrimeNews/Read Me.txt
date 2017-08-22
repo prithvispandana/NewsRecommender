@@ -1,4 +1,4 @@
-
+ï»¿
 #------------------------------------------------
 # Install python and necessary packages 
 #------------------------------------------------
@@ -119,17 +119,17 @@ news_history	- store News Atricles which older than last 10 days
 # structure of the project
 #------------------------------------------------
 
-©¤©¤ DataCollection
-©¦   ©À©¤©¤ clean.sh		--> daily task for cleaning olde news articles and keep only the last 10 days news in the collection NEWS
-©¦   ©À©¤©¤ DataCollection.py	--> the main script for collecting news records
-©¦   ©À©¤©¤ log.cfg			--> the configuration of logger
-©¦   ©À©¤©¤ news.cfg		--> the configuration of the main script
+â”€â”€ DataCollection
+â”‚   â”œâ”€â”€ clean.sh		--> daily task for cleaning olde news articles and keep only the last 10 days news in the collection NEWS
+â”‚   â”œâ”€â”€ DataCollection.py	--> the main script for collecting news records
+â”‚   â”œâ”€â”€ log.cfg			--> the configuration of logger
+â”‚   â”œâ”€â”€ news.cfg		--> the configuration of the main script
 
-©¤©¤ APP
-©¦   ©À©¤©¤ _app1_.py
-©¦   ©À©¤©¤ files
-©¦   ©À©¤©¤ prime
-©¦   ©À©¤©¤ primemodel.py
-©¦   ©À©¤©¤ static
-©¦   ©À©¤©¤ templates
-©¦   ©¸©¤©¤ user_sim_matrix_calc.py
+â”€â”€ APP
+â”‚   â”œâ”€â”€ _app1_.py
+â”‚   â”œâ”€â”€ files
+â”‚   â”œâ”€â”€ prime
+â”‚   â”œâ”€â”€ primemodel.py
+â”‚   â”œâ”€â”€ static
+â”‚   â”œâ”€â”€ templates
+â”‚   â””â”€â”€ user_sim_matrix_calc.py
