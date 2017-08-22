@@ -73,7 +73,7 @@ If you can see "waiting for connections on port 27017", it started successfully
 # initialization of the System
 #------------------------------------------------
 
-# step0
+# step0 - access to MongoDB shell
 > mongo
 > use tweets_db
 
