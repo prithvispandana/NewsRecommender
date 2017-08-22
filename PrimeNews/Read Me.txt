@@ -1,6 +1,76 @@
 
 #------------------------------------------------
-# Initial Steps
+# Install python and necessary packages 
+#------------------------------------------------
+
+# download Python 3.5.2 (for 64 bit)
+https://www.python.org/ftp/python/3.5.2/python-3.5.2-amd64.exe
+or 
+# download Python 3.5.2 (for 32 bit)
+https://www.python.org/ftp/python/3.5.2/python-3.5.2.exe
+
+# install Microsoft Visual C++ 2015
+http://landinghub.visualstudio.com/visual-cpp-build-tools
+
+# download get-pip.py under C:/
+https://bootstrap.pypa.io/get-pip.py
+
+# install PIP
+python get-pip.py
+
+# install all necessary packages
+python -m pip install bcrypt
+python -m pip install tweepy
+python -m pip install pymongo
+python -m pip install spacy
+python -m pip install sputnik
+python -m pip install flask
+python -m pip install flask_cors
+python -m pip install sklearn
+python -m pip install pandas
+
+
+# download scipy (for 64 bit) to C:/
+http://www.lfd.uci.edu/~gohlke/pythonlibs/tuft5p8b/scipy-0.19.1-cp35-cp35m-win_amd64.whl
+or 
+# download scipy (for 32 bit) to C:/
+http://www.lfd.uci.edu/~gohlke/pythonlibs/tuft5p8b/scipy-0.19.1-cp35-cp35m-win32.whl
+
+# install scipy (for example, 64 bit)
+cd C:/
+python -m pip install scipy-0.19.1-cp35-cp35m-win_amd64.whl
+
+
+# download numpy+mkl (for 64 bit) to C:/
+http://www.lfd.uci.edu/~gohlke/pythonlibs/tuft5p8b/numpy-1.13.1+mkl-cp35-cp35m-win_amd64.whl
+or
+# download numpy+mkl (for 32 bit) to C:/
+http://www.lfd.uci.edu/~gohlke/pythonlibs/tuft5p8b/numpy-1.13.1+mkl-cp35-cp35m-win32.whl
+cd C:/
+python -m pip install numpy-1.13.1+mkl-cp35-cp35m-win_amd64.whl
+
+
+#------------------------------------------------
+# Install MongoDB
+#------------------------------------------------
+
+# step1 - download MongoDB v3.4.6 
+https://www.mongodb.com/download-center#enterprise
+
+# step2 - install
+mkdir C:\MongoDB
+install to C:\MongoDB\
+
+# step3 - run the server
+mkdir C:\MongoDB\data
+cd C:\MongoDB\Server\3.4\bin
+mongod -dbpath "C:\MongoDB\data"
+
+# step4 - check if it is running successfully
+If you can see "waiting for connections on port 27017", it started successfully
+
+#------------------------------------------------
+# initialization of the System
 #------------------------------------------------
 
 # step1 - create Unique Index on collection NEWS
@@ -49,17 +119,17 @@ news_history	- store News Atricles which older than last 10 days
 # structure of the project
 #------------------------------------------------
 
-â”€â”€ DataCollection
-â”‚Â Â  â”œâ”€â”€ clean.sh		--> daily task for cleaning olde news articles and keep only the last 10 days news in the collection NEWS
-â”‚Â Â  â”œâ”€â”€ DataCollection.py	--> the main script for collecting news records
-â”‚Â Â  â”œâ”€â”€ log.cfg			--> the configuration of logger
-â”‚Â Â  â”œâ”€â”€ news.cfg		--> the configuration of the main script
+©¤©¤ DataCollection
+©¦   ©À©¤©¤ clean.sh		--> daily task for cleaning olde news articles and keep only the last 10 days news in the collection NEWS
+©¦   ©À©¤©¤ DataCollection.py	--> the main script for collecting news records
+©¦   ©À©¤©¤ log.cfg			--> the configuration of logger
+©¦   ©À©¤©¤ news.cfg		--> the configuration of the main script
 
-â”€â”€ APP
-â”‚Â Â  â”œâ”€â”€ _app1_.py
-â”‚Â Â  â”œâ”€â”€ files
-â”‚Â Â  â”œâ”€â”€ prime
-â”‚Â Â  â”œâ”€â”€ primemodel.py
-â”‚Â Â  â”œâ”€â”€ static
-â”‚Â Â  â”œâ”€â”€ templates
-â”‚Â Â  â””â”€â”€ user_sim_matrix_calc.py
+©¤©¤ APP
+©¦   ©À©¤©¤ _app1_.py
+©¦   ©À©¤©¤ files
+©¦   ©À©¤©¤ prime
+©¦   ©À©¤©¤ primemodel.py
+©¦   ©À©¤©¤ static
+©¦   ©À©¤©¤ templates
+©¦   ©¸©¤©¤ user_sim_matrix_calc.py
