@@ -70,7 +70,7 @@ mongod -dbpath "C:\MongoDB\data"
 If you can see "waiting for connections on port 27017", it started successfully
 
 #------------------------------------------------
-# initialization of the System
+# Initialization of the System
 #------------------------------------------------
 
 # step0 - access to MongoDB shell
@@ -107,6 +107,26 @@ db.news.createIndex(
 
 # back up the collection news_history  [daily task]
 20 1 * * * /usr/bin/mongoexport --db tweets_db --collection news_history --out /TEAM_PRIME_NEWS_BACKUP/`date +\%Y\%m\%d`_news_history.json
+
+
+#------------------------------------------------
+# How to run the system 
+#------------------------------------------------
+
+# download the scripts
+Download the whole project from GitHub and release it to C:/ as PrimeNews folder
+
+# run Data Collection
+cd C:\PrimeNews\DataCollection
+Python DataCollection.py
+
+# run Calculator for User Similarity
+cd C:\PrimeNews\
+Python user_sim_matrix_calc.py
+
+# run web app
+cd C:\PrimeNews\
+Python _app_.py
 
 
 #------------------------------------------------
