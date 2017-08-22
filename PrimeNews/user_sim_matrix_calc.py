@@ -61,17 +61,17 @@ matrix into database, so it is easily accessible in application
 '''
 def calc_sim():
     tf_idfVector = TfidfVectorizer(stop_words="english",min_df =1,ngram_range=(1,1))#chosen n-gram of three words. It will produce phrases containing upto three words
-    tf_idfMatrix= tf_idfVector.fit_transform(all_profiles)
-    cosSim=cosine_similarity(tf_idfMatrix)
-    df = pd.DataFrame(cosSim,columns=profiles_id,index=profiles_id)
+    tf_idfMatrix= tf_idfVector.fit_transform(all_profiles) #to avoid higher count of similar word in document
+    cosSim=cosine_similarity(tf_idfMatrix) #tf-idf vector is passed to cosinesimilarity function to calcualte similarity between documents
+    df = pd.DataFrame(cosSim,columns=profiles_id,index=profiles_id) #cosine similarity function is stored 
     print(df)
-    if "sim_col" in db.collection_names():
+    if "sim_col" in db.collection_names(): #If similarity collection is present in database drop it
         db.sim_col.drop()
-    if "list_user" in db.collection_names():
+    if "list_user" in db.collection_names(): #user profiles collection is present in database delete it
         db.list_user.drop()  
-    db.list_user.save({"index" : list(profiles_id)})  
-    records = json.loads(df.T.to_json()).values()
-    db.sim_col.insert(records)
+    db.list_user.save({"index" : list(profiles_id)})  #stores profiles names in database
+    records = json.loads(df.T.to_json()).values() #convert dataframe to json for storage
+    db.sim_col.insert(records) #Insert similarity records in database
     df=pd.DataFrame()
 
 '''
@@ -79,8 +79,8 @@ This is schedular which is loding profiles in memory collections
 '''
 @sched.scheduled_job('interval', seconds=300)
 def job_scheduler():
-    all_profiles=set() #List is created to store all profiles
-    profiles_id=set()
+    all_profiles=set() #set is created to store all profiles
+    profiles_id=set() #set is created to store all profiles_id
     load_profiles()
   
 '''
@@ -88,7 +88,7 @@ This schedular method calculates the similarity from loded profiles
 '''  
 @sched.scheduled_job('interval', seconds=420)
 def job_scheduler1():
-    if all_profiles:
+    if all_profiles: #if all_profiles loded similarity function is called
         calc_sim() 
 sched.start()
 
