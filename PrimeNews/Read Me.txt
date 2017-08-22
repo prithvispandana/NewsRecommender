@@ -1,6 +1,6 @@
 ﻿
 #------------------------------------------------
-# Install python and necessary packages (Windows)
+# Install python and necessary packages (Windows Version)
 #------------------------------------------------
 
 # download Python 3.5.2 (for 64 bit)
@@ -51,7 +51,7 @@ python -m pip install numpy-1.13.1+mkl-cp35-cp35m-win_amd64.whl
 
 
 #------------------------------------------------
-# Install MongoDB  (Windows)
+# Install MongoDB  (Windows Version)
 #------------------------------------------------
 
 # step1 - download MongoDB v3.4.6 
