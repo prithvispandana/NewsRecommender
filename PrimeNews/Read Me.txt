@@ -1,7 +1,7 @@
 ﻿
-#------------------------------------------------
-# Install python and necessary packages (Windows Version)
-#------------------------------------------------
+#-------------------------------------------------------------------------------------------------
+# Install python and necessary packages (Windows Version) #run appliaction in windows platform
+#--------------------------------------------------------------------------------------------------
 
 # download Python 3.5.2 (for 64 bit)
 https://www.python.org/ftp/python/3.5.2/python-3.5.2-amd64.exe
@@ -72,7 +72,8 @@ If you can see "waiting for connections on port 27017", it started successfully
 #------------------------------------------------
 # Initialization of the System
 #------------------------------------------------
-
+#insert sample data into mongodb news collection 
+> mongoimport --db tweets_db --collection news --file '<filepath>/20170815_news_history.json'
 # step0 - access to MongoDB shell
 > mongo
 > use tweets_db
@@ -133,11 +134,21 @@ Python _app_.py
 # Related Document
 #------------------------------------------------
 
-# all tables used in the sytem
-news		- store News Articles (only last 10 days)
+# all tables (collections) used in the sytem
+news		      - store News Articles (only last 10 days)
 news_history	- store News Atricles which older than last 10 days
+sim_col        - store the similarity matrix
+spacytopics    - save user most common words of his timeline
+users          - user information is stored in database
+searchsave     - user search history in prime application
+intrest        - user intrest derived from tweets
+friends        - user friends following stored
+hastags        - user hashtag storage collection
+usernews       - user saved news article
+userslikes     - user liked article storage 
+usersdislikes  - user disliked article storage, synchronized with userlikes article 
+user2category  - user personalised category is stored
 
-<NEED TO ADD MORE>
 
 #------------------------------------------------
 # structure of the project
@@ -149,11 +160,13 @@ news_history	- store News Atricles which older than last 10 days
 │   ├── log.cfg			--> the configuration of logger
 │   ├── news.cfg		--> the configuration of the main script
 
-── APP
-│   ├── _app1_.py
-│   ├── files
-│   ├── prime
-│   ├── primemodel.py
-│   ├── static
-│   ├── templates
-│   └── user_sim_matrix_calc.py
+__ APP
+│   ├── _app_.py              --> Application should be run using this file
+│   ├── files                 --> Store the twitter user information in files folder
+│   ├── prime                 --> categorised data for model
+│   ├── primemodel.py         --> prime model trained code
+│   ├── static                --> All js , css , fonts, image files stored inside static
+│   ├── templates             --> all html page stored inside templates
+│   ├── user_sim_matrix_calc.py --> user similarity matrix calculator which runs independently and save cosine matrix to db
+|   ├── util.py               --> Utility methods are created which can be accessed throughout the application.
+
