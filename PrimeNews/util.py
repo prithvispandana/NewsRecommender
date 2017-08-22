@@ -105,7 +105,7 @@ returns the unique keywords of colloborative filtering.
 def get_collKeywords(topN,userName):
     uniset=set()
     for top in getTopN(userName, topN):
-        fileName = os.path.join(save_path, top) 
+        fileName = os.path.join(save_path, top) #create the full path for profile access
         if not fileName:
             continue
         else:
@@ -114,23 +114,23 @@ def get_collKeywords(topN,userName):
     #substract from original
     result_set=set()  #unique set of similar user
     if uniset:
-        fileName = os.path.join(save_path, POST_USERNAME)
+        fileName = os.path.join(save_path, userName)
         origin=set(open(fileName).read().split())
         result_set=origin-uniset
     return result_set
 
 '''
 This method save all friends following to database and used in profile similarity
-calculation
+calculation and return friendlist which can be accessed throught the program
 '''
 def save_friendList(api,userName):
     friend_list = []
-    for friend in tweepy.Cursor(api.friends,count=50).items(): 
-        friend_list.append(friend.screen_name)
+    for friend in tweepy.Cursor(api.friends,count=50).items(): #get the 50 friends from twitter timeline
+        friend_list.append(friend.screen_name) #save all friends in a list
     if db.friends.find_one({'user':userName}) == None: # prevent duplicate tweets being stored
-        db.friends.save({ 'user' : userName,'friendsList' : friend_list})
+        db.friends.save({ 'user' : userName,'friendsList' : friend_list}) #save friendslist to database
     else:
-        db.friends.update_one({'user': userName},{'$set':{'friendsList' : friend_list}})  
+        db.friends.update_one({'user': userName},{'$set':{'friendsList' : friend_list}}) #update the existing friend list
     return friend_list   
    
 '''
@@ -139,9 +139,9 @@ to save hashtag into database. These hashtag can be used in profile similarity
 calculation
 '''    
 def get_tweets(api, userName):
-    new_tweets = api.user_timeline(count=200, tweet_mode="extended")
-    save_hashtag(new_tweets,userName)
-    tweets = [" ".join([tweet.full_text]) for tweet in new_tweets]
+    new_tweets = api.user_timeline(count=200, tweet_mode="extended") #get latest 200 tweets of authorised user twitter timeline
+    save_hashtag(new_tweets,userName) #hashtag calculation and saving to database
+    tweets = [" ".join([tweet.full_text]) for tweet in new_tweets] #join all the list 
     return tweets
 
 '''
@@ -151,17 +151,17 @@ def save_hashtag(new_tweets,userName):
     listy = []
     hashy = []
     for i in new_tweets:
-        listy = [j['text'] for j in i.entities.get('hashtags')]
+        listy = [j['text'] for j in i.entities.get('hashtags')] #extract the hashtag
         if not listy:
             continue
         else:
             for k in listy:
                 hashy.append(k.lower())
-    hashtags_list = list(set(hashy))
+    hashtags_list = list(set(hashy)) #create single unique keyword list of hashtag
     if db.hashtags.find_one({'user':userName}) == None: # prevent duplicate tweets being stored
         db.hashtags.save({ 'user' : userName,'hashtagList' : hashtags_list})
     else:
-        db.hashtags.update_one({'user': userName},{'$set':{'hashtagList' : hashtags_list}})  
+        db.hashtags.update_one({'user': userName},{'$set':{'hashtagList' : hashtags_list}})  #update the hashtag list
     return hashtags_list
 
 '''
@@ -169,17 +169,17 @@ All processed words saved into database, if already present in database updates 
 new keywords
 '''
 def save_uniqueWords(processedWords, userName):
-    if db.spacytopics.find_one({'user':userName}) == None: # prevent duplicate tweets being stored
+    if db.spacytopics.find_one({'user':userName}) == None: #prevent duplicate keywords storage of same userid
         db.spacytopics.save({ 'user' : userName,'topics' : processedWords})
     else:
-        db.spacytopics.update_one({'user': userName},{'$set':{'topics' : processedWords}})
+        db.spacytopics.update_one({'user': userName},{'$set':{'topics' : processedWords}}) #update the user keywords 
 
 '''
 This method fetches the liked tweets from user timeline
 '''
 def get_likes(api,userName):
-    likes_tweets=api.favorites(count=10,tweet_mode="extended")
-    liked = [" ".join([like.full_text]) for like in likes_tweets]
+    likes_tweets=api.favorites(count=10,tweet_mode="extended") #get latest 10 likes of user
+    liked = [" ".join([like.full_text]) for like in likes_tweets] #make single list of liked tweets
     return liked
 
 '''
@@ -190,12 +190,12 @@ timeline.
 '''
 def get_mostCommon(document):
     spacy_list = []
-    pos_tags = {w.pos: w.pos_ for w in document}
-    cleaned_list = [clean(word.string) for word in document if not isNoisy(word)]
-    cool = Counter(cleaned_list) .most_common(common_token)
-    spacy_var = [tup[0] for tup in cool]
+    pos_tags = {w.pos: w.pos_ for w in document} #part of speech tagging of all document
+    cleaned_list = [clean(word.string) for word in document if not isNoisy(word)] #remove all noisy keywords 
+    cool = Counter(cleaned_list) .most_common(common_token) #most common charateristic keywords
+    spacy_var = [tup[0] for tup in cool] #access all tuples
     for i in spacy_var:
-        spacy_list.append(re.sub(r'[^A-Za-z]', '', i))
+        spacy_list.append(re.sub(r'[^A-Za-z]', '', i)) #make the list of all keywords which cotains only english alphbates
     return spacy_list
 
 '''
@@ -203,10 +203,10 @@ This method returns the entities like cardinal, person, countries etc.
 '''
 def get_entities(document):
     entity_list=[]
-    labels = set([w.label_ for w in document.ents])
+    labels = set([w.label_ for w in document.ents]) #document is labeled and saved into set
     for label in labels: 
-        entities = [clean(e.string, lower=False) for e in document.ents if label==e.label_] 
-        entity_list.extend(entities)
+        entities = [clean(e.string, lower=False) for e in document.ents if label==e.label_] #entity extraction
+        entity_list.extend(entities) #Entiry saved into list
         print(label,str(entities))
     return entity_list
 
@@ -215,9 +215,9 @@ This method returns all the likes of prime news article keywords
 '''
 def get_appLikes(userName):
     ext_likes=[]
-    interest_result = db.userslikes.find({'user' : userName})
+    interest_result = db.userslikes.find({'user' : userName}) #userlikes 
     for obj in interest_result:
-        ext_likes.extend(obj['keywords'])
+        ext_likes.extend(obj['keywords']) #extract liked news article keywords
     return ext_likes
 
 '''
@@ -226,18 +226,18 @@ application by user.
 '''
 def get_appsaved(userName):
     saved=[]
-    interest_result = db.usernews.find({'user' : userName})
+    interest_result = db.usernews.find({'user' : userName}) #saved user news
     for obj in interest_result:
-        saved.extend(obj['keywords']) 
+        saved.extend(obj['keywords']) #saved user news keywords extraction
     return saved     
 '''
 User profile is saved into file and used for user similarty calculation
 '''
 def save_profile(profile_wordList, userName):   
-    completeName = os.path.join(save_path, userName)         
-    file1 = open(completeName, "w",encoding='utf8')
+    completeName = os.path.join(save_path, userName) #path where user profile is saved     
+    file1 = open(completeName, "w",encoding='utf8') #open file for writing
     for i in profile_wordList:
-        file1.write(i+'\n')
+        file1.write(i+'\n') #all keywords saved into profile
     file1.close()
 
 '''
@@ -277,8 +277,8 @@ def  get_normIntrest(tweet_intrest):
     final_intrest_category = []
     normCounts = dict()
     for i in tweet_intrest:
-        normCounts[i] = normCounts.get(i, 0) + 1
-        final_intrest_category.append(i)
+        normCounts[i] = normCounts.get(i, 0) + 1   #count the tweets according to category
+        final_intrest_category.append(i) #Intrested category of user
 
     print(normCounts)
  
@@ -303,7 +303,7 @@ def assign_score(recom_list,normCounts):
     list_general=[]
     list_music=[]
     list_science_and_nature=[]   
-    for i in recom_list:
+    for i in recom_list:  #iterate the recommended article and assign score according to category
         if i['category'] == "technology":
             i['category_score'] = normCounts['technology']
             list_technology.append(i)
@@ -340,11 +340,11 @@ according to user category score and according to date and time
 '''
 def recom_hybridarticles(rcomlist, userName):
     if rcomlist :
-        if userName in db.collection_names():
+        if userName in db.collection_names(): 
             db[userName].drop()
-            db[userName].insert_many(rcomlist)
+            db[userName].insert_many(rcomlist) #recommended article is saved to database in user collection
         else:
             db[userName].insert_many(rcomlist)
-    
+    #article is sort  according to category score and date of publish
     hybrid =  db[userName].find().sort([["category_score",pymongo.DESCENDING],["publishedAt",pymongo.DESCENDING]] )
     return hybrid
