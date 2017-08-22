@@ -33,16 +33,16 @@ app.controller('mainCtrl', function($scope, $http, ajaxCall) { //main controller
 	});
 	
 	//search
-	
+	// Ajax call made to search the MongoDB database to find the Relative Articles for the Search keyword
 	$scope.$watch('search',function () {
 		 if ($scope.search!=null)
 			 {
 			 document.cookie=$scope.search
-				  $http.post('/search', {search: $scope.search})
+				  $http.post('/search', {search: $scope.search})// Takes the entered keyword and search in MongoDB database
 				        .success(function (response) {
 				            console.log('Happy searching!')
 				            console.log(response)
-				            $scope.Articlestosearch=response
+				            $scope.Articlestosearch=response //assigns the list of search results to $scope variable for rendering them in the UI using angular JS
 				            window.location = "/#/searchpage/"
 				        });	 
 			 }
@@ -54,8 +54,8 @@ app.controller('mainCtrl', function($scope, $http, ajaxCall) { //main controller
 				        .success(function (response) {
 				            console.log('Happy searching!')
 				            console.log(response)
-				            $scope.Articlestosearch=response
-							document.getElementById('searchfield').value=document.cookie;
+				            $scope.Articlestosearch=response//assigns the list of search results to $scope variable for rendering them in the UI using angular JS
+					    document.getElementById('searchfield').value=document.cookie;
 				        });	 
 				}
 			 
@@ -72,7 +72,7 @@ app.controller('mainCtrl', function($scope, $http, ajaxCall) { //main controller
             savedArticle.push(subset._id.$oid)
             console.log('userName', window.userName);
 		
-	    // saves the article ID into mongoDB	
+	    // saves the article ID into mongoDB along with keywords	
             $http.post('/usernews', {newsId: subset._id.$oid, userId: window.userName, keywords: subset.keywords})
                 .success(function (response) {
                     console.log('saved')
@@ -94,7 +94,7 @@ app.controller('mainCtrl', function($scope, $http, ajaxCall) { //main controller
                 return "saved"
         }
 
-//all saved article of the user will be displayed	
+//all saved article of the user will be displayed using Ajax call	
         $scope.loadUserNews = function () {
             console.log('loading usernews ')
             var getresult = $http({
@@ -143,7 +143,7 @@ app.controller('mainCtrl', function($scope, $http, ajaxCall) { //main controller
 		if(target.hasClass('dislike') ==true){
 			dislikedArticle.push(subset._id.$oid)
 			console.log('userName', window.userName);
-			$http.post('dislikes', { newsId: subset._id.$oid, userId: window.userName })
+			$http.post('dislikes', { newsId: subset._id.$oid, userId: window.userName })// 
 			.success(function(){
 				console.log('saved')
 
