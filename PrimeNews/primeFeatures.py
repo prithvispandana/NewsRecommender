@@ -96,9 +96,7 @@ def save_usersdislikes(data,userName):
 Calculate the similarity between a recommended news article and others and get the top N
 '''
 def sim_News(data):
-    #retrieve the object to find the similar news of it
-    data = request.get_json(True)
-    
+
     # get excluded URLs that should not show up in embmed documents
     excURLs = getExcludedURL(data)
     strCategory =data['category']
