@@ -77,7 +77,7 @@ def calc_sim():
 '''
 This is schedular which is loding profiles in memory collections
 '''
-@sched.scheduled_job('interval', seconds=300)
+@sched.scheduled_job('interval', seconds=30)
 def job_scheduler():
     all_profiles=set() #set is created to store all profiles
     profiles_id=set() #set is created to store all profiles_id
@@ -86,7 +86,7 @@ def job_scheduler():
 '''
 This schedular method calculates the similarity from loded profiles
 '''  
-@sched.scheduled_job('interval', seconds=420)
+@sched.scheduled_job('interval', seconds=50)
 def job_scheduler1():
     if all_profiles: #if all_profiles loded similarity function is called
         calc_sim() 

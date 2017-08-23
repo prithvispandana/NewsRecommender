@@ -27,10 +27,11 @@ This method predict the user intrest with the help of user tweets, retweets like
 '''
 def get_tweetIntrest(tweets):
     intrest_list = []
-    X_new = vectorizer.transform(tweets) #create the vector of tweets
-    X_new_preds = clf.predict(X_new) #predict the category of tweets
-    for doc ,category in zip(tweets, X_new_preds): #make the list of category intrest
-        intrest_list.append(prime_train.target_names[category])
+    if tweets:
+        X_new = vectorizer.transform(tweets) #create the vector of tweets
+        X_new_preds = clf.predict(X_new) #predict the category of tweets
+        for doc ,category in zip(tweets, X_new_preds): #make the list of category intrest
+            intrest_list.append(prime_train.target_names[category])
     return intrest_list
 
 '''
